@@ -120,3 +120,7 @@ Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a
 ### Mobile workflow (v0.1.9)
 
 On touch devices the canvas-first studio provides an actual brush-tip preview above the colour swatch, a draggable vertical brush-diameter control, and Undo / Redo in the bottom-right corner. A mobile setting allows intentional two-finger rotation; this is off by default to prevent accidental paper tilt. Pinch zoom and pan are always available. The **Account & profile** section connects to private server canvases and login/registration.
+
+## Transforming artwork (v0.1.10)
+
+Press **G** to move, **R** to rotate, or **S** to scale the active painting layer. Drag to manipulate it, or select a vector shape first and use the same shortcuts on that selection. Press **Esc** to exit the transform mode. On phones, use the right-side Move / Rotate / Scale buttons; with a transform active, two-finger gestures manipulate that layer or selected shape. Without a transform active, two-finger pinch/rotate/pan navigates the canvas. Layer operations are recorded in editable history, and duplication is independent of current zoom.

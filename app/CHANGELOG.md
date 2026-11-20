@@ -1,5 +1,16 @@
 # Paint Lab — Development Changelog
 
+## v0.1.10 — View-safe transforms & mobile canvas rotation (2026-11-20)
+
+- Fix layer duplication scaling at zoom levels other than 100% and on high-DPI displays by copying the native pixel buffer without an inherited DPR transform.
+- Add document-coordinate Move (G), Rotate (R) and Scale (S) manipulation to the active layer; transformations use a live preview and join Undo/Redo and editable project history.
+- Apply the same move, rotation and scale gestures to a selected vector shape instead of the entire layer.
+- Expose three compact, independent mobile transform buttons on the right side, and route two-finger rotate/pinch/pan gestures to the object only when a transform mode is selected.
+- Restore canvas rotation as a default mobile gesture, migrate previous disabled defaults once, and accumulate angular changes without wraparound jumps.
+- Keep normal two-finger canvas zoom, pan and rotation isolated from layer transforms and provide Escape to leave transform modes.
+
+# Paint Lab — Development Changelog
+
 ## v0.1.9 — Mobile brush controls and stable gestures (2026-11-20)
 
 - Place Undo/Redo in the bottom-right corner of mobile painting, shown by default with disabled states.

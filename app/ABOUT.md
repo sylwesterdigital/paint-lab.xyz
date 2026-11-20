@@ -45,3 +45,7 @@ Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a
 ### Touch and accessibility
 
 The mobile studio separates painting from settings and avoids desktop-style floating windows. Current touch controls include a custom brush-size slider, contextual brush-tip preview, bottom-right Undo/Redo, and deliberately opt-in canvas rotation.
+
+## Layer and shape manipulation
+
+Painting layers can be moved, rotated or scaled using **G/R/S** on desktop. Mobile users can choose right-edge Move, Rotate or Scale tools; two fingers transform the object only in a transform mode. Otherwise pinch, twist and pan navigate the canvas. Changes are undoable and are saved with the editable project.

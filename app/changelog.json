@@ -1,17 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.9",
-  "title": "Paint Lab v0.1.9 — Mobile Brush Controls & Stable Gestures",
+  "version": "0.1.10",
+  "title": "Paint Lab v0.1.10 — View-Safe Layer Transforms & Mobile Canvas Rotation",
   "datetime": "2026-11-20",
   "changes": [
-    "Place Undo and Redo together at the bottom right of the mobile canvas, visible by default with history-aware disabled states and a workspace toggle.",
-    "Move the current brush-tip preview above the colour swatch, reflecting the selected artistic tip rather than showing a fixed pencil.",
-    "Replace the unreliable mobile vertical native range input with a wide, pointer-captured touch slider, live brush size readout, and keyboard accessibility.",
-    "Prevent sudden pinch zoom and accidental canvas tilt by tracking a stable touch pair, using canvas-relative coordinates, and defaulting mobile rotation to off while retaining an opt-in rotation setting.",
-    "Make Account / Profile entry visible in mobile settings and tool navigation, with direct access to account creation, sign-in and private cloud canvases.",
-    "Provide Fit and straighten canvas in mobile settings to recover a tilted or off-centre document."
+    "Fix layer duplication scaling at zoom levels other than 100% and on high-DPI displays by copying the native pixel buffer without an inherited DPR transform.",
+    "Add document-coordinate Move (G), Rotate (R) and Scale (S) manipulation to the active layer; transformations use a live preview and join Undo/Redo and editable project history.",
+    "Apply the same move, rotation and scale gestures to a selected vector shape instead of the entire layer.",
+    "Expose three compact, independent mobile transform buttons on the right side, and route two-finger rotate/pinch/pan gestures to the object only when a transform mode is selected.",
+    "Restore canvas rotation as a default mobile gesture, migrate previous disabled defaults once, and accumulate angular changes without wraparound jumps.",
+    "Keep normal two-finger canvas zoom, pan and rotation isolated from layer transforms and provide Escape to leave transform modes."
   ],
   "history": [
+    {
+      "version": "0.1.9",
+      "title": "Paint Lab v0.1.9 — Mobile Brush Controls & Stable Gestures",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Place Undo and Redo together at the bottom right of the mobile canvas, visible by default with history-aware disabled states and a workspace toggle.",
+        "Move the current brush-tip preview above the colour swatch, reflecting the selected artistic tip rather than showing a fixed pencil.",
+        "Replace the unreliable mobile vertical native range input with a wide, pointer-captured touch slider, live brush size readout, and keyboard accessibility.",
+        "Prevent sudden pinch zoom and accidental canvas tilt by tracking a stable touch pair, using canvas-relative coordinates, and defaulting mobile rotation to off while retaining an opt-in rotation setting.",
+        "Make Account / Profile entry visible in mobile settings and tool navigation, with direct access to account creation, sign-in and private cloud canvases.",
+        "Provide Fit and straighten canvas in mobile settings to recover a tilted or off-centre document."
+      ]
+    },
     {
       "version": "0.1.8",
       "title": "Paint Lab v0.1.8 — Safe Canvas Clearing",
