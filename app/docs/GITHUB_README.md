@@ -57,3 +57,8 @@ Paint Lab v0.1.7 includes a canvas-first phone/tablet workspace: the upper-left 
 ### Safe clearing
 
 Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a three-choice dialog (cancel, clear, or save a named gallery copy before clearing). The operation preserves canvas dimensions, paper and layers, remains undoable, and does not delete the project history.
+
+
+### Touch-friendly painting
+
+Paint Lab v0.1.9 introduces a larger vertical brush-size gesture control, active tip previews, bottom-right Undo/Redo and stable pinch-to-zoom without accidental rotation. The mobile menu offers account creation, login and private cloud canvas storage.

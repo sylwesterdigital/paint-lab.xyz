@@ -115,3 +115,8 @@ On coarse-pointer devices up to 1024px wide, Paint Lab opens as a full-canvas to
 ### Safe clearing
 
 Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a three-choice dialog (cancel, clear, or save a named gallery copy before clearing). The operation preserves canvas dimensions, paper and layers, remains undoable, and does not delete the project history.
+
+
+### Mobile workflow (v0.1.9)
+
+On touch devices the canvas-first studio provides an actual brush-tip preview above the colour swatch, a draggable vertical brush-diameter control, and Undo / Redo in the bottom-right corner. A mobile setting allows intentional two-finger rotation; this is off by default to prevent accidental paper tilt. Pinch zoom and pan are always available. The **Account & profile** section connects to private server canvases and login/registration.

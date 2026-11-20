@@ -1,5 +1,15 @@
 # Paint Lab — Development Changelog
 
+## v0.1.9 — Mobile brush controls and stable gestures (2026-11-20)
+
+- Place Undo/Redo in the bottom-right corner of mobile painting, shown by default with disabled states.
+- Show the currently selected brush-tip silhouette above the colour swatch and in the brush-size control.
+- Replace the native vertical range input with a draggable touch slider, a larger thumb, and a live size value.
+- Stabilize multi-touch zoom using stable touch pairing and canvas-local positions; optional deliberate rotation, off by default on mobile.
+- Provide an accessible Account/Profile entry and Fit and straighten canvas action in mobile settings.
+
+# Paint Lab — Development Changelog
+
 ## v0.1.8 — Safe, undoable canvas clearing (2026-11-20)
 
 - Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.

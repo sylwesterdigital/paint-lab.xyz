@@ -40,3 +40,8 @@ Paint Lab provides a canvas-first mobile experience with a single show/hide cont
 ### Safe clearing
 
 Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a three-choice dialog (cancel, clear, or save a named gallery copy before clearing). The operation preserves canvas dimensions, paper and layers, remains undoable, and does not delete the project history.
+
+
+### Touch and accessibility
+
+The mobile studio separates painting from settings and avoids desktop-style floating windows. Current touch controls include a custom brush-size slider, contextual brush-tip preview, bottom-right Undo/Redo, and deliberately opt-in canvas rotation.

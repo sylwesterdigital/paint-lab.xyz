@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.8",
-  "title": "Paint Lab v0.1.8 — Safe Canvas Clearing",
+  "version": "0.1.9",
+  "title": "Paint Lab v0.1.9 — Mobile Brush Controls & Stable Gestures",
   "datetime": "2026-11-20",
   "changes": [
-    "Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.",
-    "Use a custom three-choice dialog: No, Yes—clear, or Save before clearing; never a browser-native confirmation.",
-    "Save before clearing creates a named copy in the local gallery and clears only after its IndexedDB write succeeds; cancellation or failure leaves the artwork intact.",
-    "Clear paint from every layer while keeping layer structure, paper and canvas dimensions; Undo and Redo restore the operation.",
-    "Make Clear canvas optionally visible on the mobile toolbar, enabled by default, while retaining the paint-only focus mode."
+    "Place Undo and Redo together at the bottom right of the mobile canvas, visible by default with history-aware disabled states and a workspace toggle.",
+    "Move the current brush-tip preview above the colour swatch, reflecting the selected artistic tip rather than showing a fixed pencil.",
+    "Replace the unreliable mobile vertical native range input with a wide, pointer-captured touch slider, live brush size readout, and keyboard accessibility.",
+    "Prevent sudden pinch zoom and accidental canvas tilt by tracking a stable touch pair, using canvas-relative coordinates, and defaulting mobile rotation to off while retaining an opt-in rotation setting.",
+    "Make Account / Profile entry visible in mobile settings and tool navigation, with direct access to account creation, sign-in and private cloud canvases.",
+    "Provide Fit and straighten canvas in mobile settings to recover a tilted or off-centre document."
   ],
   "history": [
+    {
+      "version": "0.1.8",
+      "title": "Paint Lab v0.1.8 — Safe Canvas Clearing",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.",
+        "Use a custom three-choice dialog: No, Yes—clear, or Save before clearing; never a browser-native confirmation.",
+        "Save before clearing creates a named copy in the local gallery and clears only after its IndexedDB write succeeds; cancellation or failure leaves the artwork intact.",
+        "Clear paint from every layer while keeping layer structure, paper and canvas dimensions; Undo and Redo restore the operation.",
+        "Make Clear canvas optionally visible on the mobile toolbar, enabled by default, while retaining the paint-only focus mode."
+      ]
+    },
     {
       "version": "0.1.7",
       "title": "Paint Lab v0.1.7 — Mobile Canvas-First Studio",
