@@ -1,6 +1,15 @@
 {
-  "version": "0.1.2",
+  "version": "0.1.3",
   "changes": [
+    "Add one-tap Pencil, Chalk, Watercolour and Oil pigments to draggable tool rail, plus keys 1–4",
+    "Add persistent top-center status strip for mode, effect, material, brush tip, colour, size and canvas zoom",
+    "Simplify palette to colour-first grid with native picker as first tile; condense six presets and generation/import controls",
+    "Add category-filterable brush-tip library with enlarged visual previews and translucent labels",
+    "Import PNG and other images as black/alpha brush tips or capture current painted canvas as a tip",
+    "Store compact custom-tip alpha masks in named presets and editable project JSON",
+    "Improve layer interactivity with incremental add/clone/remove/reorder/opacity operations and canvas-drawn thumbnails",
+    "Page history entries in bounded batches to preserve responsiveness with large stroke histories without discarding actions",
+    "Retain full replay only for undo/redo and restoring saved projects",
     "Fix Command+/ and Ctrl+/ keyboard help on desktop, including shifted question-mark combination",
     "Replace text-symbol UI controls with supplied SVG artwork across the toolbar, panels, layers and shape tools",
     "Keep SVG icons compatible with selected UI font, all four themes and custom panel colours",

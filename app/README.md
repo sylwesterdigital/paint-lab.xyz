@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.0
+# Paint Lab · v0.1.3
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -81,3 +81,11 @@ The watcher uses automatic ANSI colour on interactive terminals, with high-visib
 ## v0.1.2: Native SVG controls and desktop keyboard help
 
 Controls use embedded, theme-aware SVG symbols drawn from the supplied icon pack. No external icon font or network dependency. Keyboard help opens with Command+/ or Ctrl+/ and also Command+Shift+/ for `?` on supported layouts. Shortcuts remain available via the help toolbar button.
+
+## v0.1.3: Fast artist workflow and reusable brush masks
+
+Choose Pencil, Chalk, Watercolour or Oil directly on the draggable tool rail (keyboard shortcuts 1–4). The canvas-only status chip always shows painting mode/effect, pigment, tip, selected colour, brush diameter and zoom. The palette starts with a native colour-picker swatch, then colour chips; preset and generator controls are intentionally compact.
+
+Brush tips use category filters (Dots, Liners, Flats, Rakes, Textures and Custom) and larger picture previews. Upload a black-and-transparent PNG (or an image with dark strokes) to create a brush mask, or capture visible painted pixels from the current canvas. Imported 96×96 alpha masks are embedded in named settings presets and editable project JSON, avoiding external asset dependencies. A maximum of 28 custom tips applies per workspace. Large image uploads are rejected.
+
+Layer add, duplicate, delete, property edits, and order changes now update the live layer stack directly instead of replaying every stroke. Layer previews are drawn directly into thumbnail canvases, with active-layer updates throttled after strokes. Long history lists are paged in the UI, while the complete history remains editable. Undo/redo and project restores still replay the editable action history.
