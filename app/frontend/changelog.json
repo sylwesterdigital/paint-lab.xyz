@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.4",
-  "title": "Paint Lab v0.1.4 — What’s New & Development Log",
+  "version": "0.1.5",
+  "title": "Paint Lab v0.1.5 — Adaptive Palette & Colour Transformations",
   "datetime": "2026-11-20",
   "changes": [
-    "Add a What’s New overlay after each new release, with a Latest tab and searchable-by-version history list.",
-    "Remember which release notes were dismissed on each browser, and reopen them any time from the toolbar.",
-    "Publish the same release history to the public application and the GitHub repository.",
-    "Add project README, ABOUT and CHANGELOG documents with development, deployment, API and future roadmap context.",
-    "Extend the ZIP watcher with verified, guarded synchronization of GitHub-root documentation."
+    "Replace the redundant 25th palette tile with the native colour picker as the first of 24 swatches, eliminating the orphan final row.",
+    "Automatically reflow the entire colour grid to complete rows as the floating palette is resized, including very wide, short layouts.",
+    "Make Gradients blend the selected first colour through optional Shift-selected stops to the final swatch using perceptual OKLab interpolation.",
+    "Make Pastels, Sharp, Chromatics and Sepias transform existing colours rather than replace the palette; add Warm, Cool, Earth, Neon, Muted, Vintage, Monochrome and Invert modifiers.",
+    "Use the supplied distinct SVG designs for Fit panel and Collapse panel controls."
   ],
   "history": [
+    {
+      "version": "0.1.4",
+      "title": "Paint Lab v0.1.4 — What’s New & Development Log",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Add a What’s New overlay after each new release, with a Latest tab and searchable-by-version history list.",
+        "Remember which release notes were dismissed on each browser, and reopen them any time from the toolbar.",
+        "Publish the same release history to the public application and the GitHub repository.",
+        "Add project README, ABOUT and CHANGELOG documents with development, deployment, API and future roadmap context.",
+        "Extend the ZIP watcher with verified, guarded synchronization of GitHub-root documentation."
+      ]
+    },
     {
       "version": "0.1.3",
       "title": "Fast painting workflow and reusable brush tips",

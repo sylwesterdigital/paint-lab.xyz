@@ -4,6 +4,16 @@
 
 The in-app **What’s New** overlay is sourced from `app/frontend/changelog.json`. Earlier versions are retained in its History tab.
 
+## v0.1.5 — Adaptive Palette & Colour Transformations
+
+Released: 2026-11-20
+
+- Replace the redundant 25th palette tile with the native colour picker as the first of 24 swatches, eliminating the orphan final row.
+- Automatically reflow the entire colour grid to complete rows as the floating palette is resized, including very wide, short layouts.
+- Make Gradients blend the selected first colour through optional Shift-selected stops to the final swatch using perceptual OKLab interpolation.
+- Make Pastels, Sharp, Chromatics and Sepias transform existing colours rather than replace the palette; add Warm, Cool, Earth, Neon, Muted, Vintage, Monochrome and Invert modifiers.
+- Use the supplied distinct SVG designs for Fit panel and Collapse panel controls.
+
 ## v0.1.4 — What’s New & Development Log
 
 Released: 2026-11-20

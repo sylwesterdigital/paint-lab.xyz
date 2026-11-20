@@ -10,7 +10,7 @@ Its interface is designed around a full-window canvas, a small draggable quick-t
 
 ## What exists today
 
-The editor includes programmable/procedural tips, imported brush masks, adjustable flow and pigment, shape tools, layer visibility/order/opacity/blend modes, colour palette presets and generators, image-based colour extraction, paper surfaces, undo/redo and export. It supports mouse, touch, stylus pressure where browsers expose it, and canvas-only gestures. Workspace preferences and unsaved drafts are remembered locally when browser storage permits.
+The editor includes programmable/procedural tips, imported brush masks, adjustable flow and pigment, shape tools, layer visibility/order/opacity/blend modes, colour palette presets and generators, image-based colour extraction, paper surfaces, undo/redo and export. The palette reflows as its window is resized, and colour modifiers operate on the existing colours; multistop gradients are generated between chosen colours. It supports mouse, touch, stylus pressure where browsers expose it, and canvas-only gestures. Workspace preferences and unsaved drafts are remembered locally when browser storage permits.
 
 Authenticated Flask/SQLite storage is optional: the editor can retain browser-local art independently. Server features provide private saved canvases and notifications over WebSockets, plus an encrypted per-user vault to store provider API keys and verify connectivity. **There is no AI-driven painting, model inference for layers or social sharing/chat integration in this release.** The vault is groundwork, not an active AI feature.
 
