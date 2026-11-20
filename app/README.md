@@ -1,6 +1,8 @@
-# Paint Lab · v0.1.3
+# Paint Lab · v0.1.4
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
+
+[Open Paint Lab](https://paint-lab.xyz/) · [Project story](ABOUT.md) · [Changelog](CHANGELOG.md) · [GitHub](https://github.com/sylwesterdigital/paint-lab.xyz)
 
 ## Structure
 
@@ -70,7 +72,7 @@ For production public sign-ups, add email verification, password recovery, accou
 
 ### Version upgrades
 
-Bump `app/version.json`, `app/frontend/version.json`, the `<meta name="paint-lab-version">` tag in `frontend/index.html`, and `app/changelog.json`; run `python3 app/tools/build_release.py` from the repository root to generate a new SHA-256-manifest release ZIP in `updates/`. The watcher itself has a separate `VERSION` marker and requires a watcher version bump if its content changes in a later release.
+Bump `app/version.json`, `app/frontend/version.json`, the `<meta name="paint-lab-version">` tag in `frontend/index.html`, `app/changelog.json`, and `app/frontend/changelog.json`; run `python3 app/tools/build_release.py` from the repository root to generate a new SHA-256-manifest release ZIP in `updates/`. The watcher itself has a separate `VERSION` marker and requires a watcher version bump if its content changes in a later release.
 
 ## v0.1.1: Existing Certbot account reuse and coloured releases
 
@@ -89,3 +91,13 @@ Choose Pencil, Chalk, Watercolour or Oil directly on the draggable tool rail (ke
 Brush tips use category filters (Dots, Liners, Flats, Rakes, Textures and Custom) and larger picture previews. Upload a black-and-transparent PNG (or an image with dark strokes) to create a brush mask, or capture visible painted pixels from the current canvas. Imported 96×96 alpha masks are embedded in named settings presets and editable project JSON, avoiding external asset dependencies. A maximum of 28 custom tips applies per workspace. Large image uploads are rejected.
 
 Layer add, duplicate, delete, property edits, and order changes now update the live layer stack directly instead of replaying every stroke. Layer previews are drawn directly into thumbnail canvases, with active-layer updates throttled after strokes. Long history lists are paged in the UI, while the complete history remains editable. Undo/redo and project restores still replay the editable action history.
+
+## v0.1.4: Public development log and project documentation
+
+The painting application checks `frontend/changelog.json` against the HTML version marker on load, displays What's New only when that version has not been dismissed in the current browser, and provides a permanent toolbar control to reopen the Latest and History tabs. No authentication or server API is required for the log. A bundled fallback allows direct-file previews. The dismissed version is stored as a small localStorage value.
+
+`app/changelog.json` and `app/frontend/changelog.json` must match. Bump version markers, update both data files, edit `ABOUT.md`, `CHANGELOG.md` and `docs/GITHUB_README.md`, then build the ZIP. The release watcher verifies that these documents exist and synchronises the canonical project documents into the GitHub repo root after a verified deployment and successful source commit. The watcher refuses to overwrite untracked user documents or local edits.
+
+If v0.1.4 is first deployed using an older watcher in `--once` mode, the new watcher script will be installed, but automatic repo-root documentation sync requires starting the upgraded watcher again or using `./watch-paint-lab.sh --publish-docs`. For a continuously running watcher, the upgraded watcher reloads and performs the sync automatically. This never changes the Ubuntu installation.
+
+Only verified public links are used: the [live Paint Lab site](https://paint-lab.xyz/), [GitHub repository](https://github.com/sylwesterdigital/paint-lab.xyz) and [issues](https://github.com/sylwesterdigital/paint-lab.xyz/issues). The [FREE-LAB YouTube film](https://youtu.be/rJ0nFm7jKms) is linked clearly as a related-project example, not as a Paint Lab film.

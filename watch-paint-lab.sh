@@ -10,7 +10,7 @@ from pathlib import Path,PurePosixPath
 
 ROOT=Path(sys.argv[1]).resolve();sys.argv=[sys.argv[0]]+sys.argv[2:]
 UPDATES=ROOT/'updates';UPLOADS=ROOT/'uploads';STATE=ROOT/'.paint-lab'
-VERSION='0.1.1'
+VERSION='0.1.2'
 ZIP_RE=re.compile(r'^PAINT_LAB_RELEASE_v(\d+\.\d+\.\d+)\.zip$')
 REPO='git@github.com:sylwesterdigital/paint-lab.xyz.git'
 HOST=os.getenv('PAINT_LAB_SSH_HOST','root@46.62.232.64')
@@ -131,6 +131,24 @@ def validate(archive,stage):
         (stage/'watch-paint-lab.sh').write_bytes(watcher)
         for file in ('app/version.json','app/frontend/version.json','app/changelog.json'):
             if json.loads((stage/file).read_text()).get('version')!=version:raise BadArchive('Version marker mismatch: '+file)
+        if vt(version)>=(0,1,4):
+            documents=('app/ABOUT.md','app/CHANGELOG.md','app/docs/GITHUB_README.md','app/frontend/changelog.json')
+            if not all((stage/file).is_file() and file in files for file in documents):
+                raise BadArchive('Missing v0.1.4+ public changelog or GitHub documentation')
+            main_log=json.loads((stage/'app/changelog.json').read_text())
+            public_log=json.loads((stage/'app/frontend/changelog.json').read_text())
+            if main_log!=public_log or main_log.get('version')!=version or not isinstance(main_log.get('history'),list):
+                raise BadArchive('Public and canonical release histories must match')
+            if (not main_log.get('changes') or not isinstance(main_log['changes'],list) or
+                not all(isinstance(x,str) and x.strip() for x in main_log['changes'])):
+                raise BadArchive('Current release requires development log entries')
+            for old in main_log['history']:
+                if not re.fullmatch(r'\d+\.\d+\.\d+',str(old.get('version',''))) or vt(old['version'])>=vt(version):
+                    raise BadArchive('Invalid historical development log version')
+            for file in ('app/ABOUT.md','app/CHANGELOG.md','app/docs/GITHUB_README.md'):
+                content=(stage/file).read_text()
+                if not content.startswith('# ') or 'https://paint-lab.xyz/' not in content:
+                    raise BadArchive('Incomplete public project documentation '+file)
         html=(stage/'app/frontend/index.html').read_text()
         if f'<meta name="paint-lab-version" content="{version}">' not in html:
             raise BadArchive('HTML version marker missing')
@@ -249,6 +267,80 @@ def git_publish(stage,version,manifest):
         raise Failure('Server is live but GitHub push verification failed: '+pushed.stderr[-600:])
     say('GitHub origin/main verified at '+head[:12],'PASS')
 
+def publish_repo_docs():
+    """Copy verified, versioned docs into GitHub root after a successful release.
+
+    Works after an older watcher has installed its upgraded successor. Does not
+    contact the Ubuntu server; only changes README/ABOUT/CHANGELOG in local Git.
+    """
+    if vt(deployed())<(0,1,4):
+        say('Public GitHub documentation begins with verified release v0.1.4','WARN')
+        return False
+    if not (ROOT/'.git').is_dir():raise Failure('Git root missing; cannot publish documentation')
+    if command(['git','branch','--show-current'],cwd=ROOT).stdout.strip()!='main':
+        raise Failure('Only Git main may publish repository docs')
+    origin=command(['git','remote','get-url','origin'],cwd=ROOT).stdout.strip()
+    if origin not in (REPO,'ssh://git@github.com/sylwesterdigital/paint-lab.xyz.git'):
+        raise Failure('Unexpected Git origin; refusing docs sync')
+    version=json.loads((ROOT/'app/version.json').read_text())['version']
+    if version!=deployed():raise Failure('Local sources do not match last verified deployment')
+    docs=[('app/docs/GITHUB_README.md','README.md'),
+          ('app/ABOUT.md','ABOUT.md'),('app/CHANGELOG.md','CHANGELOG.md')]
+    changes=[]
+    for source,target in docs:
+        src=ROOT/source;dest=ROOT/target
+        if not src.is_file() or src.is_symlink() or dest.is_symlink():
+            raise Failure('Unsafe or missing public doc: '+source)
+        contents=src.read_bytes()
+        if not contents.startswith(b'# ') or len(contents)>100000 or b'https://paint-lab.xyz/' not in contents:
+            raise Failure('Malformed public doc: '+source)
+        if dest.exists() and command(['git','ls-files','--error-unmatch','--',target],cwd=ROOT,check=False).returncode:
+            raise Failure('Refusing untracked public document collision: '+target)
+        if command(['git','status','--porcelain','--',target],cwd=ROOT).stdout.strip():
+            raise Failure('Refusing to overwrite local edits to '+target)
+        if not dest.is_file() or dest.read_bytes()!=contents:
+            changes.append((dest,contents))
+    if not changes:
+        say('GitHub README, ABOUT and CHANGELOG already in sync','PASS')
+        return False
+    # Do not inadvertently commit unreviewed changes anywhere else.
+    changes_all=[line for line in command(['git','status','--porcelain=v1','-z','--untracked-files=all'],cwd=ROOT).stdout.split('\0') if line]
+    for line in changes_all:
+        name=line[3:]
+        if line.startswith('?? ') and (name.startswith(('uploads/','updates/','.paint-lab/')) or name=='.DS_Store'):
+            continue
+        raise Failure('Unrelated local changes prevent docs publication: '+line)
+    remote=command(['git','ls-remote','origin','refs/heads/main'],cwd=ROOT,timeout=60).stdout
+    head=command(['git','rev-parse','HEAD'],cwd=ROOT).stdout.strip()
+    if remote and not remote.startswith(head+'\t'):
+        raise Failure('GitHub main differs from local HEAD; reconcile before docs publication')
+    backups=[(dest,dest.read_bytes() if dest.is_file() else None) for dest,_ in changes]
+    names=[dest.relative_to(ROOT).as_posix() for dest,_ in changes]
+    committed=False
+    try:
+        for dest,contents in changes:
+            temp=dest.with_name(dest.name+'.paint-lab-new')
+            temp.write_bytes(contents);os.replace(temp,dest)
+        command(['git','add','--',*names],cwd=ROOT)
+        diff=command(['git','diff','--cached','--quiet'],cwd=ROOT,check=False)
+        if diff.returncode==1:command(['git','commit','-m','Publish Paint Lab project docs v'+version],cwd=ROOT)
+        elif diff.returncode:raise Failure('Could not verify staged documents')
+        committed=True
+    except Exception:
+        if not committed:
+            for dest,old in backups:
+                if old is None:dest.unlink(missing_ok=True)
+                else:dest.write_bytes(old)
+            command(['git','reset','--quiet','--',*names],cwd=ROOT,check=False)
+        raise
+    expected=command(['git','rev-parse','HEAD'],cwd=ROOT).stdout.strip()
+    pushed=command(['git','push','-u','origin','main'],cwd=ROOT,timeout=160,check=False)
+    confirmed=command(['git','ls-remote','origin','refs/heads/main'],cwd=ROOT,timeout=60).stdout
+    if not confirmed.startswith(expected+'\t'):
+        raise Failure('Docs committed locally but GitHub push unverified: '+pushed.stderr[-400:])
+    say('Published README.md, ABOUT.md, CHANGELOG.md to GitHub main at '+expected[:12],'PASS')
+    return True
+
 def release(archive,dry_run):
     with tempfile.TemporaryDirectory(prefix='paint-lab-archive-',dir=STATE) as folder:
         stage=Path(folder)
@@ -267,11 +359,13 @@ def main():
     global LOG
     ap=argparse.ArgumentParser(description='Versioned Paint Lab watcher for Git main and Ubuntu')
     options=ap.add_mutually_exclusive_group()
-    for arg in ('dry-run','once','status','tail','diagnose','rollback'):options.add_argument('--'+arg,action='store_true')
+    for arg in ('dry-run','once','status','tail','diagnose','rollback','publish-docs'):options.add_argument('--'+arg,action='store_true')
     ap.add_argument('--interval',type=int,default=3);args=ap.parse_args()
     if args.interval<1:ap.error('--interval must be positive')
     for path in (UPDATES,UPLOADS,STATE,STATE/'logs',UPDATES/'processed',UPDATES/'rejected',UPDATES/'superseded'):path.mkdir(parents=True,exist_ok=True)
     STATE.chmod(0o700)
+    if args.publish_docs:
+        publish_repo_docs();return 0
     if args.status:
         say('Watcher v'+VERSION+' · last verified release '+deployed())
         try:say('Public health '+str(json.loads(get_public('api/health'))),'PASS')
@@ -292,6 +386,12 @@ def main():
     except BlockingIOError:raise Failure('Another watcher already running')
     banner('Paint Lab watcher started',f'v{VERSION}  •  updates/ + uploads/  •  {URL}','INFO')
     say('Ready to process newer, versioned Paint Lab releases','PASS')
+    # The previous watcher completes the release, then reloads this version.
+    # Publish canonical GitHub-root docs on startup; skip during --dry-run/--once.
+    if not (args.once or args.dry_run) and vt(deployed())>=(0,1,4):
+        try:publish_repo_docs()
+        except Exception as e:say('Repository documentation sync deferred: '+str(e),'WARN')
+
     retry={}
     while True:
         candidates=[]
