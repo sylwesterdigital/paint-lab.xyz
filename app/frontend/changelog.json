@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.5",
-  "title": "Paint Lab v0.1.5 — Adaptive Palette & Colour Transformations",
+  "version": "0.1.6",
+  "title": "Paint Lab v0.1.6 — Document View & Compact Brush Workspace",
   "datetime": "2026-11-20",
   "changes": [
-    "Replace the redundant 25th palette tile with the native colour picker as the first of 24 swatches, eliminating the orphan final row.",
-    "Automatically reflow the entire colour grid to complete rows as the floating palette is resized, including very wide, short layouts.",
-    "Make Gradients blend the selected first colour through optional Shift-selected stops to the final swatch using perceptual OKLab interpolation.",
-    "Make Pastels, Sharp, Chromatics and Sepias transform existing colours rather than replace the palette; add Warm, Cool, Earth, Neon, Muted, Vintage, Monochrome and Invert modifiers.",
-    "Use the supplied distinct SVG designs for Fit panel and Collapse panel controls."
+    "Canvas zoom, pan and rotation now redraw painted layers immediately rather than waiting for the next brush stroke.",
+    "A clear rotated document boundary separates the paper surface from a grey-and-white checkerboard outside the canvas.",
+    "Collapsed Palette windows display selectable colour swatches within a smaller header; Fit and Collapse controls share consistent compact dimensions.",
+    "Brush tip gallery adapts the number of columns and preview sizes to the available space, showing more tips and scrolling less.",
+    "Cloud sign-in and AI provider key fields are associated with forms to eliminate Chrome DOM password input warnings."
   ],
   "history": [
+    {
+      "version": "0.1.5",
+      "title": "Paint Lab v0.1.5 — Adaptive Palette & Colour Transformations",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Replace the redundant 25th palette tile with the native colour picker as the first of 24 swatches, eliminating the orphan final row.",
+        "Automatically reflow the entire colour grid to complete rows as the floating palette is resized, including very wide, short layouts.",
+        "Make Gradients blend the selected first colour through optional Shift-selected stops to the final swatch using perceptual OKLab interpolation.",
+        "Make Pastels, Sharp, Chromatics and Sepias transform existing colours rather than replace the palette; add Warm, Cool, Earth, Neon, Muted, Vintage, Monochrome and Invert modifiers.",
+        "Use the supplied distinct SVG designs for Fit panel and Collapse panel controls."
+      ]
+    },
     {
       "version": "0.1.4",
       "title": "Paint Lab v0.1.4 — What’s New & Development Log",

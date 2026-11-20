@@ -17,7 +17,7 @@ Paint Lab is an experimental digital art workspace, not a conventional static dr
 **What’s New** appears once per release until dismissed. Open previous versions at any time with the development-log icon in the top toolbar. The same history lives in [CHANGELOG.md](CHANGELOG.md) and [app/changelog.json](app/changelog.json).
 
 
-The v0.1.5 palette uses one full-row adaptive grid. Gradient blends use the custom picker as the first stop and the final swatch as the last; Shift-click colours to add intermediate stops. Preset chips transform the active palette without discarding it (Studio restores the default set).
+The v0.1.6 palette uses one full-row adaptive grid. Gradient blends use the custom picker as the first stop and the final swatch as the last; Shift-click colours to add intermediate stops. Preset chips transform the active palette without discarding it (Studio restores the default set).
 
 ## Technology
 

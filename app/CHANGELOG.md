@@ -1,3 +1,13 @@
+# Paint Lab — Development Changelog
+
+## v0.1.6 — Document view and compact brush workspace (2026-11-20)
+
+- Immediate zoom/pan/rotation redraw, independent of brush strokes.
+- Paper document edges with neutral checkerboard surrounding the artwork.
+- Compact panel headers with interactive colour swatches when Palette is collapsed.
+- Adaptive brush-tip gallery density to show more tips at useful sizes.
+- Correct cloud login and AI API-key field form associations.
+
 # Paint Lab changelog
 
 [Paint Lab](https://paint-lab.xyz/) · [GitHub](https://github.com/sylwesterdigital/paint-lab.xyz) · [Project story](ABOUT.md)

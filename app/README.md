@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.4
+# Paint Lab · v0.1.6
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -102,6 +102,6 @@ If v0.1.4 is first deployed using an older watcher in `--once` mode, the new wat
 
 Only verified public links are used: the [live Paint Lab site](https://paint-lab.xyz/), [GitHub repository](https://github.com/sylwesterdigital/paint-lab.xyz) and [issues](https://github.com/sylwesterdigital/paint-lab.xyz/issues). The [FREE-LAB YouTube film](https://youtu.be/rJ0nFm7jKms) is linked clearly as a related-project example, not as a Paint Lab film.
 
-## Palette workflow (v0.1.5)
+## Palette workflow (v0.1.6)
 
 The custom colour picker occupies the first swatch. The grid automatically lays out every colour when panels are resized. Studio restores factory colours; Pastels, Sharp, Chromatics, Sepias and additional colour modifiers act on the current palette. Gradients interpolate in OKLab from the current colour through optional Shift-click intermediate anchors to the final swatch.
