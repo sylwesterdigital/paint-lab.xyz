@@ -1,0 +1,13 @@
+{
+  "version": "0.1.1",
+  "changes": [
+    "Reuse existing server Certbot accounts automatically when issuing paint-lab.xyz TLS certificate",
+    "Improve watcher output with high-contrast ANSI colour and start/success/failure banners",
+    "Add regression tests for certificate account selection",
+    "Split compact layer UI and draggable tools from existing painting editor",
+    "Add quick pencil/chalk/watercolour/oil pigment switch",
+    "Add Flask, SQLite account-scoped cloud canvases and WebSocket notifications",
+    "Add encrypted per-user model API-key vault and read-only connectivity probes",
+    "Add versioned checksum-verified deployment watcher, nginx and systemd installer"
+  ]
+}
