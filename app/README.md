@@ -124,3 +124,7 @@ On touch devices the canvas-first studio provides an actual brush-tip preview ab
 ## Transforming artwork (v0.1.10)
 
 Press **G** to move, **R** to rotate, or **S** to scale the active painting layer. Drag to manipulate it, or select a vector shape first and use the same shortcuts on that selection. Press **Esc** to exit the transform mode. On phones, use the right-side Move / Rotate / Scale buttons; with a transform active, two-finger gestures manipulate that layer or selected shape. Without a transform active, two-finger pinch/rotate/pan navigates the canvas. Layer operations are recorded in editable history, and duplication is independent of current zoom.
+
+## Mobile gesture stability (v0.1.11)
+
+Navigation now uses a cached document-resolution paint texture with an independent viewport transform: pinch, pan and rotation do not force layer recomposition. The mobile Move/Rotate/Scale controls appear only in an active transform, started from Layers.

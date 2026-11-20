@@ -1,3 +1,13 @@
+# Paint Lab — Changelog
+
+## v0.1.11 — Mobile navigation performance and contextual transforms (2026-11-20)
+
+- Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.
+- Reduce gesture-frame shader work and skip unnecessary palette DOM reconstruction, brush-preview updates and selection redraw during navigation; restore full-quality paper when navigation ends.
+- Do not replay the entire painting history when a second finger starts a gesture during a stroke; commit the in-progress stroke safely.
+- Hide the mobile Move/Rotate/Scale buttons outside an active transform. Activate transforms through the Layers tool sheet, then use the contextual right-side controls.
+- Retain independent two-finger canvas navigation when no artwork transform is selected, and keep existing desktop shortcuts, project data and layers intact.
+
 # Paint Lab — Development Changelog
 
 ## v0.1.10 — View-safe transforms & mobile canvas rotation (2026-11-20)

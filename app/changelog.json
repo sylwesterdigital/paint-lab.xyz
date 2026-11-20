@@ -1,17 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.10",
-  "title": "Paint Lab v0.1.10 — View-Safe Layer Transforms & Mobile Canvas Rotation",
+  "version": "0.1.11",
+  "title": "Paint Lab v0.1.11 — Mobile Gesture Performance & Contextual Transforms",
   "datetime": "2026-11-20",
   "changes": [
-    "Fix layer duplication scaling at zoom levels other than 100% and on high-DPI displays by copying the native pixel buffer without an inherited DPR transform.",
-    "Add document-coordinate Move (G), Rotate (R) and Scale (S) manipulation to the active layer; transformations use a live preview and join Undo/Redo and editable project history.",
-    "Apply the same move, rotation and scale gestures to a selected vector shape instead of the entire layer.",
-    "Expose three compact, independent mobile transform buttons on the right side, and route two-finger rotate/pinch/pan gestures to the object only when a transform mode is selected.",
-    "Restore canvas rotation as a default mobile gesture, migrate previous disabled defaults once, and accumulate angular changes without wraparound jumps.",
-    "Keep normal two-finger canvas zoom, pan and rotation isolated from layer transforms and provide Escape to leave transform modes."
+    "Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.",
+    "Reduce gesture-frame shader work and skip unnecessary palette DOM reconstruction, brush-preview updates and selection redraw during navigation; restore full-quality paper when navigation ends.",
+    "Do not replay the entire painting history when a second finger starts a gesture during a stroke; commit the in-progress stroke safely.",
+    "Hide the mobile Move/Rotate/Scale buttons outside an active transform. Activate transforms through the Layers tool sheet, then use the contextual right-side controls.",
+    "Retain independent two-finger canvas navigation when no artwork transform is selected, and keep existing desktop shortcuts, project data and layers intact."
   ],
   "history": [
+    {
+      "version": "0.1.10",
+      "title": "Paint Lab v0.1.10 — View-Safe Layer Transforms & Mobile Canvas Rotation",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Fix layer duplication scaling at zoom levels other than 100% and on high-DPI displays by copying the native pixel buffer without an inherited DPR transform.",
+        "Add document-coordinate Move (G), Rotate (R) and Scale (S) manipulation to the active layer; transformations use a live preview and join Undo/Redo and editable project history.",
+        "Apply the same move, rotation and scale gestures to a selected vector shape instead of the entire layer.",
+        "Expose three compact, independent mobile transform buttons on the right side, and route two-finger rotate/pinch/pan gestures to the object only when a transform mode is selected.",
+        "Restore canvas rotation as a default mobile gesture, migrate previous disabled defaults once, and accumulate angular changes without wraparound jumps.",
+        "Keep normal two-finger canvas zoom, pan and rotation isolated from layer transforms and provide Escape to leave transform modes."
+      ]
+    },
     {
       "version": "0.1.9",
       "title": "Paint Lab v0.1.9 — Mobile Brush Controls & Stable Gestures",
