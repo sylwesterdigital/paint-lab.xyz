@@ -77,3 +77,7 @@ Bump `app/version.json`, `app/frontend/version.json`, the `<meta name="paint-lab
 On Ubuntu, the installer checks whether a certificate for `paint-lab.xyz` already exists. If not, it looks for an existing production Let’s Encrypt account in `/etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/` and uses that account to request a separate certificate for Paint Lab; no email is required when an account is present. The optional `PAINT_LAB_CERTBOT_ACCOUNT` chooses a specific existing account. If this server has no existing production account, define `PAINT_LAB_CERTBOT_EMAIL` for first-time registration. DNS and nginx collision checks run before any vhost is modified.
 
 The watcher uses automatic ANSI colour on interactive terminals, with high-visibility start/success/failure banners. Set `NO_COLOR=1` to disable colours or `FORCE_COLOR=1` to enable colours in output captured by another program. Persistent release logs are always plain text.
+
+## v0.1.2: Native SVG controls and desktop keyboard help
+
+Controls use embedded, theme-aware SVG symbols drawn from the supplied icon pack. No external icon font or network dependency. Keyboard help opens with Command+/ or Ctrl+/ and also Command+Shift+/ for `?` on supported layouts. Shortcuts remain available via the help toolbar button.

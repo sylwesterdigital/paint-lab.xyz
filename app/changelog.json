@@ -1,6 +1,9 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "changes": [
+    "Fix Command+/ and Ctrl+/ keyboard help on desktop, including shifted question-mark combination",
+    "Replace text-symbol UI controls with supplied SVG artwork across the toolbar, panels, layers and shape tools",
+    "Keep SVG icons compatible with selected UI font, all four themes and custom panel colours",
     "Reuse existing server Certbot accounts automatically when issuing paint-lab.xyz TLS certificate",
     "Improve watcher output with high-contrast ANSI colour and start/success/failure banners",
     "Add regression tests for certificate account selection",
