@@ -47,3 +47,8 @@ Versioned releases contain the repository documentation sources. When a verified
 - Related project: [FREE-LAB.cam](https://free-lab.cam/) · [FREE-LAB 3-minute film on YouTube](https://youtu.be/rJ0nFm7jKms) *(FREE-LAB demo, not a Paint Lab demonstration)*
 
 Paint Lab is evolving. Some physically inspired paint effects are artistic approximations rather than fluid simulations; Apple Pencil, Safari and iPad performance need testing on physical hardware.
+
+
+### Mobile studio
+
+Paint Lab v0.1.7 includes a canvas-first phone/tablet workspace: the upper-left focus toggle hides UI, bottom-left quick controls provide colour, brush tip, size and pigment, and the settings cog offers configurable visibility and access to layers, shapes, effects, export and gallery as mobile sheets.

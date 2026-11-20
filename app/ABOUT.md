@@ -30,3 +30,8 @@ Paint Lab's app version, public development log and GitHub changelog are derived
 Paint Lab shares an interest in natural interaction and user agency with [FREE-LAB.cam](https://free-lab.cam/), a separate WebXR experiment. Watch [the FREE-LAB short film on YouTube](https://youtu.be/rJ0nFm7jKms) for that project's context, not for a Paint Lab product preview.
 
 For Paint Lab source, feedback and collaboration, use [the GitHub repository](https://github.com/sylwesterdigital/paint-lab.xyz) or [its issue tracker](https://github.com/sylwesterdigital/paint-lab.xyz/issues). No official Paint Lab accounts on other social networks have been provided or verified.
+
+
+## Mobile painting (v0.1.7)
+
+Paint Lab provides a canvas-first mobile experience with a single show/hide control, edge-anchored colour picker, direct brush size and pigment controls, and optional tool sheets for deeper editing. The floating desktop workspace remains unchanged.

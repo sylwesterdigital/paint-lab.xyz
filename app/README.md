@@ -105,3 +105,8 @@ Only verified public links are used: the [live Paint Lab site](https://paint-lab
 ## Palette workflow (v0.1.6)
 
 The custom colour picker occupies the first swatch. The grid automatically lays out every colour when panels are resized. Studio restores factory colours; Pastels, Sharp, Chromatics, Sepias and additional colour modifiers act on the current palette. Gradients interpolate in OKLab from the current colour through optional Shift-click intermediate anchors to the final swatch.
+
+
+### Mobile canvas-first workspace (v0.1.7)
+
+On coarse-pointer devices up to 1024px wide, Paint Lab opens as a full-canvas touch workspace instead of showing floating desktop panels. The top-left eye/brush toggle hides all painting controls for focused drawing; tapping it again restores them. The bottom-left colour swatch opens a slim edge palette with a preset-cycle and custom-colour picker. Tap the brush icon to cycle tips or the size number to open a vertical brush-diameter slider. The pigment button cycles Pencil, Chalk, Watercolour and Oil. The top-right cog opens mobile Settings, where users can choose which quick controls stay visible and open the full desktop tools as temporary mobile sheets. The top-right save action opens the existing named local gallery save dialog. These mobile preferences persist independently from desktop workspace positions.

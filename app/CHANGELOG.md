@@ -1,5 +1,13 @@
 # Paint Lab — Development Changelog
 
+## v0.1.7 — Mobile canvas-first studio (2026-11-20)
+
+- Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.
+- Add a minimal bottom-left colour swatch with an edge-anchored scrolling palette, palette-cycle control and native custom-colour picker.
+- Add compact brush-tip cycling, a vertical diameter slider, pigment cycling and optional eraser, undo and painting status controls.
+- Move mobile canvas preferences and access to the full brush, effects, shapes, layers, paper, gallery and export tools into a touch-friendly Settings drawer and tool sheets.
+- Remember mobile control visibility and focus preferences independently from the desktop floating-panel workspace.
+
 ## v0.1.6 — Document view and compact brush workspace (2026-11-20)
 
 - Immediate zoom/pan/rotation redraw, independent of brush strokes.

@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.6",
-  "title": "Paint Lab v0.1.6 — Document View & Compact Brush Workspace",
+  "version": "0.1.7",
+  "title": "Paint Lab v0.1.7 — Mobile Canvas-First Studio",
   "datetime": "2026-11-20",
   "changes": [
-    "Canvas zoom, pan and rotation now redraw painted layers immediately rather than waiting for the next brush stroke.",
-    "A clear rotated document boundary separates the paper surface from a grey-and-white checkerboard outside the canvas.",
-    "Collapsed Palette windows display selectable colour swatches within a smaller header; Fit and Collapse controls share consistent compact dimensions.",
-    "Brush tip gallery adapts the number of columns and preview sizes to the available space, showing more tips and scrolling less.",
-    "Cloud sign-in and AI provider key fields are associated with forms to eliminate Chrome DOM password input warnings."
+    "Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.",
+    "Add a minimal bottom-left colour swatch with an edge-anchored scrolling palette, palette-cycle control and native custom-colour picker.",
+    "Add compact brush-tip cycling, a vertical diameter slider, pigment cycling and optional eraser, undo and painting status controls.",
+    "Move mobile canvas preferences and access to the full brush, effects, shapes, layers, paper, gallery and export tools into a touch-friendly Settings drawer and tool sheets.",
+    "Remember mobile control visibility and focus preferences independently from the desktop floating-panel workspace."
   ],
   "history": [
+    {
+      "version": "0.1.6",
+      "title": "Paint Lab v0.1.6 — Document View & Compact Brush Workspace",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Canvas zoom, pan and rotation now redraw painted layers immediately rather than waiting for the next brush stroke.",
+        "A clear rotated document boundary separates the paper surface from a grey-and-white checkerboard outside the canvas.",
+        "Collapsed Palette windows display selectable colour swatches within a smaller header; Fit and Collapse controls share consistent compact dimensions.",
+        "Brush tip gallery adapts the number of columns and preview sizes to the available space, showing more tips and scrolling less.",
+        "Cloud sign-in and AI provider key fields are associated with forms to eliminate Chrome DOM password input warnings."
+      ]
+    },
     {
       "version": "0.1.5",
       "title": "Paint Lab v0.1.5 — Adaptive Palette & Colour Transformations",
