@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.7",
-  "title": "Paint Lab v0.1.7 — Mobile Canvas-First Studio",
+  "version": "0.1.8",
+  "title": "Paint Lab v0.1.8 — Safe Canvas Clearing",
   "datetime": "2026-11-20",
   "changes": [
-    "Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.",
-    "Add a minimal bottom-left colour swatch with an edge-anchored scrolling palette, palette-cycle control and native custom-colour picker.",
-    "Add compact brush-tip cycling, a vertical diameter slider, pigment cycling and optional eraser, undo and painting status controls.",
-    "Move mobile canvas preferences and access to the full brush, effects, shapes, layers, paper, gallery and export tools into a touch-friendly Settings drawer and tool sheets.",
-    "Remember mobile control visibility and focus preferences independently from the desktop floating-panel workspace."
+    "Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.",
+    "Use a custom three-choice dialog: No, Yes—clear, or Save before clearing; never a browser-native confirmation.",
+    "Save before clearing creates a named copy in the local gallery and clears only after its IndexedDB write succeeds; cancellation or failure leaves the artwork intact.",
+    "Clear paint from every layer while keeping layer structure, paper and canvas dimensions; Undo and Redo restore the operation.",
+    "Make Clear canvas optionally visible on the mobile toolbar, enabled by default, while retaining the paint-only focus mode."
   ],
   "history": [
+    {
+      "version": "0.1.7",
+      "title": "Paint Lab v0.1.7 — Mobile Canvas-First Studio",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.",
+        "Add a minimal bottom-left colour swatch with an edge-anchored scrolling palette, palette-cycle control and native custom-colour picker.",
+        "Add compact brush-tip cycling, a vertical diameter slider, pigment cycling and optional eraser, undo and painting status controls.",
+        "Move mobile canvas preferences and access to the full brush, effects, shapes, layers, paper, gallery and export tools into a touch-friendly Settings drawer and tool sheets.",
+        "Remember mobile control visibility and focus preferences independently from the desktop floating-panel workspace."
+      ]
+    },
     {
       "version": "0.1.6",
       "title": "Paint Lab v0.1.6 — Document View & Compact Brush Workspace",

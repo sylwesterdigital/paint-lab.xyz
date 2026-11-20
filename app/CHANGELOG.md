@@ -1,5 +1,13 @@
 # Paint Lab — Development Changelog
 
+## v0.1.8 — Safe, undoable canvas clearing (2026-11-20)
+
+- Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.
+- Use a custom three-choice dialog: No, Yes—clear, or Save before clearing; never a browser-native confirmation.
+- Save before clearing creates a named copy in the local gallery and clears only after its IndexedDB write succeeds; cancellation or failure leaves the artwork intact.
+- Clear paint from every layer while keeping layer structure, paper and canvas dimensions; Undo and Redo restore the operation.
+- Make Clear canvas optionally visible on the mobile toolbar, enabled by default, while retaining the paint-only focus mode.
+
 ## v0.1.7 — Mobile canvas-first studio (2026-11-20)
 
 - Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.

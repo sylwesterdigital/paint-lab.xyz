@@ -35,3 +35,8 @@ For Paint Lab source, feedback and collaboration, use [the GitHub repository](ht
 ## Mobile painting (v0.1.7)
 
 Paint Lab provides a canvas-first mobile experience with a single show/hide control, edge-anchored colour picker, direct brush size and pigment controls, and optional tool sheets for deeper editing. The floating desktop workspace remains unchanged.
+
+
+### Safe clearing
+
+Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a three-choice dialog (cancel, clear, or save a named gallery copy before clearing). The operation preserves canvas dimensions, paper and layers, remains undoable, and does not delete the project history.

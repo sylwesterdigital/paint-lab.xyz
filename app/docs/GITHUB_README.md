@@ -52,3 +52,8 @@ Paint Lab is evolving. Some physically inspired paint effects are artistic appro
 ### Mobile studio
 
 Paint Lab v0.1.7 includes a canvas-first phone/tablet workspace: the upper-left focus toggle hides UI, bottom-left quick controls provide colour, brush tip, size and pigment, and the settings cog offers configurable visibility and access to layers, shapes, effects, export and gallery as mobile sheets.
+
+
+### Safe clearing
+
+Paint Lab v0.1.8 adds a trash-can action on desktop and mobile. Clearing opens a three-choice dialog (cancel, clear, or save a named gallery copy before clearing). The operation preserves canvas dimensions, paper and layers, remains undoable, and does not delete the project history.
