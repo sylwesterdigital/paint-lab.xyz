@@ -1,5 +1,12 @@
 # Paint Lab — Changelog
 
+## v0.1.12 — Immediate Desktop Transforms & Shift+D (2026-11-21)
+
+- `G`, `R`, `S`: instantly follow desktop mouse movement after pressing the shortcut (no held mouse button).
+- `Shift + D`: provisionally duplicate the active layer or selected shape and move the new copy with the mouse.
+- Left-click or Enter confirms; Esc or right-click cancels without adding an operation.
+- Preserve layer zoom invariance, save/reopen, and one-step Undo/Redo for duplicate-and-move.
+
 ## v0.1.11 — Mobile navigation performance and contextual transforms (2026-11-20)
 
 - Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.
@@ -8,7 +15,6 @@
 - Hide the mobile Move/Rotate/Scale buttons outside an active transform. Activate transforms through the Layers tool sheet, then use the contextual right-side controls.
 - Retain independent two-finger canvas navigation when no artwork transform is selected, and keep existing desktop shortcuts, project data and layers intact.
 
-# Paint Lab — Development Changelog
 
 ## v0.1.10 — View-safe transforms & mobile canvas rotation (2026-11-20)
 
@@ -19,7 +25,6 @@
 - Restore canvas rotation as a default mobile gesture, migrate previous disabled defaults once, and accumulate angular changes without wraparound jumps.
 - Keep normal two-finger canvas zoom, pan and rotation isolated from layer transforms and provide Escape to leave transform modes.
 
-# Paint Lab — Development Changelog
 
 ## v0.1.9 — Mobile brush controls and stable gestures (2026-11-20)
 
@@ -29,7 +34,6 @@
 - Stabilize multi-touch zoom using stable touch pairing and canvas-local positions; optional deliberate rotation, off by default on mobile.
 - Provide an accessible Account/Profile entry and Fit and straighten canvas action in mobile settings.
 
-# Paint Lab — Development Changelog
 
 ## v0.1.8 — Safe, undoable canvas clearing (2026-11-20)
 

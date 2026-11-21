@@ -14,5 +14,5 @@ class MobileStudioTests(unittest.TestCase):
   self.assertIn('function toggleMobilePopover(',SOURCE)
   self.assertIn("function mobileStorePreferences()",SOURCE)
  def test_release(self):
-  self.assertIn('<meta name="paint-lab-version" content="0.1.11">',SOURCE)
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.11')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.12">',SOURCE)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.12')

@@ -1,16 +1,27 @@
 {
   "project": "paint-lab",
-  "version": "0.1.11",
-  "title": "Paint Lab v0.1.11 — Mobile Gesture Performance & Contextual Transforms",
-  "datetime": "2026-11-20",
+  "version": "0.1.12",
+  "title": "Paint Lab v0.1.12 — Immediate Desktop Transforms & Shift+D",
+  "datetime": "2026-11-21",
   "changes": [
-    "Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.",
-    "Reduce gesture-frame shader work and skip unnecessary palette DOM reconstruction, brush-preview updates and selection redraw during navigation; restore full-quality paper when navigation ends.",
-    "Do not replay the entire painting history when a second finger starts a gesture during a stroke; commit the in-progress stroke safely.",
-    "Hide the mobile Move/Rotate/Scale buttons outside an active transform. Activate transforms through the Layers tool sheet, then use the contextual right-side controls.",
-    "Retain independent two-finger canvas navigation when no artwork transform is selected, and keep existing desktop shortcuts, project data and layers intact."
+    "Desktop G, R, and S now move, rotate, and scale the selected shape or active layer immediately with mouse movement; no click-and-drag is required.",
+    "Press Shift+D to duplicate the selected shape or active layer and position the provisional copy with the mouse; left-click or Enter confirms, Esc or right-click cancels without creating a duplicate.",
+    "Duplication and transformation are recorded as single editable history actions, preserving undo/redo, native pixel dimensions, and project save/reopen at any zoom.",
+    "Update the keyboard-help overlay and documentation to explain the desktop confirm/cancel workflow; keep touch gestures and contextual mobile tools unchanged."
   ],
   "history": [
+    {
+      "version": "0.1.11",
+      "title": "Paint Lab v0.1.11 — Mobile Gesture Performance & Contextual Transforms",
+      "datetime": "2026-11-20",
+      "changes": [
+        "Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.",
+        "Reduce gesture-frame shader work and skip unnecessary palette DOM reconstruction, brush-preview updates and selection redraw during navigation; restore full-quality paper when navigation ends.",
+        "Do not replay the entire painting history when a second finger starts a gesture during a stroke; commit the in-progress stroke safely.",
+        "Hide the mobile Move/Rotate/Scale buttons outside an active transform. Activate transforms through the Layers tool sheet, then use the contextual right-side controls.",
+        "Retain independent two-finger canvas navigation when no artwork transform is selected, and keep existing desktop shortcuts, project data and layers intact."
+      ]
+    },
     {
       "version": "0.1.10",
       "title": "Paint Lab v0.1.10 — View-Safe Layer Transforms & Mobile Canvas Rotation",

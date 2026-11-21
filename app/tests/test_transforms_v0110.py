@@ -24,8 +24,8 @@ class TestTransforms(unittest.TestCase):
  def test_touch_buttons_and_hotkeys(self):
   for name in ('move','rotate','scale'):
    self.assertIn('data-transform="'+name+'"',JS)
-  self.assertIn("if(['g','r','s'].includes(key))",JS)
+  self.assertIn("if(['g','r','s'].includes(key)&&!e.shiftKey)",JS)
   self.assertIn('id="mobileTransforms"',JS)
  def test_versions(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.11')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.11">',JS)
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.12')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.12">',JS)
