@@ -6,7 +6,7 @@
 
 ## Painting studio
 
-Paint Lab is an experimental digital art workspace, not a conventional static drawing pad. Paint with pencil, chalk, watercolour or oil-style pigment; use procedural brush tips or import black/alpha images as reusable tips; draw lines, curves and geometric shapes; combine layers and effects; and save work locally or in an authenticated cloud library.
+Paint Lab is an experimental digital art workspace, not a conventional static drawing pad. Paint with distinctly rendered graphite, crumbly chalk, transparent watercolour washes or opaque ridged oil-style pigment; use procedural brush tips or import black/alpha images as reusable tips; draw lines, curves and geometric shapes; combine layers and effects; and save work locally or in an authenticated cloud library.
 
 - **Painting:** material shortcuts, brush shapes, pressure-sensitive stylus input, flow, strength, opacity, wetness, and textured paint simulation.
 - **Canvas:** touch and trackpad pan, canvas-only pinch zoom and rotation, paper backgrounds, transparent PNG export, and editable project JSON.

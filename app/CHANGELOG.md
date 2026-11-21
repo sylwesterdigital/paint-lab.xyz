@@ -1,5 +1,13 @@
 # Paint Lab — Changelog
 
+## v0.1.13 — Distinct pigment texture engines (2026-11-21)
+
+- Pencil: narrow irregular graphite marks and paper grain rather than full-width opaque paint.
+- Chalk: granular, fragmented deposits with visible dry-paper gaps and powder crumbs.
+- Watercolour: translucent wash, diffused edges, bloom backruns and pooled pigment.
+- Oil: opaque, full-bodied strokes with directional bristle grooves, bright ridges and darker valleys.
+- Material-specific stamp textures are cached for live performance, with deterministic stroke replay and preserved brush-tip shapes.
+
 ## v0.1.12 — Immediate Desktop Transforms & Shift+D (2026-11-21)
 
 - `G`, `R`, `S`: instantly follow desktop mouse movement after pressing the shortcut (no held mouse button).
