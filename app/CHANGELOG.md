@@ -1,3 +1,9 @@
+# v0.1.15 — Adjustable Window Chrome & Natural Stroke Widening (2026-11-21)
+
+- Adjustable border visibility, window opacity, shadows, shadow strength and backdrop blur in Settings → Appearance.
+- Natural-width controls under Brush & Paint → Dynamics: enable/disable, initial tip width, travel before full width and speed reduction.
+- Reproducible per-stroke widening in oil and non-oil brushes; saved in editable history and settings presets.
+
 # Paint Lab — Changelog
 
 ## v0.1.14 — Stylized brushes, wet-pigment oil and shared brush atlas (2026-11-21)

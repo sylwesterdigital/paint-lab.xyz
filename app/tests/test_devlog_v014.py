@@ -11,7 +11,7 @@ class ReleaseLogTests(unittest.TestCase):
   self.assertEqual(latest['version'],version)
   self.assertEqual(latest['version'],json.loads((APP/'frontend/version.json').read_text())['version'])
   self.assertGreaterEqual(len(latest['history']),4)
-  self.assertEqual([entry['version'] for entry in latest['history']][:4],['0.1.13','0.1.12','0.1.11','0.1.10'])
+  self.assertEqual([entry['version'] for entry in latest['history']][:4],['0.1.14','0.1.13','0.1.12','0.1.11'])
   self.assertEqual(latest['history'][-1]['version'],'0.1.0')
   for entry in [latest,*latest['history']]:self.assertTrue(entry.get('changes'))
  def test_modal_and_toolbar_exist(self):

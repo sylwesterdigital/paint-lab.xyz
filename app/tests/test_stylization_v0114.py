@@ -8,7 +8,7 @@ class StylizeTests(unittest.TestCase):
   self.assertIn("const STROKE_STYLES=",JS)
   for style in ("'halftone'","'ascii'","'invert'","'pixelate'","'mosaic'","'symbols'"):
    self.assertIn(style,JS)
-  self.assertIn('function snapshot(){return {color,mode,tip,material,strokeStyle,styleCell,styleAmount,size,',JS)
+  self.assertIn('function snapshot(){return {color,mode,tip,material,naturalWidth,initialWidth,growthDistance,speedWidth,strokeStyle,styleCell,styleAmount,size,',JS)
   self.assertIn('stylizedStampTexture(baseStamp,strokeStylization,mat,t,col,conf)',JS)
  def test_bounded_cache_and_oil_bristles(self):
   self.assertIn('STYLE_STAMP_CACHE.size>=64',JS)
@@ -24,8 +24,8 @@ class StylizeTests(unittest.TestCase):
   self.assertIn('strokeStyle,styleCell,styleAmount,customTips:',JS)
  def test_history_and_docs(self):
   v=json.loads((ROOT/'version.json').read_text())['version']
-  self.assertEqual(v,'0.1.14')
+  self.assertEqual(v,'0.1.15')
   log=json.loads((ROOT/'changelog.json').read_text());self.assertEqual(log['version'],v)
-  self.assertEqual(log['history'][0]['version'],'0.1.13')
+  self.assertEqual(log['history'][0]['version'],'0.1.14')
   self.assertIn('David Li',(ROOT/'CHANGELOG.md').read_text())
 if __name__=='__main__':unittest.main()

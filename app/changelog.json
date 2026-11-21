@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.14",
-  "title": "Paint Lab v0.1.14 — Stylized Strokes & Wet Oil Brush",
+  "version": "0.1.15",
+  "title": "Paint Lab v0.1.15 — Adjustable Window Chrome & Natural Stroke Widening",
   "datetime": "2026-11-21",
   "changes": [
-    "Add six independent stylized painting modes: Halftone, ASCII, Invert, Pixelate, Mosaic and Symbols; each stroke remembers its selected style.",
-    "Introduce an oil brush contact model with independent pigment reservoirs across bristles, pickup of wet underlying colour, pressure- and viscosity-controlled deposition, and directional ridge shading.",
-    "Replace 24 individual Canvas2D preview renderers in Brush Tips with one cached shared thumbnail atlas; category switches reuse the atlas and custom brush imports rebuild it once.",
-    "Reuse one inversion mask canvas across stylized dabs instead of allocating new 2D canvases during painting.",
-    "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier–Stokes fluid solver."
+    "Add window-border visibility, panel background transparency, shadow enable/strength and backdrop blur controls in Appearance; settings persist in named presets.",
+    "Add a natural stroke width toggle, initial brush-tip contact, widening distance, and velocity response in Brush & Paint → Dynamics.",
+    "Apply reproducible distance-based widening to the oil contact engine and all other painted stroke materials while retaining pressure sensitivity and existing project compatibility.",
+    "Preserve independent brush-tip shape response and stored brush settings in each history action."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.14",
+      "title": "Paint Lab v0.1.14 — Stylized Strokes & Wet Oil Brush",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Add six independent stylized painting modes: Halftone, ASCII, Invert, Pixelate, Mosaic and Symbols; each stroke remembers its selected style.",
+        "Introduce an oil brush contact model with independent pigment reservoirs across bristles, pickup of wet underlying colour, pressure- and viscosity-controlled deposition, and directional ridge shading.",
+        "Replace 24 individual Canvas2D preview renderers in Brush Tips with one cached shared thumbnail atlas; category switches reuse the atlas and custom brush imports rebuild it once.",
+        "Reuse one inversion mask canvas across stylized dabs instead of allocating new 2D canvases during painting.",
+        "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier–Stokes fluid solver."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.13",

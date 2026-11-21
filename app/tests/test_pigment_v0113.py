@@ -22,7 +22,7 @@ class PigmentRenderingTests(unittest.TestCase):
   self.assertIn('ctx.drawImage(stamp',part)
   self.assertNotIn('createImageData',part)
  def test_material_selection_is_recorded_with_each_stroke(self):
-  self.assertIn('function snapshot(){return {color,mode,tip,material,strokeStyle,styleCell,styleAmount,size,',JS)
+  self.assertIn('function snapshot(){return {color,mode,tip,material,naturalWidth,initialWidth,growthDistance,speedWidth,strokeStyle,styleCell,styleAmount,size,',JS)
   self.assertIn('replayStroke(s)',JS)
   self.assertIn('function chooseMaterial(next)',JS)
   self.assertIn('const custom=tintCustomTip(t,col)',JS)
