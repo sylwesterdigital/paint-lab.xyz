@@ -1,3 +1,13 @@
+# v0.1.34 — Immediate Pixel Filters (2026-11-21)
+
+- Fix the Stylize panel showing Pixel selected while the active layer still had zero filters: tapping a filter now immediately applies it to existing active-layer pixels, and selecting another filter builds a composite stack. None clears the stack.
+- Make the active style highlight reflect the actual applied layer-filter stack, not a previously saved un-applied preset. Show an applied filter count and edit the topmost effect without changing painting tools.
+- Rebuild Pixel as a true image-space block effect with colour and transparency sampled from the already-painted layer, distinct from oil-brush bristle marks. Increase pixel cell size control to 96 pixels and default to 24 pixels for a visible result.
+- Treat filter intensity as a blend between the original layer pixels and the filtered image instead of reducing paint opacity. Update size and intensity immediately during slider drags and commit one undoable action when the slider is released.
+- Keep non-destructive layer filters, composited export, portable editable project support, legacy stroke replay, production watcher, release manifest and SHA-256 checks.
+
+- Separate the new layer-filter selection from painting-engine routing: Pixel, Halftone and Invert no longer divert oil-brush or pencil strokes into the old stamp renderer. Preserve the previous renderer for legacy stylized strokes.
+
 # v0.1.33 — Composite Layer Stylization (2026-11-21)
 
 - Redesign stylization as a **composite layer filter system**. Halftone, ASCII, symbols, pixelate, mosaic and invert now transform the existing painted pixels on the active layer instead of behaving like a spray or stamp brush.

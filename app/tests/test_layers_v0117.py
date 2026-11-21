@@ -12,11 +12,11 @@ class LayerV0117Contracts(unittest.TestCase):
  def test_merging_and_history(self):
   for token in ("a.kind==='layer-merge'","for(const part of source){if(!part.visible)continue;",
                 'ctx.globalAlpha=part.opacity','ctx.globalCompositeOperation=part.blend',
-                'ctx.drawImage(part.canvas,0,0)',"layerAction({kind:'layer-merge'",'a.ids.length<2'):
+                'ctx.drawImage(getLayerRenderCanvas(part),0,0)',"layerAction({kind:'layer-merge'",'a.ids.length<2'):
    self.assertIn(token,SOURCE)
  def test_hidden_icon(self):
   self.assertIn('id="pl-eye-hidden"',SOURCE)
   self.assertIn("l.visible?'eye':'eye-hidden'",SOURCE)
  def test_version(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.33')
-  self.assertIn('content="0.1.33"',SOURCE)
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.34')
+  self.assertIn('content="0.1.34"',SOURCE)

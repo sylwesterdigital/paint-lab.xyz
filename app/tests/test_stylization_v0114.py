@@ -15,7 +15,7 @@ class StylizeTests(unittest.TestCase):
  def test_filter_stack_renderer_and_layer_action(self):
   self.assertIn('function applyCompositeFilterStep(',JS)
   self.assertIn('function updateLayerFilterCache(',JS)
-  self.assertIn('function setLayerFilters(layerId,filters)',JS)
+  self.assertIn('function setLayerFilters(layerId,filters,commitPreview=false)',JS)
   self.assertIn("else if(a.kind==='layer-filter')",JS)
   self.assertIn("'layer-filter'",JS)
   self.assertIn('drawImage(getLayerRenderCanvas(l),0,0)',JS)
@@ -24,11 +24,14 @@ class StylizeTests(unittest.TestCase):
   self.assertIn("(conf.styleEngine&&conf.styleEngine!=='stroke-v1')?'none'",JS)
   self.assertIn('stylizedStampTexture(baseStamp,strokeStylization,mat,t,col,conf)',JS)
   self.assertIn('function invertPaintStamp(',JS)
+  self.assertIn("function effectiveStrokeStyle(cfg){return cfg?.styleEngine==='layer-fx-v1'?'none':(cfg?.strokeStyle||'none');}",JS)
+  self.assertIn("if(effectiveStrokeStyle(c)==='invert'",JS)
+  self.assertIn("if(s.cfg.material==='oil'&&effectiveStrokeStyle(s.cfg)==='none'",JS)
  def test_history_and_docs(self):
   v=json.loads((ROOT/'version.json').read_text())['version']
-  self.assertEqual(v,'0.1.33')
+  self.assertEqual(v,'0.1.34')
   log=json.loads((ROOT/'changelog.json').read_text());self.assertEqual(log['version'],v)
-  self.assertEqual(log['history'][0]['version'],'0.1.32')
-  self.assertIn('Composite Layer Stylization',log['title'])
+  self.assertEqual(log['history'][0]['version'],'0.1.33')
+  self.assertIn('Immediate Pixel Filters',log['title'])
  if __name__=='__main__':
   unittest.main()

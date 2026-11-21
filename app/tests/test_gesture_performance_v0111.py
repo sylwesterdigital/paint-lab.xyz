@@ -7,7 +7,7 @@ class GestureRegression(unittest.TestCase):
  def test_static_document_compositing(self):
   self.assertIn('if(compositeDirty)composeLayers()',HTML)
   self.assertIn('vec2 uv=local/uDocument+.5',HTML)
-  self.assertIn('layerCtx.drawImage(l.canvas,0,0)',HTML)
+  self.assertIn('layerCtx.drawImage(getLayerRenderCanvas(l),0,0)',HTML)
   self.assertIn('fallback.drawImage(layer,0,0,baseW,baseH)',HTML)
   self.assertNotIn('composedViewKey',HTML)
  def test_touch_navigation_lightweight(self):
