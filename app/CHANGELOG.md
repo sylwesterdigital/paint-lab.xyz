@@ -1,3 +1,11 @@
+# v0.1.33 — Composite Layer Stylization (2026-11-21)
+
+- Redesign stylization as a **composite layer filter system**. Halftone, ASCII, symbols, pixelate, mosaic and invert now transform the existing painted pixels on the active layer instead of behaving like a spray or stamp brush.
+- Add a **non-destructive active-layer filter stack** with Add, Replace, Remove last and Clear controls, enabling several composite filters to be combined on the same layer.
+- Apply filtered appearance consistently in the live composite, layer thumbnails, export, merge and portable-project import/export paths.
+- Preserve backward compatibility for older projects that saved stamp-style stroke stylization; those legacy strokes still replay through the old renderer, while new work uses the layer-based model.
+- Keep the v0.1.32 oil-contact and packaging safeguards intact.
+
 # v0.1.32 — Production Test Layout Repair (2026-11-21)
 
 - Fix the Ubuntu deployment blocker introduced in v0.1.30: the release-integrity regression no longer assumes the macOS watcher exists beside the installed application. The test validates both the packaged source tree and the actual app-only Ubuntu release layout without masking failures.
