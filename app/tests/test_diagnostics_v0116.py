@@ -7,10 +7,10 @@ API=(APP/'backend/app.py').read_text()
 
 class DiagnosticsContracts(unittest.TestCase):
     def test_recovery_and_news_nonblocking(self):
-        self.assertIn('async function replayDraftIncrementally()',HTML)
+        self.assertIn('async function replayDraftIncrementally(epoch)',HTML)
         self.assertIn('function openDevLog(force=false)',HTML)
         self.assertIn("devLogRender(data);showModal('devLogOverlay')",HTML)
-        self.assertIn("if(loadProject(draft.data,draft.artId||null,true))",HTML)
+        self.assertIn("if(loadProject(draft.data,draft.artId||null,true,true))",HTML)
         self.assertIn('id="bootProgress"',HTML)
     def test_terminal_controls_and_security(self):
         for label in ('adminLogsOverlay','adminLogFont','adminLogOutput','adminLogPause','adminLogCopy'):

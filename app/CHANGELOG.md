@@ -1,3 +1,11 @@
+# v0.1.19 — Recovery Safety & Fast Resume (2026-11-21)
+
+- Fix stale recovery replay painting over a cleared or replaced canvas. Clear, New, Undo and project switching invalidate in-flight restoration before pixels can be applied.
+- Cache full-fidelity layer pixel snapshots alongside matching IndexedDB recovery history, so subsequent restarts restore the current image without replaying hundreds of strokes.
+- Use cancellable, responsive legacy-history replay with a Stop restoring control. Preserve a recovery backup in Gallery before skipping a long restore.
+- Skip paint actions made before the most recent Clear during rebuilding, without discarding history needed for Undo or saved projects.
+- Throttle startup console progress logs, and fix cropping of the animated Paint Lab title.
+
 # v0.1.18 — Denser Oil Pigment & Startup Polish (2026-11-21)
 
 - Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.

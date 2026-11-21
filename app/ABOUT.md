@@ -70,3 +70,7 @@ Brush tips now govern the bristle contacts in the wet-oil stroke renderer, makin
 ## Multi-layer editing (v0.1.17)
 
 Layer selection supports Shift for a continuous range and Command/Ctrl for non-adjacent layers. Selected layers can be duplicated, hidden, removed or merged together. A merge creates a new raster layer; hidden sources contribute no visible pigment, and merging non-adjacent layers can alter stacking interactions with unselected layers. Undo restores the original layers.
+
+## Recovery and safety
+
+The local gallery uses IndexedDB. v0.1.19 saves painted layer pixel snapshots beside editable history to enable fast startup. A long legacy recovery can be stopped, backed up, and restarted from Gallery. Clearing a drawing cancels in-progress recovery and cannot be overwritten by stale replay.

@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.18",
-  "title": "Paint Lab v0.1.18 — Denser Oil Pigment & Startup Polish",
+  "version": "0.1.19",
+  "title": "Paint Lab v0.1.19 — Recovery Safety & Fast Resume",
   "datetime": "2026-11-21",
   "changes": [
-    "Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.",
-    "Improve bristle spacing and stroke sampling while retaining directional ridge highlights, per-strand colour pickup and paint-load controls.",
-    "Show the deployed version directly in the browser tab title.",
-    "Display a brief pastel-gradient Paint Lab title after release notes are dismissed, or on refresh when notes have already been read; the animation never blocks painting.",
-    "Open Save New with an empty name field and save an unnamed artwork as Untitled."
+    "Fix stale recovery replay painting over a cleared or replaced canvas. Clear, New, Undo and project switching invalidate in-flight restoration before pixels can be applied.",
+    "Cache full-fidelity layer pixel snapshots alongside matching IndexedDB recovery history, so subsequent restarts restore the current image without replaying hundreds of strokes.",
+    "Use cancellable, responsive legacy-history replay with a Stop restoring control. Preserve a recovery backup in Gallery before skipping a long restore.",
+    "Skip paint actions made before the most recent Clear during rebuilding, without discarding history needed for Undo or saved projects.",
+    "Throttle startup console progress logs, and fix cropping of the animated Paint Lab title."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.18",
+      "title": "Paint Lab v0.1.18 — Denser Oil Pigment & Startup Polish",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.",
+        "Improve bristle spacing and stroke sampling while retaining directional ridge highlights, per-strand colour pickup and paint-load controls.",
+        "Show the deployed version directly in the browser tab title.",
+        "Display a brief pastel-gradient Paint Lab title after release notes are dismissed, or on refresh when notes have already been read; the animation never blocks painting.",
+        "Open Save New with an empty name field and save an unnamed artwork as Untitled."
+      ]
+    },
     {
       "version": "0.1.17",
       "title": "Paint Lab v0.1.17 — Multi-select & Merge Layers",
