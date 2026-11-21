@@ -1,3 +1,13 @@
+# v0.1.26 — Reliable Mobile Touch & Oil Brush Ends (2026-11-21)
+
+- Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.
+- Block remaining fingers from painting or rotating after a multi-touch gesture until all fingers have lifted, then restore immediate single-contact drawing.
+- Use a short provisional touch grace period and per-stroke pixel rollback tiles so a late second finger cancels accidental paint without replaying the full project history.
+- Selecting a pigment or brush tip now exits any leftover layer-transform state so drawing cannot accidentally manipulate a layer pivot.
+- Make the chosen palette swatch and brush tip visibly selected, with contrast-safe insets, checkmarks, and aria-pressed states.
+- Replace zero-length oil bristle fanning, damp sudden tip-angle changes, and round solid-tip stroke endpoints without flattening the interior bristle relief; preserve separated comb, rake and fan endings.
+- Add targeted regression tests for gesture lock release, touch rollback, oil stroke finish and active UI selection.
+
 # v0.1.25 — Smear, Smudge, Blend & Effect Mode Repair (2026-11-21)
 
 - Fix Smear, Smudge, and Blend to act on existing painted pixels, rather than drawing more paint. Each uses a different retouch sampling algorithm and supports colour beneath a transparent active layer.

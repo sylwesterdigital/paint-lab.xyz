@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.25
+# Paint Lab · v0.1.26
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -172,3 +172,8 @@ The Palette header supports **XL** (8 large swatches), **M** (24), and **S** (48
 ### v0.1.24 deployment note
 
 The v0.1.23 deployment failure (`ModuleNotFoundError: No module named 'PIL'`) was caused by the public-sharing test, not by the Flask application. The test fixture now generates a valid PNG using the Python standard library; no Pillow installation or production dependency change is required. Deploy v0.1.24 instead of retrying the rejected v0.1.23 archive.
+
+
+## Mobile touch and painting (v0.1.26)
+
+Multi-touch gestures exclusively pan, pinch, and rotate the canvas while two fingers are down. The remaining finger stays navigation-only until all contacts are released. Oil brushes now start and end without the artificial bristle-fan star; active swatches and tips have strong selection markers.

@@ -1,18 +1,33 @@
 {
   "project": "paint-lab",
-  "version": "0.1.25",
-  "title": "Paint Lab v0.1.25 — Functional Smear, Smudge & Blend",
+  "version": "0.1.26",
+  "title": "Paint Lab v0.1.26 — Reliable Mobile Touch & Oil Brush Ends",
   "datetime": "2026-11-21",
   "changes": [
-    "Replace the old retouch implementation that re-stamped copied pixels with movement-driven Smear, colour-mixing Smudge and position-preserving Blend operations. These tools sample visible painted layers, not the currently selected pigment.",
-    "Smear transports paint in the pointer direction and carries a bounded brush pickup; Smudge moves and softens neighbouring pigment; Blend softens transitions without directional dragging.",
-    "Support retouch sampling from lower visible layers even when the active paint layer is transparent, while modifying only the active layer.",
-    "Prevent accidental retouch dabs when the user only taps the canvas; retouch starts with pointer movement and all operations retain editable stroke history.",
-    "Clicking the Paint tab or its tool-rail shortcut after using Effects restores Normal Brush; selecting Pencil, Chalk, Watercolour or Oil also resets the current retouch mode.",
-    "Use willReadFrequently for the cached material stamp that stylization reads, avoiding repeat Canvas2D GPU readback advisory warnings.",
-    "Move focus outside the Studio Settings drawer before hiding it and set inert to prevent blocked aria-hidden focus warnings."
+    "Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.",
+    "Block remaining fingers from painting or rotating after a multi-touch gesture until all fingers have lifted, then restore immediate single-contact drawing.",
+    "Use a short provisional touch grace period and per-stroke pixel rollback tiles so a late second finger cancels accidental paint without replaying the full project history.",
+    "Selecting a pigment or brush tip now exits any leftover layer-transform state so drawing cannot accidentally manipulate a layer pivot.",
+    "Make the chosen palette swatch and brush tip visibly selected, with contrast-safe insets, checkmarks, and aria-pressed states.",
+    "Replace zero-length oil bristle fanning, damp sudden tip-angle changes, and round solid-tip stroke endpoints without flattening the interior bristle relief; preserve separated comb, rake and fan endings.",
+    "Add targeted regression tests for gesture lock release, touch rollback, oil stroke finish and active UI selection."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.25",
+      "title": "Paint Lab v0.1.25 — Functional Smear, Smudge & Blend",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Replace the old retouch implementation that re-stamped copied pixels with movement-driven Smear, colour-mixing Smudge and position-preserving Blend operations. These tools sample visible painted layers, not the currently selected pigment.",
+        "Smear transports paint in the pointer direction and carries a bounded brush pickup; Smudge moves and softens neighbouring pigment; Blend softens transitions without directional dragging.",
+        "Support retouch sampling from lower visible layers even when the active paint layer is transparent, while modifying only the active layer.",
+        "Prevent accidental retouch dabs when the user only taps the canvas; retouch starts with pointer movement and all operations retain editable stroke history.",
+        "Clicking the Paint tab or its tool-rail shortcut after using Effects restores Normal Brush; selecting Pencil, Chalk, Watercolour or Oil also resets the current retouch mode.",
+        "Use willReadFrequently for the cached material stamp that stylization reads, avoiding repeat Canvas2D GPU readback advisory warnings.",
+        "Move focus outside the Studio Settings drawer before hiding it and set inert to prevent blocked aria-hidden focus warnings."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.24",
