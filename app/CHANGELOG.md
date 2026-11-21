@@ -1,3 +1,11 @@
+# v0.1.18 — Denser Oil Pigment & Startup Polish (2026-11-21)
+
+- Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.
+- Improve bristle spacing and stroke sampling while retaining directional ridge highlights, per-strand colour pickup and paint-load controls.
+- Show the deployed version directly in the browser tab title.
+- Display a brief pastel-gradient Paint Lab title after release notes are dismissed, or on refresh when notes have already been read; the animation never blocks painting.
+- Open Save New with an empty name field and save an unnamed artwork as Untitled.
+
 # v0.1.17 — Multi-select & Merge Layers (2026-11-21)
 
 - Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.

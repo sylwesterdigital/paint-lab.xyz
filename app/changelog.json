@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.17",
-  "title": "Paint Lab v0.1.17 — Multi-select & Merge Layers",
+  "version": "0.1.18",
+  "title": "Paint Lab v0.1.18 — Denser Oil Pigment & Startup Polish",
   "datetime": "2026-11-21",
   "changes": [
-    "Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.",
-    "Duplicate, delete, and toggle visibility for multiple selected layers in a single undoable history step.",
-    "Merge selected layers or all layers into a single raster layer at document pixel resolution, retaining visible opacity and blend results; confirm hidden and non-adjacent merge caveats before proceeding.",
-    "Show the supplied closed-eye SVG when a layer is hidden, and the existing eye icon when visible.",
-    "Preserve grouped layer actions through editable project JSON, autosave, redo/undo, and release notes."
+    "Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.",
+    "Improve bristle spacing and stroke sampling while retaining directional ridge highlights, per-strand colour pickup and paint-load controls.",
+    "Show the deployed version directly in the browser tab title.",
+    "Display a brief pastel-gradient Paint Lab title after release notes are dismissed, or on refresh when notes have already been read; the animation never blocks painting.",
+    "Open Save New with an empty name field and save an unnamed artwork as Untitled."
   ],
   "history": [
+    {
+      "version": "0.1.17",
+      "title": "Paint Lab v0.1.17 — Multi-select & Merge Layers",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.",
+        "Duplicate, delete, and toggle visibility for multiple selected layers in a single undoable history step.",
+        "Merge selected layers or all layers into a single raster layer at document pixel resolution, retaining visible opacity and blend results; confirm hidden and non-adjacent merge caveats before proceeding.",
+        "Show the supplied closed-eye SVG when a layer is hidden, and the existing eye icon when visible.",
+        "Preserve grouped layer actions through editable project JSON, autosave, redo/undo, and release notes."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.16",

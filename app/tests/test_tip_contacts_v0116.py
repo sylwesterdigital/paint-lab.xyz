@@ -8,7 +8,7 @@ class OilTipShapeContract(unittest.TestCase):
         for marker in ('function oilContactProfile(t,density)','function oilContactAt(profile,u)',
                        'function oilHeadBristles(t,requested)','const tipProfile=oilContactProfile(c.tip,density)',
                        'const shape=oilContactAt(tipProfile.profile,u)','contact:shape>.035',
-                       '(.30+.70*br.shape)',"if(['stippler','splat','grain','drycomb'].includes(c.tip)"):
+                       '(.62+.38*br.shape)',"if(['stippler','splat','grain','drycomb'].includes(c.tip)"):
             self.assertIn(marker,HTML)
         self.assertIn('const custom=customTips.get(t)',HTML)
     def test_restore_never_starts_sync_rebuild(self):
