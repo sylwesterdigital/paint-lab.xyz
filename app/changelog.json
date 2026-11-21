@@ -1,15 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.24",
-  "title": "Paint Lab v0.1.24 — Server Test Dependency Fix",
+  "version": "0.1.25",
+  "title": "Paint Lab v0.1.25 — Functional Smear, Smudge & Blend",
   "datetime": "2026-11-21",
   "changes": [
-    "Remove the undeclared Pillow/PIL dependency from the public-sharing server integration test: generate a valid RGBA PNG fixture with Python standard-library struct and zlib.",
-    "Keep public image publication and owner-isolation/revocation tests mandatory during Ubuntu deployment; no runtime Pillow dependency is needed.",
-    "Exclude transient Python test caches from checksum-verified release ZIPs and rebuild manifest.json with the project release builder.",
-    "Retain all v0.1.23 canvas sizes, share/export functionality, palette XL/M/S and colour-travel painting without changes."
+    "Replace the old retouch implementation that re-stamped copied pixels with movement-driven Smear, colour-mixing Smudge and position-preserving Blend operations. These tools sample visible painted layers, not the currently selected pigment.",
+    "Smear transports paint in the pointer direction and carries a bounded brush pickup; Smudge moves and softens neighbouring pigment; Blend softens transitions without directional dragging.",
+    "Support retouch sampling from lower visible layers even when the active paint layer is transparent, while modifying only the active layer.",
+    "Prevent accidental retouch dabs when the user only taps the canvas; retouch starts with pointer movement and all operations retain editable stroke history.",
+    "Clicking the Paint tab or its tool-rail shortcut after using Effects restores Normal Brush; selecting Pencil, Chalk, Watercolour or Oil also resets the current retouch mode.",
+    "Use willReadFrequently for the cached material stamp that stylization reads, avoiding repeat Canvas2D GPU readback advisory warnings.",
+    "Move focus outside the Studio Settings drawer before hiding it and set inert to prevent blocked aria-hidden focus warnings."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.24",
+      "title": "Paint Lab v0.1.24 — Server Test Dependency Fix",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Remove the undeclared Pillow/PIL dependency from the public-sharing server integration test: generate a valid RGBA PNG fixture with Python standard-library struct and zlib.",
+        "Keep public image publication and owner-isolation/revocation tests mandatory during Ubuntu deployment; no runtime Pillow dependency is needed.",
+        "Exclude transient Python test caches from checksum-verified release ZIPs and rebuild manifest.json with the project release builder.",
+        "Retain all v0.1.23 canvas sizes, share/export functionality, palette XL/M/S and colour-travel painting without changes."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.23",

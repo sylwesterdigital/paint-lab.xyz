@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.24
+# Paint Lab · v0.1.25
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 

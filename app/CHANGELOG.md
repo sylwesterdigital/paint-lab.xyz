@@ -1,3 +1,10 @@
+# v0.1.25 — Smear, Smudge, Blend & Effect Mode Repair (2026-11-21)
+
+- Fix Smear, Smudge, and Blend to act on existing painted pixels, rather than drawing more paint. Each uses a different retouch sampling algorithm and supports colour beneath a transparent active layer.
+- Returning to Paint or selecting Pencil, Chalk, Watercolour, or Oil resets retouch mode.
+- Eliminate initial retouch marks before the pointer moves.
+- Fix repeated stylization readback warnings; move keyboard focus out of the closing Studio Settings drawer before applying aria-hidden.
+
 # v0.1.24 — Server Test Dependency Fix (2026-11-21)
 
 - Repair Ubuntu release validation: the public-sharing integration test generated its PNG with Pillow although Pillow was not a declared runtime dependency.
