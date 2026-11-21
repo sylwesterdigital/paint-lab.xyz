@@ -1,4 +1,4 @@
-"""Release v0.1.27: mobile gesture cancellation, oil endpoint and chosen-tool markers.
+"""Release v0.1.28: mobile gesture cancellation, oil endpoint and chosen-tool markers.
 
 These contracts run on Ubuntu with no browser; local Chromium interaction tests
 exercise actual multi-touch state and canvas painting paths.
@@ -14,8 +14,8 @@ SRC=(APP/'frontend/index.html').read_text()
 
 class MobileTouchAndOilEnds(unittest.TestCase):
     def test_release_number_and_changelog(self):
-        self.assertEqual(json.loads((APP/'changelog.json').read_text())['version'],'0.1.27')
-        self.assertIn('<title>Paint Lab v0.1.27</title>',SRC)
+        self.assertEqual(json.loads((APP/'changelog.json').read_text())['version'],'0.1.28')
+        self.assertIn('<title>Paint Lab v0.1.28</title>',SRC)
 
     def test_two_live_fingers_required(self):
         self.assertIn('if(touchPointers.size<2||gesture||gestureBlockedUntilAllUp)return;',SRC)

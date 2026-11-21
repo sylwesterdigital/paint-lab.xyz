@@ -1,3 +1,11 @@
+# v0.1.28 — Continuous Pencil Rendering (2026-11-21)
+
+- Pencil strokes now follow continuous quadratic paths with round joins instead of placing spaced pigment stamps.
+- Pencil size maps to a narrow lead contact; hardness adjusts edge softness and pigment density, with limited pressure dynamics.
+- Color remains the selected pencil hue; palette colour travel continues to work.
+- Legacy drawing history retains its original rendering path; new Pencil strokes save the new engine version.
+- Browser tests cover long and sparse point paths, uninterrupted opacity and chosen colour.
+
 # v0.1.27 — Velocity-Sensitive Oil Brush Lift (2026-11-21)
 
 - Replace the detached circular cap and the uniform clipped end with a curved-path brush lift tied to recorded velocity and stylus pressure.

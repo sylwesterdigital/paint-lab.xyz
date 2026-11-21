@@ -102,3 +102,5 @@ Paint Lab v0.1.25: Smear, Smudge, and Blend operate on source pixels, and the Pa
 Multi-touch gestures exclusively pan, pinch, and rotate the canvas while two fingers are down. The remaining finger stays navigation-only until all contacts are released. Oil brushes now start and end without the artificial bristle-fan star; active swatches and tips have strong selection markers.
 
 Paint Lab v0.1.27 improves physically motivated oil-brush lift and release behaviour based on pen pressure and motion deceleration. It is a bounded 2D wet-pigment model, not yet a GPU fluid/paint-thickness simulation.
+
+Paint Lab v0.1.28 uses a dedicated, continuous Pencil drawing path distinct from stamp-based brushes. New history actions save an explicit pencil engine version so old projects are not silently altered.

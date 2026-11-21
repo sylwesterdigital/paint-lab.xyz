@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.27",
-  "title": "Paint Lab v0.1.27 \u2014 Velocity-Sensitive Oil Brush Lift",
+  "version": "0.1.28",
+  "title": "Paint Lab v0.1.28 \u2014 Continuous Pencil Rendering",
   "datetime": "2026-11-21",
   "changes": [
-    "Replace the separate artificial round endpoint and simple tangent-based cutoff with a path-aware final contact model using actual stroke motion and original paint underlay.",
-    "Estimate end-of-stroke deceleration from recorded pointer positions and event timestamps: slower releases produce longer, narrower tails, while quick releases remain more abrupt.",
-    "Account for Apple Pencil end pressure and brush-tip family: pointed brushes and liners taper to thin ends; round, filbert and mop taper moderately; flat, bright and chisel shapes retain relatively abrupt ends; fans, rakes and combs keep separated hairs.",
-    "Keep loaded bristle pigment, grain and existing layers stable at the endpoint; taper the already-painted contact area without stamping a translucent disc or creating a second visible brush mark.",
-    "Bound final-contact readback and processing cost for mobile use, with deterministic replay and browser pixel checks comparing fast/slow round, flat, liner and fan releases."
+    "Replace the normal Pencil dab-stamp path with a dedicated continuous quadratic-curve graphite stroke; remove periodic gaps and circular translucent footprints, including at large canvas zoom.",
+    "Make the Pencil contact patch much narrower than a paint brush and constrain pressure-driven width changes; pencil hardness now controls edge softness and pigment density.",
+    "Use the chosen pencil colour throughout the stroke, including palette colour travel; render single taps as small solid lead contacts rather than huge round brush stamps.",
+    "Preserve historical appearance for previously saved strokes: new strokes record pencilEngine=continuous-v1 in editable history; legacy strokes keep their original replay engine.",
+    "Verify connected rendering across dense and sparse pointer samples at full-opacity hard pencil and softer coloured pencil settings; check browser JavaScript and release checksums."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.27",
+      "title": "Paint Lab v0.1.27 \u2014 Velocity-Sensitive Oil Brush Lift",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Replace the separate artificial round endpoint and simple tangent-based cutoff with a path-aware final contact model using actual stroke motion and original paint underlay.",
+        "Estimate end-of-stroke deceleration from recorded pointer positions and event timestamps: slower releases produce longer, narrower tails, while quick releases remain more abrupt.",
+        "Account for Apple Pencil end pressure and brush-tip family: pointed brushes and liners taper to thin ends; round, filbert and mop taper moderately; flat, bright and chisel shapes retain relatively abrupt ends; fans, rakes and combs keep separated hairs.",
+        "Keep loaded bristle pigment, grain and existing layers stable at the endpoint; taper the already-painted contact area without stamping a translucent disc or creating a second visible brush mark.",
+        "Bound final-contact readback and processing cost for mobile use, with deterministic replay and browser pixel checks comparing fast/slow round, flat, liner and fan releases."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.26",
