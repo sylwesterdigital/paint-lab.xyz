@@ -1,3 +1,57 @@
+# v0.1.29 — Oil Brush Touchdown and Lift-off (2026-11-21)
+
+- Correct oil brush touchdown and lift-off together with tip-family-specific contact envelopes: strokes expand from a narrow initial contact and narrow again without separated disc caps or rectangular cutoffs.
+- Derive start response from recorded initial pressure and acceleration; derive release from deceleration and final pressure, retaining distinct flat, fan, round, and liner endpoints.
+- Limit taper regions on short strokes, preserve underlying pigment when reducing the deposited footprint, and keep pixel readbacks bounded for touch devices.
+- Study user-provided Brushwork VR shader architecture: brush contact depth, separate load and pickup textures, pigment deposition and canvas-height shading; document the larger GPU renderer requirements without claiming a fluid solver.
+- Run Chromium alpha-profile, short-stroke connectivity, pen-pressure and brush-family rendering checks; verify the deployment ZIP manifest and hashes.
+- Speed up release validation by compiling all Python files in one subprocess; watcher v0.1.3 retains SHA-256 manifest checks and the same deployment gates.
+
+# v0.1.28 — Continuous Pencil Rendering (2026-11-21)
+
+- Pencil strokes now follow continuous quadratic paths with round joins instead of placing spaced pigment stamps.
+- Pencil size maps to a narrow lead contact; hardness adjusts edge softness and pigment density, with limited pressure dynamics.
+- Color remains the selected pencil hue; palette colour travel continues to work.
+- Legacy drawing history retains its original rendering path; new Pencil strokes save the new engine version.
+- Browser tests cover long and sparse point paths, uninterrupted opacity and chosen colour.
+
+# v0.1.27 — Velocity-Sensitive Oil Brush Lift (2026-11-21)
+
+- Replace the detached circular cap and the uniform clipped end with a curved-path brush lift tied to recorded velocity and stylus pressure.
+- Slow releases form a longer narrowing tail; quick movement releases more abruptly, without adding a half-disc.
+- Apply tip-specific release profiles: pointed/liner, round/filbert/mop, flat/chisel, and separated comb/rake/fan deposits.
+- Preserve original underpainting and active bristle relief using bounded, deterministic endpoint processing. This remains a 2D wet-paint approximation, not a full GPU fluid solver.
+
+# v0.1.26 — Reliable Mobile Touch & Oil Brush Ends (2026-11-21)
+
+- Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.
+- Block remaining fingers from painting or rotating after a multi-touch gesture until all fingers have lifted, then restore immediate single-contact drawing.
+- Use a short provisional touch grace period and per-stroke pixel rollback tiles so a late second finger cancels accidental paint without replaying the full project history.
+- Selecting a pigment or brush tip now exits any leftover layer-transform state so drawing cannot accidentally manipulate a layer pivot.
+- Make the chosen palette swatch and brush tip visibly selected, with contrast-safe insets, checkmarks, and aria-pressed states.
+- Replace zero-length oil bristle fanning, damp sudden tip-angle changes, and round solid-tip stroke endpoints without flattening the interior bristle relief; preserve separated comb, rake and fan endings.
+- Add targeted regression tests for gesture lock release, touch rollback, oil stroke finish and active UI selection.
+
+# v0.1.25 — Smear, Smudge, Blend & Effect Mode Repair (2026-11-21)
+
+- Fix Smear, Smudge, and Blend to act on existing painted pixels, rather than drawing more paint. Each uses a different retouch sampling algorithm and supports colour beneath a transparent active layer.
+- Returning to Paint or selecting Pencil, Chalk, Watercolour, or Oil resets retouch mode.
+- Eliminate initial retouch marks before the pointer moves.
+- Fix repeated stylization readback warnings; move keyboard focus out of the closing Studio Settings drawer before applying aria-hidden.
+
+# v0.1.24 — Server Test Dependency Fix (2026-11-21)
+
+- Repair Ubuntu release validation: the public-sharing integration test generated its PNG with Pillow although Pillow was not a declared runtime dependency.
+- Build the same fully valid 4×4 PNG using only Python `struct` and `zlib`, so all server-side sharing and revocation tests still execute.
+- Exclude local pytest/mypy/ruff caches from release manifests. No application features or persistence formats are changed.
+
+# v0.1.23 — Portable Artworks, Canvas Presets & Sharing (2026-11-21)
+
+- New Canvas presets and custom pixel dimensions, optional artwork naming.
+- ZIP project export/import with editable history, layer PNGs, brush assets and preview.
+- Save-dialog PNG shortcuts and Web Share image support.
+- Opt-in public image publishing with private-account ownership, revocation and public gallery.
+
 # v0.1.22 — Pointer-anchored desktop transforms and verified releases (2026-11-21)
 
 - Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.
