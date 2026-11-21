@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.28
+# Paint Lab · v0.1.29
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -177,3 +177,7 @@ The v0.1.23 deployment failure (`ModuleNotFoundError: No module named 'PIL'`) wa
 ## Mobile touch and painting (v0.1.26)
 
 Multi-touch gestures exclusively pan, pinch, and rotate the canvas while two fingers are down. The remaining finger stays navigation-only until all contacts are released. Oil brushes now start and end without the artificial bristle-fan star; active swatches and tips have strong selection markers.
+
+### Release watcher v0.1.3
+
+Python syntax validation now uses a single `compileall` invocation rather than spawning dozens of separate interpreter processes. Checksums, archive rules, local tests, server tests and rollback prerequisites are unchanged.

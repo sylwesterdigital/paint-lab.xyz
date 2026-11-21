@@ -10,7 +10,7 @@ from pathlib import Path,PurePosixPath
 
 ROOT=Path(sys.argv[1]).resolve();sys.argv=[sys.argv[0]]+sys.argv[2:]
 UPDATES=ROOT/'updates';UPLOADS=ROOT/'uploads';STATE=ROOT/'.paint-lab'
-VERSION='0.1.2'
+VERSION='0.1.3'
 ZIP_RE=re.compile(r'^PAINT_LAB_RELEASE_v(\d+\.\d+\.\d+)\.zip$')
 REPO='git@github.com:sylwesterdigital/paint-lab.xyz.git'
 HOST=os.getenv('PAINT_LAB_SSH_HOST','root@46.62.232.64')
@@ -154,8 +154,9 @@ def validate(archive,stage):
             raise BadArchive('HTML version marker missing')
         if 'id="toolRail"' not in html or 'id="layersPanel"' not in html or 'id="materialQuick"' not in html:
             raise BadArchive('Required Paint Lab editor controls missing')
-        for path in (stage/'app').rglob('*.py'):
-            command([sys.executable,'-m','py_compile',path],timeout=15)
+        # Compile all Python modules in one process; spawning a subprocess for
+        # every file can exceed validation time limits on busy macOS runners.
+        command([sys.executable,'-m','compileall','-q',stage/'app'],timeout=60)
         if shutil.which('node'):
             script=re.findall(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',html)
             if not script:raise BadArchive('Inline painting app script missing')

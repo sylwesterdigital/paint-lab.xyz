@@ -104,3 +104,7 @@ Multi-touch gestures exclusively pan, pinch, and rotate the canvas while two fin
 Paint Lab v0.1.27 improves physically motivated oil-brush lift and release behaviour based on pen pressure and motion deceleration. It is a bounded 2D wet-pigment model, not yet a GPU fluid/paint-thickness simulation.
 
 Paint Lab v0.1.28 uses a dedicated, continuous Pencil drawing path distinct from stamp-based brushes. New history actions save an explicit pencil engine version so old projects are not silently altered.
+
+### Oil contact progression (v0.1.29)
+
+The current 2D oil engine now shapes initial contact and lift-off according to brush family and pointer motion, avoiding synthetic endpoint discs. A staged path toward independent pigment/wetness/height buffers is documented in [Painting simulation research](docs/PAINT_SIMULATION_RESEARCH.md). Brushwork VR is used as a technical reference; this release does not import its code or implement its GPU paint-height solver.

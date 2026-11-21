@@ -24,8 +24,8 @@ class StylizeTests(unittest.TestCase):
   self.assertIn('strokeStyle,styleCell,styleAmount,customTips:',JS)
  def test_history_and_docs(self):
   v=json.loads((ROOT/'version.json').read_text())['version']
-  self.assertEqual(v,'0.1.28')
+  self.assertEqual(v,'0.1.29')
   log=json.loads((ROOT/'changelog.json').read_text());self.assertEqual(log['version'],v)
-  self.assertEqual(log['history'][0]['version'],'0.1.27')
+  self.assertEqual(log['history'][0]['version'],'0.1.28')
   self.assertIn('David Li',(ROOT/'CHANGELOG.md').read_text())
 if __name__=='__main__':unittest.main()
