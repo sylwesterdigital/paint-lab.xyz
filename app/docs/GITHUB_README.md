@@ -97,3 +97,7 @@ The Palette header supports **XL** (8 large swatches), **M** (24), and **S** (48
 ## Mobile touch and painting (v0.1.26)
 
 Multi-touch gestures exclusively pan, pinch, and rotate the canvas while two fingers are down. The remaining finger stays navigation-only until all contacts are released. Oil brushes now start and end without the artificial bristle-fan star; active swatches and tips have strong selection markers.
+
+## v0.1.30 release integrity
+
+The development-log UI must match the running release version, even when offline. The deterministic release builder and watcher v0.1.4 reject embedded/history mismatches, and the browser smoke test opens the actual dialog. New oil strokes also interpolate sparse pointer samples and use bounded endpoint tiles on high-resolution canvases; legacy stroke actions are replayed unchanged. The painting engine remains a raster approximation; independent GPU pigment and height buffers are still research.

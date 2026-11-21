@@ -108,3 +108,7 @@ Paint Lab v0.1.28 uses a dedicated, continuous Pencil drawing path distinct from
 ### Oil contact progression (v0.1.29)
 
 The current 2D oil engine now shapes initial contact and lift-off according to brush family and pointer motion, avoiding synthetic endpoint discs. A staged path toward independent pigment/wetness/height buffers is documented in [Painting simulation research](docs/PAINT_SIMULATION_RESEARCH.md). Brushwork VR is used as a technical reference; this release does not import its code or implement its GPU paint-height solver.
+
+## Release-history reliability (v0.1.30)
+
+The version displayed in What's New now comes from the packaged version-matched release history, with a verified same-version network refresh. The release build and deployment watcher reject stale embedded notes and unequal changelog copies. The same release fixes missing pigment after sparse oil-stylus samples and shapes high-DPI endpoints in bounded tiles. Existing saved strokes remain on their legacy rendering path. This release does not introduce a GPU-based paint solver.

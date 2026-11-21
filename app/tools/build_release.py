@@ -3,6 +3,7 @@
 from __future__ import annotations
 import hashlib,json,re,zipfile,sys
 from pathlib import Path
+from sync_devlog import validate_or_sync
 
 ROOT=Path(__file__).resolve().parents[2]
 APP=ROOT/'app'
@@ -15,6 +16,8 @@ def build():
         if json.loads(file.read_text()).get('version')!=VERSION:raise SystemExit('Version mismatch: '+str(file))
     if f'<meta name="paint-lab-version" content="{VERSION}">' not in (APP/'frontend/index.html').read_text():
         raise SystemExit('Version mismatch: HTML')
+    try:validate_or_sync(write=False)
+    except ValueError as exc:raise SystemExit(str(exc)) from exc
     if not WATCHER.is_file():raise SystemExit('Missing watch-paint-lab.sh')
     paths=[]
     for path in APP.rglob('*'):

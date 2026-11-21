@@ -1,17 +1,46 @@
 {
   "project": "paint-lab",
-  "version": "0.1.29",
-  "title": "Paint Lab v0.1.29 — Oil Brush Touchdown and Lift-off",
+  "version": "0.1.31",
+  "title": "Paint Lab v0.1.31 — Production Test Layout Repair",
   "datetime": "2026-11-21",
   "changes": [
-    "Correct oil brush touchdown and lift-off together with tip-family-specific contact envelopes: strokes expand from a narrow initial contact and narrow again without separated disc caps or rectangular cutoffs.",
-    "Derive start response from recorded initial pressure and acceleration; derive release from deceleration and final pressure, retaining distinct flat, fan, round, and liner endpoints.",
-    "Limit taper regions on short strokes, preserve underlying pigment when reducing the deposited footprint, and keep pixel readbacks bounded for touch devices.",
-    "Study user-provided Brushwork VR shader architecture: brush contact depth, separate load and pickup textures, pigment deposition and canvas-height shading; document the larger GPU renderer requirements without claiming a fluid solver.",
-    "Run Chromium alpha-profile, short-stroke connectivity, pen-pressure and brush-family rendering checks; verify the deployment ZIP manifest and hashes.",
-    "Speed up release validation by compiling all Python files in one subprocess; watcher v0.1.3 retains SHA-256 manifest checks and the same deployment gates."
+    "Fix the Ubuntu deployment blocker introduced in v0.1.30: the release-integrity regression no longer assumes the macOS watcher exists beside the installed application. The test validates both the packaged source tree and the actual app-only Ubuntu release layout without masking failures.",
+    "Upgrade the packaged release watcher to v0.1.5 and run the complete Python suite a second time in an isolated releases/vX.Y.Z directory containing only app/ files, matching what install.py actually deploys. Reject incompatible releases before SSH deployment.",
+    "Keep the existing canonical development-log validation, version-matched offline UI, SHA-256 manifest, Python/JavaScript checks, preflight gates, staged deployment and rollback safeguards.",
+    "Retain v0.1.30 oil-brush sparse-sample interpolation, bounded high-DPI endpoint rendering and legacy editable-stroke replay compatibility. This release repairs packaging and deployment validation; it does not introduce a new paint solver.",
+    "Preserve the complete development history, including v0.1.30 and v0.1.29, and add regression coverage for version markers, embedded notes and the production-specific test layout."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.30",
+      "title": "Paint Lab v0.1.30 — Release Log Integrity & UI Reliability",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Correct the v0.1.26 What’s New dialog in later releases by embedding the complete current changelog from one canonical source; display v0.1.30 instantly while preserving previous releases for offline viewing.",
+        "Fetch release notes only for the running app version; validate project, version, title and history, preserve the selected tab, and stop stale asynchronous results from replacing newer dialogs.",
+        "Add deterministic history generation plus strict validation in the ZIP builder and watcher v0.1.4; reject packages whose embedded, canonical and public release logs disagree before production deployment.",
+        "Repair oil-paint continuity after sparse stylus samples and large pointer jumps: adaptively subdivide travel with interpolated pressure and timestamps rather than dropping oversized patches or spacing 120 dabs too far apart.",
+        "Shape larger high-DPI oil touchdown/lift-off footprints using bounded 256×256 pixel tiles rather than silently skipping the entire endpoint when its bounding rectangle exceeds the old 850,000-pixel limit.",
+        "Version the adaptive oil-sampling engine per new stroke so already-saved projects retain the legacy replay path. Keep painting, layer and project formats compatible.",
+        "Add Chromium pixel regressions for round, flat and rigger sparse oil strokes at 1× and 1.5× DPR, plus versioned-log dialog tests covering offline, stale network data, reopen and once-per-release behaviour.",
+        "Continue to distinguish the 2D raster oil approximation from the future GPU pigment, wetness and paint-height architecture. No GPU fluid or height-field solver is claimed in this release."
+      ]
+    },
+    {
+      "project": "paint-lab",
+      "version": "0.1.29",
+      "title": "Paint Lab v0.1.29 — Oil Brush Touchdown and Lift-off",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Correct oil brush touchdown and lift-off together with tip-family-specific contact envelopes: strokes expand from a narrow initial contact and narrow again without separated disc caps or rectangular cutoffs.",
+        "Derive start response from recorded initial pressure and acceleration; derive release from deceleration and final pressure, retaining distinct flat, fan, round, and liner endpoints.",
+        "Limit taper regions on short strokes, preserve underlying pigment when reducing the deposited footprint, and keep pixel readbacks bounded for touch devices.",
+        "Study user-provided Brushwork VR shader architecture: brush contact depth, separate load and pickup textures, pigment deposition and canvas-height shading; document the larger GPU renderer requirements without claiming a fluid solver.",
+        "Run Chromium alpha-profile, short-stroke connectivity, pen-pressure and brush-family rendering checks; verify the deployment ZIP manifest and hashes.",
+        "Speed up release validation by compiling all Python files in one subprocess; watcher v0.1.3 retains SHA-256 manifest checks and the same deployment gates."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.28",

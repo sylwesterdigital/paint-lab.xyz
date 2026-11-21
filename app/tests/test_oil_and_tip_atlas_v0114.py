@@ -15,7 +15,7 @@ class OilAtlasTests(unittest.TestCase):
   self.assertIn('const patch=paint.getImageData(x0,y0,patchW,patchH)',JS)
   self.assertIn('paint.putImageData(patch,x0,y0)',JS)
   self.assertIn('if(area>2100000)return',JS)
-  self.assertIn('oilContactStroke(s,a,b);return;',JS)
+  self.assertIn('oilContactStroke(s,previous,next);previous=next;',JS)
   self.assertIn('const reflectance=',JS)
  def test_no_invert_canvas_allocation_per_dab(self):
   self.assertIn('const invertMaskCanvas=document.createElement(\'canvas\')',JS)

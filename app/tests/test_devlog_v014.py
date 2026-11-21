@@ -11,7 +11,7 @@ class ReleaseLogTests(unittest.TestCase):
   self.assertEqual(latest['version'],version)
   self.assertEqual(latest['version'],json.loads((APP/'frontend/version.json').read_text())['version'])
   self.assertGreaterEqual(len(latest['history']),4)
-  self.assertEqual([entry['version'] for entry in latest['history']][:4],['0.1.28','0.1.27','0.1.26','0.1.25'])
+  self.assertEqual([entry['version'] for entry in latest['history']][:4],['0.1.30','0.1.29','0.1.28','0.1.27'])
   self.assertEqual(latest['history'][-1]['version'],'0.1.0')
   for entry in [latest,*latest['history']]:self.assertTrue(entry.get('changes'))
  def test_modal_and_toolbar_exist(self):
@@ -21,7 +21,7 @@ class ReleaseLogTests(unittest.TestCase):
   self.assertIn("const DEVLOG_SEEN_KEY='paint-lab-devlog-seen-v1'",html)
   self.assertIn('window.setTimeout(()=>{if(safeLocalGet(DEVLOG_SEEN_KEY)',html)
   self.assertIn("fetch(`./changelog.json?v=",html)
-  self.assertIn('if(!data||data.version!==version)data=DEVLOG_FALLBACK',html)
+  self.assertIn('return devLogValid(data)?data:null',html)
   self.assertIn('https://github.com/sylwesterdigital/paint-lab.xyz/blob/main/CHANGELOG.md',html)
  def test_canonical_docs(self):
   for name in ('ABOUT.md','CHANGELOG.md','docs/GITHUB_README.md'):

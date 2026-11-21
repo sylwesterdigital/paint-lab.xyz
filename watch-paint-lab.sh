@@ -10,7 +10,7 @@ from pathlib import Path,PurePosixPath
 
 ROOT=Path(sys.argv[1]).resolve();sys.argv=[sys.argv[0]]+sys.argv[2:]
 UPDATES=ROOT/'updates';UPLOADS=ROOT/'uploads';STATE=ROOT/'.paint-lab'
-VERSION='0.1.3'
+VERSION='0.1.5'
 ZIP_RE=re.compile(r'^PAINT_LAB_RELEASE_v(\d+\.\d+\.\d+)\.zip$')
 REPO='git@github.com:sylwesterdigital/paint-lab.xyz.git'
 HOST=os.getenv('PAINT_LAB_SSH_HOST','root@46.62.232.64')
@@ -150,6 +150,14 @@ def validate(archive,stage):
                 if not content.startswith('# ') or 'https://paint-lab.xyz/' not in content:
                     raise BadArchive('Incomplete public project documentation '+file)
         html=(stage/'app/frontend/index.html').read_text()
+        # v0.1.30+: the UI's instant/offline notes must be identical to the
+        # public changelog, not merely the right version in version.json.
+        marker=re.search(r'^const DEVLOG_FALLBACK=(\{[^\n]+\});$',html,re.M)
+        if not marker:raise BadArchive('Packaged development log missing')
+        try:embedded=json.loads(marker.group(1))
+        except ValueError:raise BadArchive('Invalid packaged development log')
+        if embedded!=main_log or embedded.get('version')!=version:
+            raise BadArchive('Embedded development log does not match current release')
         if f'<meta name="paint-lab-version" content="{version}">' not in html:
             raise BadArchive('HTML version marker missing')
         if 'id="toolRail"' not in html or 'id="layersPanel"' not in html or 'id="materialQuick"' not in html:
@@ -168,6 +176,17 @@ def validate(archive,stage):
         tests=command([sys.executable,'-m','unittest','discover','-s','tests','-v'],cwd=stage/'app',timeout=90)
         if 'FAILED' in tests.stdout+tests.stderr:raise BadArchive('Tests failed')
         if 'skipped=' in tests.stderr:say('Missing local Flask dependencies: API tests skipped locally; server tests mandatory','WARN')
+        # Ubuntu install.py copies ONLY stage/app into releases/vX.Y.Z. The
+        # watcher and manifest are NOT next to the installed application. Run
+        # the entire suite in that exact app-only layout before SSH deployment;
+        # a test that assumes APP.parent/watch-paint-lab.sh must fail here.
+        with tempfile.TemporaryDirectory(prefix='paint-lab-installed-layout-') as simulated_root:
+            server_app=Path(simulated_root)/'releases'/('v'+version)
+            shutil.copytree(stage/'app',server_app)
+            server_tests=command([sys.executable,'-m','unittest','discover','-s','tests','-v'],cwd=server_app,timeout=90)
+            if 'FAILED' in server_tests.stdout+server_tests.stderr:
+                raise BadArchive('Installed-layout regression suite failed')
+            say('App-only Ubuntu releases/v'+version+' test layout verified','PASS')
         for d in (stage/'app').rglob('__pycache__'):shutil.rmtree(d,ignore_errors=True)
         say('ZIP hashes, Python, UI markers, JavaScript syntax (when installed), tests OK','PASS')
         return version,info

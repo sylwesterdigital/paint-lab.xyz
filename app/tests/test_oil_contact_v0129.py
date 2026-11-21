@@ -8,15 +8,15 @@ SOURCE=(ROOT/'frontend/index.html').read_text()
 
 class OilContactV29(unittest.TestCase):
     def test_release_version(self):
-        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.29')
-        self.assertIn('<title>Paint Lab v0.1.29</title>',SOURCE)
+        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.31')
+        self.assertIn('<title>Paint Lab v0.1.31</title>',SOURCE)
     def test_entry_and_exit_contact_profiles(self):
         for marker in ('function oilEntryBehaviour(', 'function oilEntryMetrics(',
                        'function oilReleaseMetrics(', 'function oilEnvelopeSegments(',
                        'function sculptOilEnvelope(', "sculptOilEnvelope(s,'start')",
                        "sculptOilEnvelope(s,'end')", 'startPressure','endPressure',
-                       'acceleration', 'slowing', 'const antialias=',
-                       'originalOilPigment(run,x0+px,y0+py)'):
+                       'acceleration', 'slowing', 'antialias=Math.max(',
+                       'originalOilPigment(run,tileX+px,tileY+py)'):
             self.assertIn(marker,SOURCE)
     def test_contact_is_narrow_at_both_ends(self):
         body=SOURCE[SOURCE.index('function sculptOilEnvelope('):SOURCE.index('function finishOilStroke(')]
@@ -34,7 +34,7 @@ class OilContactV29(unittest.TestCase):
         watcher_path=ROOT.parent/'watch-paint-lab.sh'
         if watcher_path.is_file():
             watcher=watcher_path.read_text()
-            self.assertIn("VERSION='0.1.3'",watcher)
+            self.assertIn("VERSION='0.1.5'",watcher)
             self.assertIn("'-m','compileall','-q'",watcher)
         else:
             self.assertTrue((ROOT/'version.json').is_file())

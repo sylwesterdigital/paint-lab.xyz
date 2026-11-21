@@ -7,11 +7,11 @@ SRC=(ROOT/'frontend/index.html').read_text()
 
 class OilLiftTests(unittest.TestCase):
  def test_version(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.29')
-  self.assertIn('<title>Paint Lab v0.1.29</title>',SRC)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.31')
+  self.assertIn('<title>Paint Lab v0.1.31</title>',SRC)
  def test_model(self):
   body=SRC[SRC.index('function oilReleaseBehaviour('):SRC.index('// v0.1.29: A graphite pencil')]
-  for key in ['function oilReleaseMetrics(', 'function finishOilStroke(', 'slowing', 'endPressure', 'tipWidth', 'originalOilPigment(', 'const segments=[]', 'profile.length', 'const antialias=', 'const excess=', 'paint.putImageData(image,x0,y0)']:
+  for key in ['function oilReleaseMetrics(', 'function finishOilStroke(', 'slowing', 'endPressure', 'tipWidth', 'originalOilPigment(', 'const segments=[]', 'profile.length', 'antialias=Math.max(', 'const excess=', 'paint.putImageData(image,tileX,tileY)']:
    self.assertIn(key,body)
   self.assertNotIn('ctx.arc(',body)
   self.assertNotIn('paint.arc(',body)
@@ -22,6 +22,6 @@ class OilLiftTests(unittest.TestCase):
  def test_replay_and_live_finish(self):
   self.assertIn('finishStrokeRender(a);delete a._run;',SRC)
   self.assertIn('finishStrokeRender(s);s._run=null;',SRC)
-  self.assertIn('oilContactStroke(s,a,b);return;',SRC)
-  self.assertIn('if(w*h>850000)return;',SRC)
+  self.assertIn('oilContactStroke(s,previous,next);previous=next;',SRC)
+  self.assertIn('const TILE=256,antialias=',SRC)
 if __name__=='__main__':unittest.main()
