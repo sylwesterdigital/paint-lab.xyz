@@ -1,3 +1,16 @@
+# v0.1.24 — Server Test Dependency Fix (2026-11-21)
+
+- Repair Ubuntu release validation: the public-sharing integration test generated its PNG with Pillow although Pillow was not a declared runtime dependency.
+- Build the same fully valid 4×4 PNG using only Python `struct` and `zlib`, so all server-side sharing and revocation tests still execute.
+- Exclude local pytest/mypy/ruff caches from release manifests. No application features or persistence formats are changed.
+
+# v0.1.23 — Portable Artworks, Canvas Presets & Sharing (2026-11-21)
+
+- New Canvas presets and custom pixel dimensions, optional artwork naming.
+- ZIP project export/import with editable history, layer PNGs, brush assets and preview.
+- Save-dialog PNG shortcuts and Web Share image support.
+- Opt-in public image publishing with private-account ownership, revocation and public gallery.
+
 # v0.1.22 — Pointer-anchored desktop transforms and verified releases (2026-11-21)
 
 - Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.

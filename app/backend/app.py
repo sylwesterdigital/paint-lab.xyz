@@ -1,12 +1,12 @@
 """Paint Lab: browser painting frontend, private SQLite canvases, provider vault and WebSocket events."""
 from __future__ import annotations
-import json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.request,uuid,logging,collections
+import json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.request,uuid,logging,collections,base64,binascii,struct,html
 from datetime import timedelta,datetime,timezone
 from functools import wraps
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from urllib.parse import urlsplit
-from flask import Flask,abort,g,jsonify,request,session,send_from_directory
+from flask import Flask,abort,g,jsonify,request,session,send_from_directory,send_file,Response,url_for
 from flask_sock import Sock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -286,6 +286,113 @@ def delete_project(project_id):
     if not result.rowcount:return jsonify(error='Project not found'),404
     broadcast(user(),'project_deleted',str(project_id))
     return jsonify(ok=True)
+
+
+# Public image publishing is explicitly opt-in, separate from private cloud projects.
+# Only PNG images and public username/title are exposed; editable documents and keys
+# are never served by these endpoints. Files persist outside versioned releases.
+PUBLIC_DIR=DATA/'public'
+PUBLIC_DIR.mkdir(parents=True,exist_ok=True)
+PUBLIC_IMAGE_LIMIT=7*1024*1024
+
+def publication_link(token):
+    return request.url_root.rstrip('/')+url_for('view_publication',token=token)
+
+def public_space_link(username):
+    return request.url_root.rstrip('/')+url_for('public_user_space',username=username)
+
+def publication_record(row):
+    return dict(token=row['token'],title=row['title'],created_at=row['created_at'],
+                url=publication_link(row['token']),image_url=request.url_root.rstrip('/')+url_for('publication_image',token=row['token']))
+
+def check_public_png(data):
+    if not isinstance(data,str) or len(data)>PUBLIC_IMAGE_LIMIT*1.4+256 or not data.startswith('data:image/png;base64,'):
+        raise ValueError('Provide a PNG image smaller than 7 MB')
+    try:raw=base64.b64decode(data.split(',',1)[1],validate=True)
+    except (binascii.Error,ValueError):raise ValueError('Invalid PNG encoding')
+    if len(raw)>PUBLIC_IMAGE_LIMIT or len(raw)<32 or raw[:8]!=b'\x89PNG\r\n\x1a\n' or raw[12:16]!=b'IHDR':
+        raise ValueError('Invalid or oversized PNG')
+    width,height=struct.unpack('>II',raw[16:24]);
+    if not 1<=width<=8192 or not 1<=height<=8192 or width*height>16_000_000:
+        raise ValueError('Unsupported image dimensions')
+    return raw
+
+@app.get('/api/publications')
+@auth
+def list_publications():
+    rows=con().execute('SELECT token,title,created_at FROM publications WHERE owner_id=? ORDER BY created_at DESC LIMIT 100',(user(),)).fetchall()
+    return jsonify(publications=[publication_record(row) for row in rows],
+        public_space=public_space_link(con().execute('SELECT username FROM users WHERE id=?',(user(),)).fetchone()['username']))
+
+@app.post('/api/publications')
+@auth
+def publish_artwork():
+    require_csrf();data=payload()
+    try:name=title(data.get('title','Untitled'));raw=check_public_png(data.get('image'))
+    except (ValueError,TypeError) as e:return jsonify(error=str(e)),400
+    if con().execute('SELECT count(*) FROM publications WHERE owner_id=?',(user(),)).fetchone()[0]>=50:
+        return jsonify(error='Maximum 50 public images per account'),409
+    token=secrets.token_urlsafe(20);file_name=token+'.png'
+    # Exclusive file creation and owner-only write permissions; never accept a path from the request.
+    image_path=PUBLIC_DIR/file_name
+    try:
+        with image_path.open('xb') as stream:stream.write(raw)
+        image_path.chmod(0o600)
+        with con():con().execute('INSERT INTO publications(token,owner_id,title,file_name) VALUES(?,?,?,?)',(token,user(),name,file_name))
+    except Exception:
+        image_path.unlink(missing_ok=True)
+        raise
+    row=con().execute('SELECT token,title,created_at FROM publications WHERE token=?',(token,)).fetchone()
+    return jsonify(ok=True,**publication_record(row)),201
+
+@app.delete('/api/publications/<token>')
+@auth
+def revoke_publication(token):
+    require_csrf()
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):return jsonify(error='Invalid publication'),404
+    row=con().execute('SELECT file_name FROM publications WHERE token=? AND owner_id=?',(token,user())).fetchone()
+    if not row:return jsonify(error='Not found'),404
+    with con():con().execute('DELETE FROM publications WHERE token=? AND owner_id=?',(token,user()))
+    (PUBLIC_DIR/row['file_name']).unlink(missing_ok=True)
+    return jsonify(ok=True)
+
+@app.get('/p/<token>/image.png')
+def publication_image(token):
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
+    row=con().execute('SELECT file_name FROM publications WHERE token=?',(token,)).fetchone()
+    if not row:abort(404)
+    response=send_file(PUBLIC_DIR/row['file_name'],mimetype='image/png',conditional=True,max_age=60)
+    response.headers['X-Content-Type-Options']='nosniff'
+    return response
+
+def public_page(body,title_text):
+    # User-controlled values are HTML escaped before constructing markup.
+    css='body{margin:0;background:#161b1b;color:#f1f1ea;font:16px system-ui,sans-serif}main{max-width:1100px;margin:35px auto;padding:0 18px}a{color:#a4deca}img{display:block;width:100%;height:auto;border-radius:12px;background:#fff;object-fit:contain}h1{font-size:24px}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.card{padding:12px;background:#232b2b;border-radius:14px}.card h2{font-size:15px}nav{padding:20px;background:#232b2b}'
+    document='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(title_text)+'</title><style>'+css+'</style><nav><a href="/">Paint Lab</a></nav><main>'+body+'</main></html>'
+    resp=Response(document,mimetype='text/html')
+    resp.headers['Content-Security-Policy']="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"
+    resp.headers['X-Content-Type-Options']='nosniff'
+    resp.headers['Cache-Control']='no-store'
+    return resp
+
+@app.get('/p/<token>')
+def view_publication(token):
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
+    row=con().execute('SELECT p.title,p.token,u.username FROM publications p JOIN users u ON u.id=p.owner_id WHERE p.token=?',(token,)).fetchone()
+    if not row:abort(404)
+    heading=html.escape(row['title']);author=html.escape(row['username']);space=url_for('public_user_space',username=row['username'])
+    image=url_for('publication_image',token=token)
+    return public_page(f'<h1>{heading}</h1><p>By <a href="{html.escape(space,quote=True)}">{author}</a> · Public artwork</p><img src="{html.escape(image,quote=True)}" alt="{heading}"><p><a href="{html.escape(image,quote=True)}" download>Download PNG</a></p>',row['title']+' · Paint Lab')
+
+@app.get('/u/<username>')
+def public_user_space(username):
+    if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',username):abort(404)
+    row=con().execute('SELECT id,username FROM users WHERE username=?',(username,)).fetchone()
+    if not row:abort(404)
+    images=con().execute('SELECT token,title FROM publications WHERE owner_id=? ORDER BY created_at DESC LIMIT 100',(row['id'],)).fetchall()
+    cards=''.join('<article class="card"><a href="'+html.escape(url_for('view_publication',token=item['token']),quote=True)+'"><img loading="lazy" src="'+html.escape(url_for('publication_image',token=item['token']),quote=True)+'" alt="'+html.escape(item['title'],quote=True)+'"><h2>'+html.escape(item['title'])+'</h2></a></article>' for item in images)
+    heading=html.escape(row['username']);content=f'<h1>{heading} · Public artworks</h1>'+(f'<div class="gallery">{cards}</div>' if images else '<p>No artworks have been published yet.</p>')
+    return public_page(content,row['username']+' · Paint Lab')
 
 @app.get('/api/providers')
 @auth

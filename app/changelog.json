@@ -1,16 +1,45 @@
 {
   "project": "paint-lab",
-  "version": "0.1.22",
-  "title": "Paint Lab v0.1.22 — Pointer-anchored Desktop Transforms & Verified Release Packaging",
+  "version": "0.1.24",
+  "title": "Paint Lab v0.1.24 — Server Test Dependency Fix",
   "datetime": "2026-11-21",
   "changes": [
-    "Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.",
-    "Anchor the transform to the last desktop mouse position in canvas document coordinates; preserve the original grab offset at arbitrary zoom and canvas rotation instead of jumping to the layer-centre pivot.",
-    "If no mouse position is available when the keyboard shortcut is pressed, establish it on first movement without displacing the artwork.",
-    "Correct the release process: build the ZIP through tools/build_release.py to include the required manifest.json, SHA256 checksums, and bundled watcher for the existing deployment pipeline.",
-    "Retain v0.1.21 pencil, text-brush and appearance controls and restore historical development-log entries."
+    "Remove the undeclared Pillow/PIL dependency from the public-sharing server integration test: generate a valid RGBA PNG fixture with Python standard-library struct and zlib.",
+    "Keep public image publication and owner-isolation/revocation tests mandatory during Ubuntu deployment; no runtime Pillow dependency is needed.",
+    "Exclude transient Python test caches from checksum-verified release ZIPs and rebuild manifest.json with the project release builder.",
+    "Retain all v0.1.23 canvas sizes, share/export functionality, palette XL/M/S and colour-travel painting without changes."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.23",
+      "title": "Paint Lab v0.1.23 — Portable Artworks, Canvas Presets & Sharing",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Add a New Canvas dialog with Window size, 1:1, 3:2, 2:3, 16:9, 3:4, 4:3 and 2:1 aspect ratios, plus explicit custom dimensions up to 8192px per side and a 16MP memory safeguard.",
+        "New canvases accept an optional name; use it to prefill the Save Artwork name, while unnamed works preserve the empty name field and Untitled fallback.",
+        "Add Save dialog shortcuts for PNG with paper, transparent PNG, and a portable ZIP project preserving editable history, layer PNGs, user brush assets, and a preview.",
+        "Import portable ZIP projects offline and restore visible layer pixels directly, retaining editable history for undo/redo and legacy JSON imports.",
+        "Add native Web Share API support using the supplied share SVG and a PNG download fallback when file sharing is unavailable.",
+        "Introduce explicitly opt-in authenticated public image publishing, revocable share links, and a public /u/username gallery. Private cloud projects and API credentials remain private.",
+        "Document the ZIP format, import limits, cloud sharing controls, and release compatibility.",
+        "Add palette XL/M/S swatch presets displaying 8, 24, or 48 colours; preserve the source palette across size switches and interpolate additional colours in OKLab.",
+        "Add compact movement-driven Palette Flow switch beside the harmony selector: pigment advances through swatches by brush distance (not elapsed time), including oil-bristle refill and text stamps. Store the exact palette in each editable stroke and remember size/flow in projects and presets."
+      ]
+    },
+    {
+      "project": "paint-lab",
+      "version": "0.1.22",
+      "title": "Paint Lab v0.1.22 — Pointer-anchored Desktop Transforms & Verified Release Packaging",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.",
+        "Anchor the transform to the last desktop mouse position in canvas document coordinates; preserve the original grab offset at arbitrary zoom and canvas rotation instead of jumping to the layer-centre pivot.",
+        "If no mouse position is available when the keyboard shortcut is pressed, establish it on first movement without displacing the artwork.",
+        "Correct the release process: build the ZIP through tools/build_release.py to include the required manifest.json, SHA256 checksums, and bundled watcher for the existing deployment pipeline.",
+        "Retain v0.1.21 pencil, text-brush and appearance controls and restore historical development-log entries."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.21",

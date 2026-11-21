@@ -21,7 +21,7 @@ def build():
         if path.is_symlink():raise SystemExit('Symlink not allowed in release: '+str(path))
         if not path.is_file():continue
         rel=path.relative_to(ROOT).as_posix()
-        if any(part in rel.split('/') for part in ('.venv','var','__pycache__','.git')) or rel.endswith(('.pyc','.pyo','.sqlite3','.sqlite3-shm','.sqlite3-wal')):continue
+        if any(part in rel.split('/') for part in ('.venv','var','__pycache__','.git','.pytest_cache','.mypy_cache','.ruff_cache')) or rel.endswith(('.pyc','.pyo','.sqlite3','.sqlite3-shm','.sqlite3-wal')):continue
         if rel.endswith('.env') or '/.env' in rel:raise SystemExit('Secret-like env file found: '+rel)
         paths.append((rel,path))
     files={rel:hashlib.sha256(path.read_bytes()).hexdigest() for rel,path in sorted(paths)}
