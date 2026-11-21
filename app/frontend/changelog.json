@@ -1,22 +1,35 @@
 {
   "project": "paint-lab",
-  "version": "0.1.26",
-  "title": "Paint Lab v0.1.26 — Reliable Mobile Touch & Oil Brush Ends",
+  "version": "0.1.27",
+  "title": "Paint Lab v0.1.27 \u2014 Velocity-Sensitive Oil Brush Lift",
   "datetime": "2026-11-21",
   "changes": [
-    "Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.",
-    "Block remaining fingers from painting or rotating after a multi-touch gesture until all fingers have lifted, then restore immediate single-contact drawing.",
-    "Use a short provisional touch grace period and per-stroke pixel rollback tiles so a late second finger cancels accidental paint without replaying the full project history.",
-    "Selecting a pigment or brush tip now exits any leftover layer-transform state so drawing cannot accidentally manipulate a layer pivot.",
-    "Make the chosen palette swatch and brush tip visibly selected, with contrast-safe insets, checkmarks, and aria-pressed states.",
-    "Replace zero-length oil bristle fanning, damp sudden tip-angle changes, and round solid-tip stroke endpoints without flattening the interior bristle relief; preserve separated comb, rake and fan endings.",
-    "Add targeted regression tests for gesture lock release, touch rollback, oil stroke finish and active UI selection."
+    "Replace the separate artificial round endpoint and simple tangent-based cutoff with a path-aware final contact model using actual stroke motion and original paint underlay.",
+    "Estimate end-of-stroke deceleration from recorded pointer positions and event timestamps: slower releases produce longer, narrower tails, while quick releases remain more abrupt.",
+    "Account for Apple Pencil end pressure and brush-tip family: pointed brushes and liners taper to thin ends; round, filbert and mop taper moderately; flat, bright and chisel shapes retain relatively abrupt ends; fans, rakes and combs keep separated hairs.",
+    "Keep loaded bristle pigment, grain and existing layers stable at the endpoint; taper the already-painted contact area without stamping a translucent disc or creating a second visible brush mark.",
+    "Bound final-contact readback and processing cost for mobile use, with deterministic replay and browser pixel checks comparing fast/slow round, flat, liner and fan releases."
   ],
   "history": [
     {
       "project": "paint-lab",
+      "version": "0.1.26",
+      "title": "Paint Lab v0.1.26 \u2014 Reliable Mobile Touch & Oil Brush Ends",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.",
+        "Block remaining fingers from painting or rotating after a multi-touch gesture until all fingers have lifted, then restore immediate single-contact drawing.",
+        "Use a short provisional touch grace period and per-stroke pixel rollback tiles so a late second finger cancels accidental paint without replaying the full project history.",
+        "Selecting a pigment or brush tip now exits any leftover layer-transform state so drawing cannot accidentally manipulate a layer pivot.",
+        "Make the chosen palette swatch and brush tip visibly selected, with contrast-safe insets, checkmarks, and aria-pressed states.",
+        "Replace zero-length oil bristle fanning, damp sudden tip-angle changes, and round solid-tip stroke endpoints without flattening the interior bristle relief; preserve separated comb, rake and fan endings.",
+        "Add targeted regression tests for gesture lock release, touch rollback, oil stroke finish and active UI selection."
+      ]
+    },
+    {
+      "project": "paint-lab",
       "version": "0.1.25",
-      "title": "Paint Lab v0.1.25 — Functional Smear, Smudge & Blend",
+      "title": "Paint Lab v0.1.25 \u2014 Functional Smear, Smudge & Blend",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the old retouch implementation that re-stamped copied pixels with movement-driven Smear, colour-mixing Smudge and position-preserving Blend operations. These tools sample visible painted layers, not the currently selected pigment.",
@@ -31,7 +44,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.24",
-      "title": "Paint Lab v0.1.24 — Server Test Dependency Fix",
+      "title": "Paint Lab v0.1.24 \u2014 Server Test Dependency Fix",
       "datetime": "2026-11-21",
       "changes": [
         "Remove the undeclared Pillow/PIL dependency from the public-sharing server integration test: generate a valid RGBA PNG fixture with Python standard-library struct and zlib.",
@@ -43,7 +56,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.23",
-      "title": "Paint Lab v0.1.23 — Portable Artworks, Canvas Presets & Sharing",
+      "title": "Paint Lab v0.1.23 \u2014 Portable Artworks, Canvas Presets & Sharing",
       "datetime": "2026-11-21",
       "changes": [
         "Add a New Canvas dialog with Window size, 1:1, 3:2, 2:3, 16:9, 3:4, 4:3 and 2:1 aspect ratios, plus explicit custom dimensions up to 8192px per side and a 16MP memory safeguard.",
@@ -60,7 +73,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.22",
-      "title": "Paint Lab v0.1.22 — Pointer-anchored Desktop Transforms & Verified Release Packaging",
+      "title": "Paint Lab v0.1.22 \u2014 Pointer-anchored Desktop Transforms & Verified Release Packaging",
       "datetime": "2026-11-21",
       "changes": [
         "Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.",
@@ -73,7 +86,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.21",
-      "title": "Paint Lab v0.1.21 — Live Chrome Preview, Truer Pencil & Character Brush",
+      "title": "Paint Lab v0.1.21 \u2014 Live Chrome Preview, Truer Pencil & Character Brush",
       "datetime": "2026-11-21",
       "changes": [
         "Keep the workspace readable while adjusting window appearance: the settings shade no longer blurs the whole studio, so border, opacity and blur changes are visible live.",
@@ -87,7 +100,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.20",
-      "title": "Paint Lab v0.1.20 — Clean Canvas Reset & Oil Colour Integrity",
+      "title": "Paint Lab v0.1.20 \u2014 Clean Canvas Reset & Oil Colour Integrity",
       "datetime": "2026-11-21",
       "changes": [
         "Clear Canvas now removes the old layer stack and starts with exactly one transparent Background paint layer; Undo restores the complete previous multi-layer composition and Redo clears again.",
@@ -101,7 +114,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.19",
-      "title": "Paint Lab v0.1.19 — Recovery Safety & Fast Resume",
+      "title": "Paint Lab v0.1.19 \u2014 Recovery Safety & Fast Resume",
       "datetime": "2026-11-21",
       "changes": [
         "Fix stale recovery replay painting over a cleared or replaced canvas. Clear, New, Undo and project switching invalidate in-flight restoration before pixels can be applied.",
@@ -114,7 +127,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.18",
-      "title": "Paint Lab v0.1.18 — Denser Oil Pigment & Startup Polish",
+      "title": "Paint Lab v0.1.18 \u2014 Denser Oil Pigment & Startup Polish",
       "datetime": "2026-11-21",
       "changes": [
         "Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.",
@@ -126,7 +139,7 @@
     },
     {
       "version": "0.1.17",
-      "title": "Paint Lab v0.1.17 — Multi-select & Merge Layers",
+      "title": "Paint Lab v0.1.17 \u2014 Multi-select & Merge Layers",
       "datetime": "2026-11-21",
       "changes": [
         "Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.",
@@ -139,7 +152,7 @@
     {
       "project": "paint-lab",
       "version": "0.1.16",
-      "title": "Paint Lab v0.1.16 — Reliable Brush Tips & Server Diagnostics",
+      "title": "Paint Lab v0.1.16 \u2014 Reliable Brush Tips & Server Diagnostics",
       "datetime": "2026-11-21",
       "changes": [
         "Fix oil brush-tip fidelity: round, liner, flat, fan, rake, mop, sword and imported brush shapes now drive actual bristle contacts and stroke widths instead of identical uniform oil ribbons.",
@@ -152,11 +165,11 @@
     {
       "project": "paint-lab",
       "version": "0.1.15",
-      "title": "Paint Lab v0.1.15 — Adjustable Window Chrome & Natural Stroke Widening",
+      "title": "Paint Lab v0.1.15 \u2014 Adjustable Window Chrome & Natural Stroke Widening",
       "datetime": "2026-11-21",
       "changes": [
         "Add window-border visibility, panel background transparency, shadow enable/strength and backdrop blur controls in Appearance; settings persist in named presets.",
-        "Add a natural stroke width toggle, initial brush-tip contact, widening distance, and velocity response in Brush & Paint → Dynamics.",
+        "Add a natural stroke width toggle, initial brush-tip contact, widening distance, and velocity response in Brush & Paint \u2192 Dynamics.",
         "Apply reproducible distance-based widening to the oil contact engine and all other painted stroke materials while retaining pressure sensitivity and existing project compatibility.",
         "Preserve independent brush-tip shape response and stored brush settings in each history action."
       ]
@@ -164,20 +177,20 @@
     {
       "project": "paint-lab",
       "version": "0.1.14",
-      "title": "Paint Lab v0.1.14 — Stylized Strokes & Wet Oil Brush",
+      "title": "Paint Lab v0.1.14 \u2014 Stylized Strokes & Wet Oil Brush",
       "datetime": "2026-11-21",
       "changes": [
         "Add six independent stylized painting modes: Halftone, ASCII, Invert, Pixelate, Mosaic and Symbols; each stroke remembers its selected style.",
         "Introduce an oil brush contact model with independent pigment reservoirs across bristles, pickup of wet underlying colour, pressure- and viscosity-controlled deposition, and directional ridge shading.",
         "Replace 24 individual Canvas2D preview renderers in Brush Tips with one cached shared thumbnail atlas; category switches reuse the atlas and custom brush imports rebuild it once.",
         "Reuse one inversion mask canvas across stylized dabs instead of allocating new 2D canvases during painting.",
-        "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier–Stokes fluid solver."
+        "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier\u2013Stokes fluid solver."
       ]
     },
     {
       "project": "paint-lab",
       "version": "0.1.13",
-      "title": "Paint Lab v0.1.13 — Distinct Pigment Brush Engines",
+      "title": "Paint Lab v0.1.13 \u2014 Distinct Pigment Brush Engines",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the shared pencil/chalk/watercolour/oil tip-fill algorithm with four distinct procedural pigment textures: narrow grainy graphite, broken powdery chalk, translucent pooled watercolour, and opaque directional oil bristle relief.",
@@ -188,7 +201,7 @@
     },
     {
       "version": "0.1.12",
-      "title": "Paint Lab v0.1.12 — Immediate Desktop Transforms & Shift+D",
+      "title": "Paint Lab v0.1.12 \u2014 Immediate Desktop Transforms & Shift+D",
       "datetime": "2026-11-21",
       "changes": [
         "Desktop G, R, and S now move, rotate, and scale the selected shape or active layer immediately with mouse movement; no click-and-drag is required.",
@@ -199,7 +212,7 @@
     },
     {
       "version": "0.1.11",
-      "title": "Paint Lab v0.1.11 — Mobile Gesture Performance & Contextual Transforms",
+      "title": "Paint Lab v0.1.11 \u2014 Mobile Gesture Performance & Contextual Transforms",
       "datetime": "2026-11-20",
       "changes": [
         "Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.",
@@ -211,7 +224,7 @@
     },
     {
       "version": "0.1.10",
-      "title": "Paint Lab v0.1.10 — View-Safe Layer Transforms & Mobile Canvas Rotation",
+      "title": "Paint Lab v0.1.10 \u2014 View-Safe Layer Transforms & Mobile Canvas Rotation",
       "datetime": "2026-11-20",
       "changes": [
         "Fix layer duplication scaling at zoom levels other than 100% and on high-DPI displays by copying the native pixel buffer without an inherited DPR transform.",
@@ -224,7 +237,7 @@
     },
     {
       "version": "0.1.9",
-      "title": "Paint Lab v0.1.9 — Mobile Brush Controls & Stable Gestures",
+      "title": "Paint Lab v0.1.9 \u2014 Mobile Brush Controls & Stable Gestures",
       "datetime": "2026-11-20",
       "changes": [
         "Place Undo and Redo together at the bottom right of the mobile canvas, visible by default with history-aware disabled states and a workspace toggle.",
@@ -237,11 +250,11 @@
     },
     {
       "version": "0.1.8",
-      "title": "Paint Lab v0.1.8 — Safe Canvas Clearing",
+      "title": "Paint Lab v0.1.8 \u2014 Safe Canvas Clearing",
       "datetime": "2026-11-20",
       "changes": [
         "Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.",
-        "Use a custom three-choice dialog: No, Yes—clear, or Save before clearing; never a browser-native confirmation.",
+        "Use a custom three-choice dialog: No, Yes\u2014clear, or Save before clearing; never a browser-native confirmation.",
         "Save before clearing creates a named copy in the local gallery and clears only after its IndexedDB write succeeds; cancellation or failure leaves the artwork intact.",
         "Clear paint from every layer while keeping layer structure, paper and canvas dimensions; Undo and Redo restore the operation.",
         "Make Clear canvas optionally visible on the mobile toolbar, enabled by default, while retaining the paint-only focus mode."
@@ -249,7 +262,7 @@
     },
     {
       "version": "0.1.7",
-      "title": "Paint Lab v0.1.7 — Mobile Canvas-First Studio",
+      "title": "Paint Lab v0.1.7 \u2014 Mobile Canvas-First Studio",
       "datetime": "2026-11-20",
       "changes": [
         "Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.",
@@ -261,7 +274,7 @@
     },
     {
       "version": "0.1.6",
-      "title": "Paint Lab v0.1.6 — Document View & Compact Brush Workspace",
+      "title": "Paint Lab v0.1.6 \u2014 Document View & Compact Brush Workspace",
       "datetime": "2026-11-20",
       "changes": [
         "Canvas zoom, pan and rotation now redraw painted layers immediately rather than waiting for the next brush stroke.",
@@ -273,7 +286,7 @@
     },
     {
       "version": "0.1.5",
-      "title": "Paint Lab v0.1.5 — Adaptive Palette & Colour Transformations",
+      "title": "Paint Lab v0.1.5 \u2014 Adaptive Palette & Colour Transformations",
       "datetime": "2026-11-20",
       "changes": [
         "Replace the redundant 25th palette tile with the native colour picker as the first of 24 swatches, eliminating the orphan final row.",
@@ -285,10 +298,10 @@
     },
     {
       "version": "0.1.4",
-      "title": "Paint Lab v0.1.4 — What’s New & Development Log",
+      "title": "Paint Lab v0.1.4 \u2014 What\u2019s New & Development Log",
       "datetime": "2026-11-20",
       "changes": [
-        "Add a What’s New overlay after each new release, with a Latest tab and searchable-by-version history list.",
+        "Add a What\u2019s New overlay after each new release, with a Latest tab and searchable-by-version history list.",
         "Remember which release notes were dismissed on each browser, and reopen them any time from the toolbar.",
         "Publish the same release history to the public application and the GitHub repository.",
         "Add project README, ABOUT and CHANGELOG documents with development, deployment, API and future roadmap context.",
@@ -320,7 +333,7 @@
       "datetime": "2026-11-20",
       "changes": [
         "Improve watcher output with distinct coloured deployment start, success, warning and failure banners.",
-        "Reuse existing Let’s Encrypt Certbot accounts where available when issuing the Paint Lab certificate."
+        "Reuse existing Let\u2019s Encrypt Certbot accounts where available when issuing the Paint Lab certificate."
       ]
     },
     {

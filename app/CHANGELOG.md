@@ -1,3 +1,10 @@
+# v0.1.27 — Velocity-Sensitive Oil Brush Lift (2026-11-21)
+
+- Replace the detached circular cap and the uniform clipped end with a curved-path brush lift tied to recorded velocity and stylus pressure.
+- Slow releases form a longer narrowing tail; quick movement releases more abruptly, without adding a half-disc.
+- Apply tip-specific release profiles: pointed/liner, round/filbert/mop, flat/chisel, and separated comb/rake/fan deposits.
+- Preserve original underpainting and active bristle relief using bounded, deterministic endpoint processing. This remains a 2D wet-paint approximation, not a full GPU fluid solver.
+
 # v0.1.26 — Reliable Mobile Touch & Oil Brush Ends (2026-11-21)
 
 - Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.
