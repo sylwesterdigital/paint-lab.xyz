@@ -1,37 +1,36 @@
-"""Versioned regression contracts for composite layer stylization and legacy stroke compatibility."""
+"""Rendering contracts for v0.1.35 stroke-image stylization and legacy compatibility."""
 import json,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-JS=(ROOT/'frontend/index.html').read_text()
+SRC=(ROOT/'frontend/index.html').read_text()
 class StylizeTests(unittest.TestCase):
- def test_composite_filter_catalog_and_ui(self):
-  self.assertIn("const STROKE_STYLES=",JS)
+ def test_style_choices_are_stroke_presets_not_layer_actions(self):
   for style in ("'halftone'","'ascii'","'invert'","'pixelate'","'mosaic'","'symbols'","'mono'","'desaturate'","'solarize'","'edge'"):
-   self.assertIn(style,JS)
-  self.assertIn('Composite layer stylization · transforms existing pixels',JS)
-  self.assertIn('id="addLayerFilter"',JS)
-  self.assertIn('id="replaceLayerFilters"',JS)
-  self.assertIn('id="layerFilterStack"',JS)
- def test_filter_stack_renderer_and_layer_action(self):
-  self.assertIn('function applyCompositeFilterStep(',JS)
-  self.assertIn('function updateLayerFilterCache(',JS)
-  self.assertIn('function setLayerFilters(layerId,filters,commitPreview=false)',JS)
-  self.assertIn("else if(a.kind==='layer-filter')",JS)
-  self.assertIn("'layer-filter'",JS)
-  self.assertIn('drawImage(getLayerRenderCanvas(l),0,0)',JS)
- def test_legacy_stroke_stylization_compatibility(self):
-  self.assertIn("styleEngine:'layer-fx-v1'",JS)
-  self.assertIn("(conf.styleEngine&&conf.styleEngine!=='stroke-v1')?'none'",JS)
-  self.assertIn('stylizedStampTexture(baseStamp,strokeStylization,mat,t,col,conf)',JS)
-  self.assertIn('function invertPaintStamp(',JS)
-  self.assertIn("function effectiveStrokeStyle(cfg){return cfg?.styleEngine==='layer-fx-v1'?'none':(cfg?.strokeStyle||'none');}",JS)
-  self.assertIn("if(effectiveStrokeStyle(c)==='invert'",JS)
-  self.assertIn("if(s.cfg.material==='oil'&&effectiveStrokeStyle(s.cfg)==='none'",JS)
- def test_history_and_docs(self):
-  v=json.loads((ROOT/'version.json').read_text())['version']
-  self.assertEqual(v,'0.1.34')
+   self.assertIn(style,SRC)
+  self.assertIn('Stroke stylization · converts painted pixels',SRC)
+  self.assertIn("styleEngine:'stroke-fx-v2'",SRC)
+  self.assertIn("strokeEffect:strokeStyle==='none'?null",SRC)
+  part=SRC[SRC.index('function selectStrokeStyle(name){'):SRC.index('function chooseMaterial(next){')]
+  self.assertNotIn('setLayerFilters(',part)
+  self.assertNotIn('addSelectedLayerFilter(',part)
+  self.assertIn('b.onclick=()=>selectStrokeStyle(id)',part)
+ def test_raw_stroke_to_image_filter_to_layer(self):
+  for token in ('function initStrokeImageFX(', 'function paintIntoStrokeImage(', 'function strokeImageBounds(',
+   'function renderStrokeImageFX(', 'function commitStrokeImageFX(', 'applyCompositeFilterStep(input,s.cfg.strokeEffect)',
+   'target.ctx.drawImage(result.canvas,result.x,result.y)', 'paintIntoStrokeImage(s,()=>rawDrawStrokeStart(s))',
+   'paintIntoStrokeImage(s,()=>rawDrawStrokeStep(s,b))', 'paintIntoStrokeImage(s,()=>rawFinishStrokeRender(s))',
+   'if(hasStrokeImageFX(s))commitStrokeImageFX(s)', 'pctx.drawImage(result.canvas,result.x/dpr,result.y/dpr',
+   "if(e.type!=='pointercancel'){finishStrokeRender(a);if(hasStrokeImageFX(a))commitStrokeImageFX(a);"):
+   self.assertIn(token,SRC,token)
+ def test_legacy_compatibility(self):
+  self.assertIn("c?.styleEngine==='stroke-fx-v2'",SRC)
+  self.assertIn("(conf.styleEngine&&conf.styleEngine!=='stroke-v1')?'none'",SRC)
+  self.assertIn('stylizedStampTexture(baseStamp,strokeStylization,mat,t,col,conf)',SRC)
+  self.assertIn('function updateLayerFilterCache(',SRC)
+  self.assertIn("else if(a.kind==='layer-filter')",SRC)
+ def test_release_integrity(self):
+  v=json.loads((ROOT/'version.json').read_text())['version'];self.assertEqual(v,'0.1.35')
   log=json.loads((ROOT/'changelog.json').read_text());self.assertEqual(log['version'],v)
-  self.assertEqual(log['history'][0]['version'],'0.1.33')
-  self.assertIn('Immediate Pixel Filters',log['title'])
- if __name__=='__main__':
-  unittest.main()
+  self.assertEqual(log['history'][0]['version'],'0.1.34')
+  self.assertIn('Painted-Stroke Image Filters',log['title'])
+if __name__=='__main__':unittest.main()

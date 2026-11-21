@@ -14,8 +14,8 @@ SRC=(APP/'frontend/index.html').read_text()
 
 class MobileTouchAndOilEnds(unittest.TestCase):
     def test_release_number_and_changelog(self):
-        self.assertEqual(json.loads((APP/'changelog.json').read_text())['version'],'0.1.34')
-        self.assertIn('<title>Paint Lab v0.1.34</title>',SRC)
+        self.assertEqual(json.loads((APP/'changelog.json').read_text())['version'],'0.1.35')
+        self.assertIn('<title>Paint Lab v0.1.35</title>',SRC)
 
     def test_two_live_fingers_required(self):
         self.assertIn('if(touchPointers.size<2||gesture||gestureBlockedUntilAllUp)return;',SRC)
@@ -36,7 +36,7 @@ class MobileTouchAndOilEnds(unittest.TestCase):
         self.assertIn('function cancelPendingTouch()',SRC)
         self.assertIn('function captureTouchStrokeTiles(',SRC)
         self.assertIn('function restoreUncommittedTouchStroke(',SRC)
-        self.assertIn('if(!restoreUncommittedTouchStroke(action))rebuild()',SRC)
+        self.assertIn('else if(!restoreUncommittedTouchStroke(action))rebuild()',SRC)
         self.assertIn('delete a.touchRollback',SRC)
 
     def test_pigment_and_tip_exit_transform(self):
@@ -48,8 +48,8 @@ class MobileTouchAndOilEnds(unittest.TestCase):
         self.assertIn('function finishStrokeRender(',SRC)
         self.assertIn('oilFirstAngle',SRC)
         self.assertIn('const rawAngle=travel>.03?',SRC)
-        self.assertIn('finishStrokeRender(s);s._run=null;',SRC)
-        self.assertIn('finishStrokeRender(a);delete a._run;',SRC)
+        self.assertIn('finishStrokeRender(s);if(hasStrokeImageFX(s))commitStrokeImageFX(s);s._run=null;',SRC)
+        self.assertIn("if(e.type!=='pointercancel'){finishStrokeRender(a);if(hasStrokeImageFX(a))commitStrokeImageFX(a);}",SRC)
         self.assertIn('Wait for a real tangent;',SRC)
 
     def test_selection_visibility(self):

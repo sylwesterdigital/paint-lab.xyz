@@ -1,3 +1,11 @@
+# v0.1.35 — Painted-Stroke Image Filters (2026-11-21)
+
+- New stroke stylization transforms the RGBA output of an ordinarily painted brush stroke. The original selected oil, watercolour, chalk or pencil instrument renders first, then its image is transformed into Pixel, Halftone, ASCII, Symbols, Mosaic or another filter.
+- The new filtered stroke can be previewed while drawing and is composited to its target layer at release. Existing pixels and other layers are not passed through the filter.
+- Choosing a filter no longer applies it immediately to an entire existing layer. The old layer-filter actions remain available for imported older-project replay.
+- Store stroke effect and pattern parameters on new stroke actions to retain undo/redo, deterministic replay and editable-project portability.
+- Keep the manifest-based release packaging and existing macOS watcher/Ubuntu rollout safeguards.
+
 # v0.1.34 — Immediate Pixel Filters (2026-11-21)
 
 - Fix the Stylize panel showing Pixel selected while the active layer still had zero filters: tapping a filter now immediately applies it to existing active-layer pixels, and selecting another filter builds a composite stack. None clears the stack.
