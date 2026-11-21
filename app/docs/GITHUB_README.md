@@ -79,3 +79,7 @@ Brush & Paint → **Stylize** offers halftone, ASCII, inverted-colour, pixel, mo
 ### v0.1.15 — Workspace appearance and natural brush dynamics
 
 In Studio Settings → Appearance, adjust floating-window borders, transparency, shadows and backdrop blur. In Brush & Paint → Dynamics, enable natural stroke widening and adjust the initial tip contact, growth distance and speed response. Controls persist with workspace presets and individual brush strokes.
+
+## v0.1.16 — Improved brush fidelity and diagnostics
+
+Oil painting now uses each artistic tip's actual physical contact profile: liner, fan, rake, flat and imported brush masks leave different strokes. Development notes appear without waiting for a remote response, and saved-browser recovery reports its progress. The server now provides an administrator-only operational log terminal with role-gated access, request timings and bounded log output. Administrator accounts must be provisioned from the trusted server shell; none is created with a default password.

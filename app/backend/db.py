@@ -6,7 +6,7 @@ from pathlib import Path
 SCHEMA = '''
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY, username TEXT NOT NULL UNIQUE COLLATE NOCASE,
-  password_hash TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+  password_hash TEXT NOT NULL, role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user','admin')), created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE TABLE IF NOT EXISTS projects (
   id TEXT PRIMARY KEY, owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -35,3 +35,7 @@ def init(path: Path):
     with connect(path) as con:
         con.execute('PRAGMA journal_mode=WAL')
         con.executescript(SCHEMA)
+        # Add roles to established v0.1.x databases without touching existing passwords/projects.
+        columns={row[1] for row in con.execute('PRAGMA table_info(users)')}
+        if 'role' not in columns:
+            con.execute("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user','admin'))")

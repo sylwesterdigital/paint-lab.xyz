@@ -1,8 +1,9 @@
 """Paint Lab: browser painting frontend, private SQLite canvases, provider vault and WebSocket events."""
 from __future__ import annotations
-import json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.request,uuid
-from datetime import timedelta
+import json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.request,uuid,logging,collections
+from datetime import timedelta,datetime,timezone
 from functools import wraps
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from urllib.parse import urlsplit
 from flask import Flask,abort,g,jsonify,request,session,send_from_directory
@@ -26,6 +27,56 @@ sock=Sock(app)
 db.init(DATABASE)
 clients={};client_lock=threading.RLock()
 login_attempts={};attempt_lock=threading.Lock()
+
+# Dedicated application log only: never expose OS journal, credentials, headers or bodies.
+LOG_DIR=DATA/'logs'
+LOG_DIR.mkdir(parents=True,exist_ok=True)
+LOG_FILE=LOG_DIR/'application.log'
+logger=logging.getLogger('paint_lab.operations')
+logger.setLevel(logging.INFO)
+logger.propagate=False
+if not logger.handlers:
+    log_handler=RotatingFileHandler(LOG_FILE,maxBytes=2_000_000,backupCount=3,encoding='utf-8')
+    log_handler.setFormatter(logging.Formatter('%(asctime)sZ [%(levelname)-7s] %(message)s',datefmt='%Y-%m-%d %H:%M:%S'))
+    logger.addHandler(log_handler)
+BOOT_TIME=time.monotonic()
+operations={'requests':0,'errors':0,'slow':0}
+ops_lock=threading.Lock()
+logger.info('Paint Lab v%s service initialized, SQLite storage configured',VERSION)
+
+@app.before_request
+def timing_start():
+    g.start_time=time.monotonic()
+
+@app.after_request
+def timing_end(response):
+    elapsed=1000*(time.monotonic()-getattr(g,'start_time',time.monotonic()))
+    # Drop query strings, username, cookies, request payloads and auth headers from logs.
+    # No request body or provider credentials are ever emitted.
+    route=request.url_rule.rule if request.url_rule else '[unmatched]'
+    level=logging.WARNING if response.status_code>=500 or elapsed>=1000 else logging.INFO
+    if request.path!='/api/admin/logs':
+        logger.log(level,'%s %s -> %s %.0fms',request.method,route,response.status_code,elapsed)
+    with ops_lock:
+        operations['requests']+=1
+        operations['errors']+=int(response.status_code>=500)
+        operations['slow']+=int(elapsed>=1000)
+    return response
+
+@app.errorhandler(Exception)
+def unexpected_error(error):
+    from werkzeug.exceptions import HTTPException
+    if isinstance(error,HTTPException):
+        if request.path.startswith('/api/'):
+            return jsonify(error=error.description),error.code
+        return error
+    # Exception class only: never log stack variables, submitted keys or password content.
+    logger.error('Unhandled server failure: %s on %s',type(error).__name__,request.url_rule.rule if request.url_rule else '[unmatched]')
+    if request.path.startswith('/api/'):
+        return jsonify(error='Internal application error'),500
+    return 'Internal application error',500
+
+
 
 @app.before_request
 def verify_origin():
@@ -116,8 +167,39 @@ def health():
 @app.get('/api/auth/me')
 def me():
     token=csrf();uid=session.get('user_id')
-    row=con().execute('SELECT id,username FROM users WHERE id=?',(uid,)).fetchone() if uid else None
+    row=con().execute('SELECT id,username,role FROM users WHERE id=?',(uid,)).fetchone() if uid else None
     return jsonify(authenticated=bool(row),user=dict(row) if row else None,csrf=token)
+
+def admin_only(f):
+    @wraps(f)
+    def gated(*args,**kwargs):
+        uid=session.get('user_id')
+        if not isinstance(uid,int):return jsonify(error='Sign in required'),401
+        row=con().execute('SELECT role FROM users WHERE id=?',(uid,)).fetchone()
+        if not row or row['role']!='admin':return jsonify(error='Administrator permission required'),403
+        return f(*args,**kwargs)
+    return gated
+
+@app.get('/api/admin/logs')
+@admin_only
+def admin_logs():
+    # Read only the application-owned rotating log, not systemd, gunicorn journal or nginx logs.
+    try:limit=min(250,max(1,int(request.args.get('limit','150'))))
+    except ValueError:return jsonify(error='Invalid log limit'),400
+    try:
+        # A bounded tail means no unbounded file reads even on a busy deployment.
+        with LOG_FILE.open('rb') as stream:
+            stream.seek(0,2);size=stream.tell();stream.seek(max(0,size-160_000))
+            last=stream.read().decode('utf-8','replace')
+        lines=last.splitlines()[-limit:]
+    except OSError:
+        lines=['[WARN] Application log file unavailable']
+    with ops_lock:stats=dict(operations)
+    response=jsonify(version=VERSION,uptime_seconds=int(time.monotonic()-BOOT_TIME),
+        requests_total=stats['requests'],errors_total=stats['errors'],slow_total=stats['slow'],
+        lines=lines,source='application',server_time=datetime.now(timezone.utc).isoformat())
+    response.headers['Cache-Control']='no-store'
+    return response
 
 @app.post('/api/auth/register')
 def register():
@@ -132,7 +214,7 @@ def register():
             uid=cur.lastrowid
     except sqlite3.IntegrityError:return jsonify(error='Username already exists'),409
     session.clear();session.permanent=True;session['user_id']=uid;csrf()
-    return jsonify(ok=True,user={'id':uid,'username':username},csrf=csrf()),201
+    return jsonify(ok=True,user={'id':uid,'username':username,'role':'user'},csrf=csrf()),201
 
 @app.post('/api/auth/login')
 def login():
@@ -143,13 +225,13 @@ def login():
         attempts=[t for t in login_attempts.get(key,[]) if now-t<300]
         if len(attempts)>=12:return jsonify(error='Too many attempts. Try later.'),429
         login_attempts[key]=attempts
-    row=con().execute('SELECT id,username,password_hash FROM users WHERE username=?',(username,)).fetchone()
+    row=con().execute('SELECT id,username,password_hash,role FROM users WHERE username=?',(username,)).fetchone()
     if not row or not check_password_hash(row['password_hash'],password):
         with attempt_lock:login_attempts.setdefault(key,[]).append(now)
         return jsonify(error='Invalid credentials'),401
     with attempt_lock:login_attempts.pop(key,None)
     session.clear();session.permanent=True;session['user_id']=row['id'];csrf()
-    return jsonify(ok=True,user={'id':row['id'],'username':row['username']},csrf=csrf())
+    return jsonify(ok=True,user={'id':row['id'],'username':row['username'],'role':row['role']},csrf=csrf())
 
 @app.post('/api/auth/logout')
 def logout():

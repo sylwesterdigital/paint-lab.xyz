@@ -62,3 +62,7 @@ Brush & Paint → **Stylize** offers halftone, ASCII, inverted-colour, pixel, mo
 ### v0.1.15 — Workspace appearance and natural brush dynamics
 
 In Studio Settings → Appearance, adjust floating-window borders, transparency, shadows and backdrop blur. In Brush & Paint → Dynamics, enable natural stroke widening and adjust the initial tip contact, growth distance and speed response. Controls persist with workspace presets and individual brush strokes.
+
+## Brush geometry and operational visibility (v0.1.16)
+
+Brush tips now govern the bristle contacts in the wet-oil stroke renderer, making marks from round, liner, fan, rake, flat and custom image tips genuinely different. This remains an experimental 2-D pigment model, not a physical Navier–Stokes paint simulation. Startup and autosave recovery are more visible, and server operators can inspect application-level errors and request times through a role-protected console without exposing credentials or unrestricted machine logs.

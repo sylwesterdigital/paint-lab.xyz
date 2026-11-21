@@ -1,3 +1,11 @@
+# v0.1.16 — Reliable Brush Tips & Server Diagnostics (2026-11-21)
+
+- Fix oil brush-tip fidelity: round, liner, flat, fan, rake, mop, sword and imported brush shapes now drive actual bristle contacts and stroke widths instead of identical uniform oil ribbons.
+- Make development release notes display immediately from packaged data; fetch the server changelog in the background with a short timeout.
+- Restore recent browser artwork incrementally with progress and no redundant full synchronous replay; expose client startup timings.
+- Add an authenticated administrator-only application log terminal with adjustable font size, pause/resume, refresh and copy; log request duration and errors without request bodies or provider secrets.
+- Add a server-shell administrator-provisioning CLI and backwards-compatible SQLite user role migration, without any default administrator passwords.
+
 # v0.1.15 — Adjustable Window Chrome & Natural Stroke Widening (2026-11-21)
 
 - Adjustable border visibility, window opacity, shadows, shadow strength and backdrop blur in Settings → Appearance.

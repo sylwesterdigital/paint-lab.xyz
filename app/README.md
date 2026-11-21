@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.6
+# Paint Lab · v0.1.16
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -137,3 +137,21 @@ Brush & Paint → **Stylize** offers halftone, ASCII, inverted-colour, pixel, mo
 ### v0.1.15 — Workspace appearance and natural brush dynamics
 
 In Studio Settings → Appearance, adjust floating-window borders, transparency, shadows and backdrop blur. In Brush & Paint → Dynamics, enable natural stroke widening and adjust the initial tip contact, growth distance and speed response. Controls persist with workspace presets and individual brush strokes.
+
+## v0.1.16 — Brush contacts and diagnostics
+
+The oil renderer now samples the selected brush tip silhouette (including imported alpha masks) into a cached bristle-contact profile. A liner, flat, fan, rake, mop or pointed tip changes the real stroke footprint and pigment placement, not merely its icon or UI label. Pencil, chalk and watercolour continue to use material-specific pigment textures. This is still a 2-D painterly approximation, not a full fluid-dynamics simulation.
+
+Startup release notes render immediately from bundled data. Local recovery shows progress and replays stored marks in bounded animation-frame batches without a full blocking replay. A slow server no longer prevents the development log from appearing.
+
+The administrator-only server diagnostics console can be opened after login. It displays bounded application log entries, request latencies and error totals, with font size adjustment and pause. It deliberately does not expose OS journal logs or sensitive HTTP request bodies, API keys, cookies and passwords.
+
+**Provisioning an admin account:** All newly registered accounts receive the `user` role. On a trusted Ubuntu server shell, promote an existing account with:
+
+```sh
+cd /var/www/paint-lab.xyz/current
+sudo -u paint-lab env PAINT_LAB_DB=/var/lib/paint-lab/paint-lab.sqlite3 \
+  /opt/paint-lab/venv/bin/python -m backend.admin_cli promote EXISTING_USERNAME
+```
+
+Or use `create USERNAME` (password prompted interactively) from a trusted shell. No default administrator account or password is deployed, and users cannot assign admin roles from the browser. A pre-existing SQLite users table is migrated to include the new `role` column without deleting existing accounts or paintings.
