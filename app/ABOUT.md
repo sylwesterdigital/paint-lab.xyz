@@ -78,3 +78,8 @@ The local gallery uses IndexedDB. v0.1.20 saves painted layer pixel snapshots be
 ## Canvas clearing and oil colour
 
 Clear Canvas in v0.1.20 starts one empty layer, while retaining the full editable Undo history; previous projects remain compatible. Oil-paint strokes keep a bounded, pre-stroke underpainting sample so shaded pigment highlights never feed their own darkness back into a loaded brush.
+
+
+## v0.1.22 desktop transforms & release validation
+
+Keyboard transforms use the desktop pointer position without snapping the layer to its centre. Left-click or Enter confirms; right-click or Escape cancels. Verified releases are built with `python3 app/tools/build_release.py` to include a SHA-256 manifest and watcher.

@@ -1,4 +1,12 @@
-# v0.1.20 — Clean Canvas Reset & Oil Colour Integrity (2026-11-21)
+# v0.1.22 — Pointer-anchored desktop transforms and verified releases (2026-11-21)
+
+- Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.
+- Anchor the transform to the last desktop mouse position in canvas document coordinates; preserve the original grab offset at arbitrary zoom and canvas rotation instead of jumping to the layer-centre pivot.
+- If no mouse position is available when the keyboard shortcut is pressed, establish it on first movement without displacing the artwork.
+- Correct the release process: build the ZIP through tools/build_release.py to include the required manifest.json, SHA256 checksums, and bundled watcher for the existing deployment pipeline.
+- Retain v0.1.21 pencil, text-brush and appearance controls and restore historical development-log entries.
+
+# v0.1.21 — Live Chrome Preview, Truer Pencil & Character Brush (2026-11-21)
 
 - Clear Canvas now removes the old layer stack and starts with exactly one transparent Background paint layer; Undo restores the complete previous multi-layer composition and Redo clears again.
 - Keep earlier projects compatible: historical Clear actions retain their original layer-preserving meaning; new resets carry an explicit resetLayers history marker.

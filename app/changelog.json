@@ -1,17 +1,44 @@
 {
   "project": "paint-lab",
-  "version": "0.1.20",
-  "title": "Paint Lab v0.1.20 — Clean Canvas Reset & Oil Colour Integrity",
+  "version": "0.1.22",
+  "title": "Paint Lab v0.1.22 — Pointer-anchored Desktop Transforms & Verified Release Packaging",
   "datetime": "2026-11-21",
   "changes": [
-    "Clear Canvas now removes the old layer stack and starts with exactly one transparent Background paint layer; Undo restores the complete previous multi-layer composition and Redo clears again.",
-    "Keep earlier projects compatible: historical Clear actions retain their original layer-preserving meaning; new resets carry an explicit resetLayers history marker.",
-    "Speed up reconstruction of a cleared drawing by skipping all strokes and layer changes before the latest full reset while keeping the editable Undo history.",
-    "Correct oil-paint contamination: cache the original paint beneath each stroke in bounded tiles, so a brush never picks up its own shaded relief pixels as dark pigment.",
-    "Limit wet-colour uptake and separate surface lighting from pigment mixing so white and pale oil remain clean on unpainted canvas while still mixing with genuine existing paint.",
-    "Add browser and regression checks for layer reset, undo/redo, saved-project recovery and white oil strokes."
+    "Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.",
+    "Anchor the transform to the last desktop mouse position in canvas document coordinates; preserve the original grab offset at arbitrary zoom and canvas rotation instead of jumping to the layer-centre pivot.",
+    "If no mouse position is available when the keyboard shortcut is pressed, establish it on first movement without displacing the artwork.",
+    "Correct the release process: build the ZIP through tools/build_release.py to include the required manifest.json, SHA256 checksums, and bundled watcher for the existing deployment pipeline.",
+    "Retain v0.1.21 pencil, text-brush and appearance controls and restore historical development-log entries."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.21",
+      "title": "Paint Lab v0.1.21 — Live Chrome Preview, Truer Pencil & Character Brush",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Keep the workspace readable while adjusting window appearance: the settings shade no longer blurs the whole studio, so border, opacity and blur changes are visible live.",
+        "Propagate window-border visibility more broadly across the interface, including buttons, fields, swatches, layer rows, thumbnails and other chrome elements instead of only panel shells.",
+        "Rework pencil rendering to respect the chosen colour much more faithfully, with harder pencils producing crisper edges, fuller saturation and a thinner, steadier line.",
+        "Add Pencil behaviour controls for hardness and diameter dynamics, so pencil strokes stay much less width-reactive than paint brushes.",
+        "Add a Character & Text Brush section in Brush Tips: type a character, word or short sentence to create a reusable stamp tip, or enable live text stamping along the stroke path.",
+        "Support letter-by-letter brush writing with iOS-style pill toggles, spacing control, fixed-angle or path-following orientation, and optional rotation jitter."
+      ]
+    },
+    {
+      "project": "paint-lab",
+      "version": "0.1.20",
+      "title": "Paint Lab v0.1.20 — Clean Canvas Reset & Oil Colour Integrity",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Clear Canvas now removes the old layer stack and starts with exactly one transparent Background paint layer; Undo restores the complete previous multi-layer composition and Redo clears again.",
+        "Keep earlier projects compatible: historical Clear actions retain their original layer-preserving meaning; new resets carry an explicit resetLayers history marker.",
+        "Speed up reconstruction of a cleared drawing by skipping all strokes and layer changes before the latest full reset while keeping the editable Undo history.",
+        "Correct oil-paint contamination: cache the original paint beneath each stroke in bounded tiles, so a brush never picks up its own shaded relief pixels as dark pigment.",
+        "Limit wet-colour uptake and separate surface lighting from pigment mixing so white and pale oil remain clean on unpainted canvas while still mixing with genuine existing paint.",
+        "Add browser and regression checks for layer reset, undo/redo, saved-project recovery and white oil strokes."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.19",
