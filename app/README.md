@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.16
+# Paint Lab · v0.1.17
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -12,6 +12,8 @@ A browser painting studio with procedural brush tips, shape tools, multiple laye
 - `backend/keyvault.py` — per-user encrypted keys (Fernet); vault key lives outside releases.
 - `deploy/install.py` — Ubuntu nginx + systemd setup with certificate bootstrap and safe rollback.
 - `tests/` — HTTP, SQLite, authentication, encryption and deployment-contract tests.
+
+In Layers, Shift-click selects contiguous layers and Command/Ctrl-click adds/removes individual layers. Bulk duplication, deletion, visibility and merge selected/all support undo/redo; a merged layer is rasterised and may change appearance for non-adjacent or hidden source layers.
 
 The browser editor also works without the backend, using IndexedDB. Cloud saving and provider settings require an active Flask API and an account. Project JSON uses the existing `paint-lab-webgl` format with a full editable action history. No AI inference/layer regeneration is executed by this release; provider credentials and connection tests are an infrastructure foundation for future explicit AI actions.
 

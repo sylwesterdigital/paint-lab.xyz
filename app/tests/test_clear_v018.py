@@ -13,7 +13,7 @@ class SafeClearTests(unittest.TestCase):
   self.assertIn("commit({kind:'canvas-clear'",HTML)
   self.assertIn("if(a.kind==='canvas-clear'){clearAllLayerPaint();continue;}",HTML)
   self.assertIn("a.kind==='canvas-clear'?'Clear canvas'",HTML)
-  self.assertIn("'canvas-clear'].includes(a.kind)",HTML)
+  self.assertIn("'canvas-clear','layer-remove-many'",HTML)
  def test_save_only_after_success(self):
   self.assertIn('pendingClearAfterSave=true',HTML)
   self.assertIn('await storeRecord(record)',HTML)

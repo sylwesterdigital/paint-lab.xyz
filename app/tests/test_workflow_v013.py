@@ -27,6 +27,6 @@ class ArtistWorkflowTests(unittest.TestCase):
   line=HTML.split('function layerAction(a){',1)[1].split('\nfunction addPaintLayer(',1)[0]
   self.assertIn('applyLayerAction(action)',line)
   self.assertNotIn('rebuild()',line)
-  self.assertNotIn('toDataURL',re.search(r'function renderLayers\(\)\{([\s\S]+?)\n \}\}',HTML).group(1))
+  self.assertNotIn('toDataURL',HTML.split('function renderLayers(){',1)[1].split('function undo(){',1)[0])
   self.assertIn("document.createElement('canvas');thumb.width=80",HTML)
 if __name__=='__main__':unittest.main()

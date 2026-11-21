@@ -66,3 +66,7 @@ In Studio Settings → Appearance, adjust floating-window borders, transparency,
 ## Brush geometry and operational visibility (v0.1.16)
 
 Brush tips now govern the bristle contacts in the wet-oil stroke renderer, making marks from round, liner, fan, rake, flat and custom image tips genuinely different. This remains an experimental 2-D pigment model, not a physical Navier–Stokes paint simulation. Startup and autosave recovery are more visible, and server operators can inspect application-level errors and request times through a role-protected console without exposing credentials or unrestricted machine logs.
+
+## Multi-layer editing (v0.1.17)
+
+Layer selection supports Shift for a continuous range and Command/Ctrl for non-adjacent layers. Selected layers can be duplicated, hidden, removed or merged together. A merge creates a new raster layer; hidden sources contribute no visible pigment, and merging non-adjacent layers can alter stacking interactions with unselected layers. Undo restores the original layers.

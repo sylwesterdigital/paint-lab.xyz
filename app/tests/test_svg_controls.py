@@ -35,6 +35,6 @@ class SvgEditorTests(unittest.TestCase):
 
     def test_shape_selection_not_replaced_by_characters(self):
         self.assertIn('PL_SHAPE_ICONS[key]', self.html)
-        self.assertIn("eye.innerHTML=plIcon(l.visible?'eye':'opened')",self.html)
+        self.assertIn("eye.innerHTML=plIcon(l.visible?'eye':'eye-hidden')",self.html)
 
 if __name__=='__main__':unittest.main()

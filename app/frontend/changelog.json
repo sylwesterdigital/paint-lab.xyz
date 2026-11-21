@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.16",
-  "title": "Paint Lab v0.1.16 — Reliable Brush Tips & Server Diagnostics",
+  "version": "0.1.17",
+  "title": "Paint Lab v0.1.17 — Multi-select & Merge Layers",
   "datetime": "2026-11-21",
   "changes": [
-    "Fix oil brush-tip fidelity: round, liner, flat, fan, rake, mop, sword and imported brush shapes now drive actual bristle contacts and stroke widths instead of identical uniform oil ribbons.",
-    "Make development release notes display immediately from packaged data; fetch the server changelog in the background with a short timeout.",
-    "Restore recent browser artwork incrementally with progress and no redundant full synchronous replay; expose client startup timings.",
-    "Add an authenticated administrator-only application log terminal with adjustable font size, pause/resume, refresh and copy; log request duration and errors without request bodies or provider secrets.",
-    "Add a server-shell administrator-provisioning CLI and backwards-compatible SQLite user role migration, without any default administrator passwords."
+    "Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.",
+    "Duplicate, delete, and toggle visibility for multiple selected layers in a single undoable history step.",
+    "Merge selected layers or all layers into a single raster layer at document pixel resolution, retaining visible opacity and blend results; confirm hidden and non-adjacent merge caveats before proceeding.",
+    "Show the supplied closed-eye SVG when a layer is hidden, and the existing eye icon when visible.",
+    "Preserve grouped layer actions through editable project JSON, autosave, redo/undo, and release notes."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.16",
+      "title": "Paint Lab v0.1.16 — Reliable Brush Tips & Server Diagnostics",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Fix oil brush-tip fidelity: round, liner, flat, fan, rake, mop, sword and imported brush shapes now drive actual bristle contacts and stroke widths instead of identical uniform oil ribbons.",
+        "Make development release notes display immediately from packaged data; fetch the server changelog in the background with a short timeout.",
+        "Restore recent browser artwork incrementally with progress and no redundant full synchronous replay; expose client startup timings.",
+        "Add an authenticated administrator-only application log terminal with adjustable font size, pause/resume, refresh and copy; log request duration and errors without request bodies or provider secrets.",
+        "Add a server-shell administrator-provisioning CLI and backwards-compatible SQLite user role migration, without any default administrator passwords."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.15",

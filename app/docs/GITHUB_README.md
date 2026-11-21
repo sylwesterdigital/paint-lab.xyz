@@ -8,6 +8,7 @@
 
 Paint Lab is an experimental digital art workspace, not a conventional static drawing pad. Paint with distinctly rendered graphite, crumbly chalk, transparent watercolour washes or opaque ridged oil-style pigment; use procedural brush tips or import black/alpha images as reusable tips; draw lines, curves and geometric shapes; combine layers and effects; and save work locally or in an authenticated cloud library.
 
+- **Layers:** Finder-style multi-selection (Shift-click ranges, Command/Ctrl-click disjoint rows), group visibility/duplication/deletion, and raster merge selected/all. All operations are undoable.
 - **Painting:** material shortcuts, brush shapes, pressure-sensitive stylus input, flow, strength, opacity, wetness, and textured paint simulation.
 - **Canvas:** touch and trackpad pan, canvas-only pinch zoom and rotation, paper backgrounds, transparent PNG export, and editable project JSON.
 - **Workspace:** movable/resizable panels, undo/redo, draggable quick tools, palettes, four interface themes, and adjustable typography.

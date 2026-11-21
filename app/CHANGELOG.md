@@ -1,3 +1,11 @@
+# v0.1.17 — Multi-select & Merge Layers (2026-11-21)
+
+- Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.
+- Duplicate, delete, and toggle visibility for multiple selected layers in a single undoable history step.
+- Merge selected layers or all layers into a single raster layer at document pixel resolution, retaining visible opacity and blend results; confirm hidden and non-adjacent merge caveats before proceeding.
+- Show the supplied closed-eye SVG when a layer is hidden, and the existing eye icon when visible.
+- Preserve grouped layer actions through editable project JSON, autosave, redo/undo, and release notes.
+
 # v0.1.16 — Reliable Brush Tips & Server Diagnostics (2026-11-21)
 
 - Fix oil brush-tip fidelity: round, liner, flat, fan, rake, mop, sword and imported brush shapes now drive actual bristle contacts and stroke widths instead of identical uniform oil ribbons.
