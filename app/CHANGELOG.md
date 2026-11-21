@@ -1,5 +1,13 @@
 # Paint Lab — Changelog
 
+## v0.1.14 — Stylized brushes, wet-pigment oil and shared brush atlas (2026-11-21)
+
+- Separate stroke effects: halftone, ASCII, invert, pixelate, mosaic and symbol stamping, independently adjustable from pencil/chalk/watercolour/oil.
+- Replaced freehand oil stamp repetition with a persistent multi-bristle paint-load model, wet underlying pigment pickup, subtractive-reflectance mixing and local pressure/viscosity-dependent deposition and simulated ridge shading.
+- Reduced Brush Tips from 24 separate thumbnail canvases to a single cached image atlas; custom brush imports cause one atlas rebuild. Reuse inversion-mask buffers to avoid allocations per dab.
+- Styles are saved with strokes, with editable-history undo/redo and gallery JSON replay preserved.
+- The oil engine is a lightweight interactive wet-pigment approximation. It **does not** contain the full GPU fluid simulation of [David Li — Fluid Paint](https://github.com/dli/paint) (MIT). [Patch — Oil Paint](https://patch.gg/blendi/oil-paint) (MIT/CC0) is a reference for sculptural dabs and directional marks, not a physical paint solver.
+
 ## v0.1.13 — Distinct pigment texture engines (2026-11-21)
 
 - Pencil: narrow irregular graphite marks and paper grain rather than full-width opaque paint.

@@ -1,15 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.13",
-  "title": "Paint Lab v0.1.13 — Distinct Pigment Brush Engines",
+  "version": "0.1.14",
+  "title": "Paint Lab v0.1.14 — Stylized Strokes & Wet Oil Brush",
   "datetime": "2026-11-21",
   "changes": [
-    "Replace the shared pencil/chalk/watercolour/oil tip-fill algorithm with four distinct procedural pigment textures: narrow grainy graphite, broken powdery chalk, translucent pooled watercolour, and opaque directional oil bristle relief.",
-    "Preserve each chosen artistic tip, including imported alpha PNG tips, while varying actual mark coverage, alpha, edge diffusion, grain and highlight/shadow by pigment material.",
-    "Cache pre-rasterized pigment/tip/colour stamp textures to keep live strokes responsive on tablets; use deterministic noise to reproduce strokes after undo/redo and editable-project reload.",
-    "Add a renderer regression contract and browser pixel-comparison QA to verify that pigment modes create materially different traces."
+    "Add six independent stylized painting modes: Halftone, ASCII, Invert, Pixelate, Mosaic and Symbols; each stroke remembers its selected style.",
+    "Introduce an oil brush contact model with independent pigment reservoirs across bristles, pickup of wet underlying colour, pressure- and viscosity-controlled deposition, and directional ridge shading.",
+    "Replace 24 individual Canvas2D preview renderers in Brush Tips with one cached shared thumbnail atlas; category switches reuse the atlas and custom brush imports rebuild it once.",
+    "Reuse one inversion mask canvas across stylized dabs instead of allocating new 2D canvases during painting.",
+    "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier–Stokes fluid solver."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.13",
+      "title": "Paint Lab v0.1.13 — Distinct Pigment Brush Engines",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Replace the shared pencil/chalk/watercolour/oil tip-fill algorithm with four distinct procedural pigment textures: narrow grainy graphite, broken powdery chalk, translucent pooled watercolour, and opaque directional oil bristle relief.",
+        "Preserve each chosen artistic tip, including imported alpha PNG tips, while varying actual mark coverage, alpha, edge diffusion, grain and highlight/shadow by pigment material.",
+        "Cache pre-rasterized pigment/tip/colour stamp textures to keep live strokes responsive on tablets; use deterministic noise to reproduce strokes after undo/redo and editable-project reload.",
+        "Add a renderer regression contract and browser pixel-comparison QA to verify that pigment modes create materially different traces."
+      ]
+    },
     {
       "version": "0.1.12",
       "title": "Paint Lab v0.1.12 — Immediate Desktop Transforms & Shift+D",
