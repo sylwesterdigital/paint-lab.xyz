@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.31
+# Paint Lab · v0.1.32
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -190,6 +190,6 @@ The What's New dialog renders the embedded, canonical `app/changelog.json` histo
 
 Unlike watcher v0.1.3, the release gate now verifies the complete embedded `DEVLOG_FALLBACK` JSON against the two versioned changelog JSON files; matching HTML/version markers alone are insufficient. The improved painting engine is covered by browser pixel tests in the release source. Run `python3 app/tools/sync_devlog.py --write` after editing canonical release notes, then `python3 app/tools/build_release.py` and `./watch-paint-lab.sh --dry-run`.
 
-## Release test topology (v0.1.31)
+## Release test topology (v0.1.32)
 
 The local ZIP contains `watch-paint-lab.sh`, `manifest.json`, and `app/`. The Ubuntu installer intentionally copies **only `app/`** into `releases/vX.Y.Z`. Unit tests must not require the watcher or manifest beside `app/` on production. Watcher v0.1.5 runs the suite in both layouts before deployment; never weaken the live server test gate.

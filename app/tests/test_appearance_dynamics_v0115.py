@@ -10,11 +10,11 @@ class AppearanceAndBrushDynamics(unittest.TestCase):
   for s in ('uiAppearance:{...uiAppearance}','function applyAppearance(','applyAppearance(data.uiAppearance,false)','--pl-panel-alpha','--pl-border-alpha','data-pl-blur="off"'):
    self.assertIn(s,HTML)
  def test_tapered_replay_and_oil_contact(self):
-  for s in ('function strokeWidthFactor(cfg,distance,speed=0)','naturalWidth,initialWidth,growthDistance,speedWidth','strokeWidthFactor(c,progress,speed)','strokeWidthFactor(c,(run.pathLength||0)+travel*q','run.pathLength+=dist'):
+  for s in ('function strokeWidthFactor(cfg,distance,speed=0)','naturalWidth,initialWidth,growthDistance,speedWidth','strokeWidthFactor(c,progress,speed)','strokeWidthFactor(c,distanceAlong','run.pathLength+=dist'):
    self.assertIn(s,HTML)
   self.assertIn('if(cfg.naturalWidth!==true)return 1;',HTML)
  def test_version_and_log(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.31')
-  self.assertIn('content="0.1.31"',HTML)
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['history'][0]['version'],'0.1.30')
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.32')
+  self.assertIn('content="0.1.32"',HTML)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['history'][0]['version'],'0.1.31')
 if __name__=='__main__':unittest.main()

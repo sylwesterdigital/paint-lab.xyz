@@ -1,4 +1,4 @@
-# v0.1.31 — Production Test Layout Repair (2026-11-21)
+# v0.1.32 — Production Test Layout Repair (2026-11-21)
 
 - Fix the Ubuntu deployment blocker introduced in v0.1.30: the release-integrity regression no longer assumes the macOS watcher exists beside the installed application. The test validates both the packaged source tree and the actual app-only Ubuntu release layout without masking failures.
 - Upgrade the packaged release watcher to v0.1.5 and run the complete Python suite a second time in an isolated releases/vX.Y.Z directory containing only app/ files, matching what install.py actually deploys. Reject incompatible releases before SSH deployment.

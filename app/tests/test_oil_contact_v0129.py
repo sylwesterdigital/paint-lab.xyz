@@ -8,8 +8,8 @@ SOURCE=(ROOT/'frontend/index.html').read_text()
 
 class OilContactV29(unittest.TestCase):
     def test_release_version(self):
-        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.31')
-        self.assertIn('<title>Paint Lab v0.1.31</title>',SOURCE)
+        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.32')
+        self.assertIn('<title>Paint Lab v0.1.32</title>',SOURCE)
     def test_entry_and_exit_contact_profiles(self):
         for marker in ('function oilEntryBehaviour(', 'function oilEntryMetrics(',
                        'function oilReleaseMetrics(', 'function oilEnvelopeSegments(',
@@ -28,6 +28,15 @@ class OilContactV29(unittest.TestCase):
     def test_short_stroke_envelopes_do_not_overlap(self):
         body=SOURCE[SOURCE.index('function oilReleaseMetrics('):SOURCE.index('function oilEnvelopeHalfWidth(')]
         self.assertEqual(body.count('Math.min(total*.47,'),2)
+    def test_adaptive_v2_live_contact_path(self):
+        for marker in ("oilSamplingEngine:'adaptive-v2'",
+                       "run.oilEntryLive",
+                       "const turnSegments=Math.ceil(turnDelta/(Math.PI/18));",
+                       "const tangentRadius=engine==='adaptive-v2'?",
+                       "const distSq=engine==='adaptive-v2'?",
+                       "}else if((s.cfg.oilSamplingEngine||'adaptive-v1')!=='adaptive-v2')finishOilStroke(s);"):
+            self.assertIn(marker,SOURCE)
+
     def test_watcher_compiles_in_one_invocation(self):
         # Ubuntu installs app/ by itself: the source watcher need not be
         # present beside the deployed application's test directory.
