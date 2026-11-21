@@ -1,3 +1,12 @@
+# v0.1.20 — Clean Canvas Reset & Oil Colour Integrity (2026-11-21)
+
+- Clear Canvas now removes the old layer stack and starts with exactly one transparent Background paint layer; Undo restores the complete previous multi-layer composition and Redo clears again.
+- Keep earlier projects compatible: historical Clear actions retain their original layer-preserving meaning; new resets carry an explicit resetLayers history marker.
+- Speed up reconstruction of a cleared drawing by skipping all strokes and layer changes before the latest full reset while keeping the editable Undo history.
+- Correct oil-paint contamination: cache the original paint beneath each stroke in bounded tiles, so a brush never picks up its own shaded relief pixels as dark pigment.
+- Limit wet-colour uptake and separate surface lighting from pigment mixing so white and pale oil remain clean on unpainted canvas while still mixing with genuine existing paint.
+- Add browser and regression checks for layer reset, undo/redo, saved-project recovery and white oil strokes.
+
 # v0.1.19 — Recovery Safety & Fast Resume (2026-11-21)
 
 - Fix stale recovery replay painting over a cleared or replaced canvas. Clear, New, Undo and project switching invalidate in-flight restoration before pixels can be applied.

@@ -11,7 +11,7 @@ class SafeClearTests(unittest.TestCase):
   self.assertIn("$('mobileClear').onclick=",HTML)
  def test_history_and_replay(self):
   self.assertIn("commit({kind:'canvas-clear'",HTML)
-  self.assertIn("if(a.kind==='canvas-clear'){clearAllLayerPaint();continue;}",HTML)
+  self.assertIn("if(a.resetLayers)resetCanvasLayers();else clearAllLayerPaint();",HTML)
   self.assertIn("a.kind==='canvas-clear'?'Clear canvas'",HTML)
   self.assertIn("'canvas-clear','layer-remove-many'",HTML)
  def test_save_only_after_success(self):

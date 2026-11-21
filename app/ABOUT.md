@@ -73,4 +73,8 @@ Layer selection supports Shift for a continuous range and Command/Ctrl for non-a
 
 ## Recovery and safety
 
-The local gallery uses IndexedDB. v0.1.19 saves painted layer pixel snapshots beside editable history to enable fast startup. A long legacy recovery can be stopped, backed up, and restarted from Gallery. Clearing a drawing cancels in-progress recovery and cannot be overwritten by stale replay.
+The local gallery uses IndexedDB. v0.1.20 saves painted layer pixel snapshots beside editable history to enable fast startup. A long legacy recovery can be stopped, backed up, and restarted from Gallery. Clearing a drawing cancels in-progress recovery and cannot be overwritten by stale replay.
+
+## Canvas clearing and oil colour
+
+Clear Canvas in v0.1.20 starts one empty layer, while retaining the full editable Undo history; previous projects remain compatible. Oil-paint strokes keep a bounded, pre-stroke underpainting sample so shaded pigment highlights never feed their own darkness back into a loaded brush.
