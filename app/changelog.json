@@ -1,17 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.44",
-  "title": "Paint Lab v0.1.44 — Community Art Discovery",
+  "version": "0.1.45",
+  "title": "Paint Lab v0.1.45 — Unified Save & Share",
   "datetime": "2026-11-22",
   "changes": [
-    "Introduce /explore, a public, cross-artist discovery gallery combining explicitly published PNG artworks from every account, newest first; retain every artist gallery and existing /p/ share link.",
-    "Search public artwork by title or artist, select Today / Past 7 days / Past 30 days, apply custom from/to dates, and sort newest, oldest, title A–Z, title Z–A or artist A–Z.",
-    "Present a responsive uncropped masonry art feed with clickable artwork, artist profile links, dates and paginated results; accessible on mobile without requiring login or JavaScript.",
-    "Keep the full-height artwork viewer connected to the current discovery result page when browsing across artists; direct /p/<token> links still open the established same-artist carousel and remain shareable.",
-    "Add a Rantlist.me community invitation to discuss art and seek collaborators; provide a discovery entry point in the studio Share dialog without posting or sending private data to Rantlist.",
-    "Proxy /explore through nginx, extend deployment route probes and index public artwork creation time without migrating or changing saved art, accounts, private projects, or existing publications."
+    "Replace the implicit Overwrite-first save dialog with a single Save & share panel that shows explicit Save as new and Overwrite current actions; never overwrite just because an artwork is already open.",
+    "Allow public PNG publishing directly from the same panel with paper toggle, account sign-in entry, success/error status, and a copyable publication link; no editable project data is published.",
+    "Expose all practical download/share choices together: PNG with paper, transparent PNG, editable portable ZIP, editable JSON and native device sharing; preserve typed artwork names in export filenames and project manifests.",
+    "Keep Save before clearing safe: only a successful Save as new clears the canvas. Preserve original IndexedDB gallery records, cloud account saves, existing Share/Export tools and project version 4.",
+    "Add responsive, scrollable desktop/mobile save-dialog styling and interaction tests for explicit destination choice, overwrite gating, publish flow and export actions."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.44",
+      "title": "Paint Lab v0.1.44 — Community Art Discovery",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Introduce /explore, a public, cross-artist discovery gallery combining explicitly published PNG artworks from every account, newest first; retain every artist gallery and existing /p/ share link.",
+        "Search public artwork by title or artist, select Today / Past 7 days / Past 30 days, apply custom from/to dates, and sort newest, oldest, title A–Z, title Z–A or artist A–Z.",
+        "Present a responsive uncropped masonry art feed with clickable artwork, artist profile links, dates and paginated results; accessible on mobile without requiring login or JavaScript.",
+        "Keep the full-height artwork viewer connected to the current discovery result page when browsing across artists; direct /p/<token> links still open the established same-artist carousel and remain shareable.",
+        "Add a Rantlist.me community invitation to discuss art and seek collaborators; provide a discovery entry point in the studio Share dialog without posting or sending private data to Rantlist.",
+        "Proxy /explore through nginx, extend deployment route probes and index public artwork creation time without migrating or changing saved art, accounts, private projects, or existing publications."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.43",

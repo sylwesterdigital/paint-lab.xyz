@@ -1,3 +1,11 @@
+# v0.1.45 — Unified Save & Share (2026-11-22)
+
+- Replace the implicit Overwrite-first save dialog with a single Save & share panel that shows explicit Save as new and Overwrite current actions; never overwrite just because an artwork is already open.
+- Allow public PNG publishing directly from the same panel with paper toggle, account sign-in entry, success/error status, and a copyable publication link; no editable project data is published.
+- Expose all practical download/share choices together: PNG with paper, transparent PNG, editable portable ZIP, editable JSON and native device sharing; preserve typed artwork names in export filenames and project manifests.
+- Keep Save before clearing safe: only a successful Save as new clears the canvas. Preserve original IndexedDB gallery records, cloud account saves, existing Share/Export tools and project version 4.
+- Add responsive, scrollable desktop/mobile save-dialog styling and interaction tests for explicit destination choice, overwrite gating, publish flow and export actions.
+
 # v0.1.44 — Community Art Discovery (2026-11-22)
 
 - Introduce `/explore`, a public combined masonry gallery of all explicitly published artworks, newest first, with title/artist search, date presets, custom date range, multiple sort orders and pagination.

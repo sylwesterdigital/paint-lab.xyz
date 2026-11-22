@@ -13,17 +13,17 @@ class OilBodyAndStartup(unittest.TestCase):
         self.assertIn('const broken=',SOURCE)
         self.assertIn('br.load=Math.max(.24+load*.23',SOURCE)
     def test_version_title_and_startup_brand(self):
-        self.assertIn('<title>Paint Lab v0.1.44</title>',SOURCE)
+        self.assertIn('<title>Paint Lab v0.1.45</title>',SOURCE)
         self.assertIn('id="startupBrand"',SOURCE)
         self.assertIn('function showBrandIntro()',SOURCE)
         self.assertIn('pointer-events:none;opacity:0',SOURCE)
         self.assertIn('showBrandIntro();',SOURCE)
     def test_untitled_is_fallback_not_input_value(self):
-        self.assertIn("$('artName').value=saveAsNew&&['Untitled painting','Untitled'].includes(artName)?'':artName",SOURCE)
+        self.assertIn("(forceNew&&['Untitled painting','Untitled'].includes(artName))?'':artName",SOURCE)
         self.assertIn("$('artName').value.trim()||'Untitled'",SOURCE)
     def test_metadata(self):
         log=json.loads((ROOT/'changelog.json').read_text())
-        self.assertEqual(log['version'],'0.1.44')
-        self.assertEqual(log['history'][0]['version'],'0.1.43')
+        self.assertEqual(log['version'],'0.1.45')
+        self.assertEqual(log['history'][0]['version'],'0.1.44')
 
 if __name__=='__main__':unittest.main()

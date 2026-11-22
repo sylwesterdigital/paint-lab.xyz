@@ -90,7 +90,7 @@ class CloudFormatV137(unittest.TestCase):
         with self.assertRaises(ValueError):public_image.check_public_png('data:image/png;base64,'+base64.b64encode(damaged).decode())
         for truncated in (raw[:14],raw[:-12]):
             with self.assertRaises(ValueError):public_image.check_public_png('data:image/png;base64,'+base64.b64encode(truncated).decode())
-        self.assertIn('function sharePNGBlob(resizeForCloud=false)',FRONTEND)
+        self.assertIn('function sharePNGBlob(resizeForCloud=false,includeBackground=',FRONTEND)
         self.assertIn('if(png.size<=limit)return png;',FRONTEND)
 
 if __name__=='__main__':unittest.main()
