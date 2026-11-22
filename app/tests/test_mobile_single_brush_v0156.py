@@ -1,4 +1,4 @@
-"""v0.1.57: one unchanged brush button handles rail, tip cycle and gallery."""
+"""v0.1.58: one unchanged brush button handles rail, tip cycle and gallery."""
 from pathlib import Path
 import json
 import unittest
@@ -7,7 +7,7 @@ HTML=(APP/'frontend/index.html').read_text()
 
 class SingleBrushLauncherV157(unittest.TestCase):
  def test_release(self):
-  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.57')
+  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.58')
  def test_one_fixed_size_control_above_swatch(self):
   section=HTML.split('id="mobileBrushTop" class="mobile-brush-top"',1)[1].split('</div>',1)[0]
   self.assertEqual(section.count('<button'),1)

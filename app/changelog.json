@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.57",
-  "title": "Paint Lab v0.1.57 — One Mobile Brush Button",
+  "version": "0.1.58",
+  "title": "Paint Lab v0.1.58 — Mobile View Integrity & Theme Controls",
   "datetime": "2026-11-22",
   "changes": [
-    "Keep exactly one square brush-tip preview button above the colour swatch; never add another button when size controls open.",
-    "First tap of this same button opens the edge-aligned vertical size slider; tapping the unchanged button again cycles through brush tips while keeping the slider open.",
-    "Long-press the same button to open the category-filtered tip gallery; after choosing a tip, return to the open size rail.",
-    "Remove the duplicate in-rail tip button and persistent size labels; keep selected-colour slider thumb, central actual-tip preview, and equal-sized mobile dock controls.",
-    "Preserve full editable artwork, gallery loading progress, saved projects, Undo/Redo, and public sharing."
+    "Make window border visibility apply to mobile toolbar and tip/palette popovers, including true zero visibility without moving touch targets.",
+    "Make shadow strength zero disable UI shadows, including mobile toolbar, active controls, size handle and popovers.",
+    "Add a discoverable star button beside Interface theme to generate fresh, repeatable alternative colour themes rather than reusing the same daily combination.",
+    "Default mobile canvas rotation to opt-in instead of forcing it on through legacy migration; allow deliberate rotation to be re-enabled in Settings and roll back interrupted multitouch transformations.",
+    "Normalize touch, stylus and wheel coordinates against the displayed canvas rectangle and resynchronise mobile viewport after app/tab resume or orientation change without changing editable artwork."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.57",
+      "title": "Paint Lab v0.1.57 — One Mobile Brush Button",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Keep exactly one square brush-tip preview button above the colour swatch; never add another button when size controls open.",
+        "First tap of this same button opens the edge-aligned vertical size slider; tapping the unchanged button again cycles through brush tips while keeping the slider open.",
+        "Long-press the same button to open the category-filtered tip gallery; after choosing a tip, return to the open size rail.",
+        "Remove the duplicate in-rail tip button and persistent size labels; keep selected-colour slider thumb, central actual-tip preview, and equal-sized mobile dock controls.",
+        "Preserve full editable artwork, gallery loading progress, saved projects, Undo/Redo, and public sharing."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.56",
