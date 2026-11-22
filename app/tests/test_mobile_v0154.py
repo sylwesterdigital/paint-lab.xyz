@@ -8,8 +8,8 @@ HTML=(ROOT/'frontend/index.html').read_text()
 
 class Mobile154(unittest.TestCase):
     def test_version_and_devlog(self):
-        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.62')
-        self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.62')
+        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.63')
+        self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.63')
 
     def test_tip_tap_accessibility_and_gallery(self):
         self.assertNotIn('id="mobileTipCycle"',HTML)
@@ -37,7 +37,8 @@ class Mobile154(unittest.TestCase):
         self.assertNotIn('id="mobileStylizeNone"',HTML)
 
     def test_mobile_undo_pre_stroke_snapshot_and_less_replay_ui(self):
-        self.assertIn('if(isMobileWorkspace()&&!historyCheckpoints.some(s=>s.head===head&&historyCheckpointValid(s,head)))rememberHistoryCheckpoint();',HTML)
+        self.assertIn("if(isMobileWorkspace()&&tool!=='free'&&!historyCheckpoints.some(s=>s.head===head&&historyCheckpointValid(s,head)))rememberHistoryCheckpoint();",HTML)
+        self.assertIn('rememberStrokePixelPatch(a);',HTML)
         self.assertIn('timeout:isMobileWorkspace()?180:700',HTML)
         self.assertIn('const start=performance.now(),budget=isMobileWorkspace()?5:9;',HTML)
         self.assertIn("if(!isMobileWorkspace()||mobileSheetId==='layersPanel')renderLayers();",HTML)

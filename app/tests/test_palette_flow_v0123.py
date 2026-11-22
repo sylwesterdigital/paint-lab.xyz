@@ -63,4 +63,4 @@ class PaletteFlowTests(unittest.TestCase):
 
     def test_project_version_consistency(self):
         for name in ('version.json', 'frontend/version.json', 'changelog.json', 'frontend/changelog.json'):
-            self.assertEqual(json.loads((APP / name).read_text())['version'], '0.1.62')
+            self.assertEqual(json.loads((APP / name).read_text())['version'], '0.1.63')

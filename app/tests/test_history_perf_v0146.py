@@ -9,8 +9,8 @@ HTML=(ROOT/'frontend/index.html').read_text()
 class HistoryPerformanceV146(unittest.TestCase):
     def test_release_and_project_compatibility(self):
         version=json.loads((ROOT/'version.json').read_text())['version']
-        self.assertEqual(version,'0.1.62')
-        self.assertIn('content="0.1.62"',HTML)
+        self.assertEqual(version,'0.1.63')
+        self.assertIn('content="0.1.63"',HTML)
         self.assertIn("format:'paint-lab-webgl'",HTML)
 
     def test_undo_uses_bounded_checkpoints(self):
@@ -18,7 +18,7 @@ class HistoryPerformanceV146(unittest.TestCase):
         self.assertIn('function rememberHistoryCheckpoint()',HTML)
         self.assertIn('function restoreHistoryCheckpoint(s)',HTML)
         self.assertIn('function historyCheckpointValid(s,target)',HTML)
-        self.assertIn('clearHistoryCheckpoints();}',HTML)
+        self.assertIn('clearHistoryCheckpoints();clearHistoryPixelPatches();}',HTML)
 
     def test_older_history_yields_between_actions(self):
         self.assertIn('function rebuildHistoryWithoutBlocking({opening=false,onProgress=null,onComplete=null}={})',HTML)
@@ -26,7 +26,8 @@ class HistoryPerformanceV146(unittest.TestCase):
         self.assertIn('requestAnimationFrame(replaySlice);',HTML)
         self.assertIn('const epoch=++historyReplayEpoch,target=head;',HTML)
         self.assertIn('if(epoch!==historyReplayEpoch)return;',HTML)
-        self.assertIn('head--;historyPage=null;selectionId=null;rebuildHistoryWithoutBlocking();',HTML)
+        self.assertIn('const last=actions[head-1];head--;historyPage=null;selectionId=null;',HTML)
+        self.assertIn('if(restoreStrokePixelPatch(last,true)){renderHistory();scheduleDraft();return;}',HTML)
 
     def test_cache_invalidation_is_non_destructive_and_layer_aware(self):
         self.assertIn('layerItem.filterDirty=true;',HTML)

@@ -376,9 +376,22 @@ def publication_image(token):
 def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,manage=False):
     # User-controlled titles and artwork data remain escaped. Only the fixed
     # viewer script may run, under a per-response CSP nonce.
-    nonce=secrets.token_urlsafe(20) if viewer or manage else None
+    nonce=secrets.token_urlsafe(20)
     css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')+(public_viewer.DISCOVER_CSS if discover or gallery else '')+(public_viewer.MANAGE_CSS if manage else '')
     script=(f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else '')+(f'<script nonce="{nonce}">{public_viewer.MANAGE_JS}</script>' if manage else '')
+    # Optional, idle-time analytics on public pages. No publication titles,
+    # usernames, tokens or project documents are transmitted in custom events.
+    script+=(f'<script nonce="{nonce}">(function(){{'
+             'var start=function(){if(!navigator.onLine)return;'
+             'var t=document.createElement("script");t.async=true;'
+             't.src="https://analytics.mielniczuk.com/script.js";'
+             't.dataset.websiteId="bd5f9b1c-f457-47a5-81e6-e7bbe57bca9d";'
+             't.onerror=function(){t.remove()};document.head.appendChild(t)};'
+             'window.addEventListener("load",function(){'
+             'if(window.requestIdleCallback)requestIdleCallback(start,{timeout:2500});'
+             'else setTimeout(start,1200)},{once:true});'
+             '})();</script>')
+
     body_class=' class="viewer-page"' if viewer else (' class="gallery-page"' if gallery else (' class="discover-page"' if discover else ''))
     document=('<!doctype html><html lang="en"><head><meta charset="utf-8">'
               '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
@@ -387,9 +400,9 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,mana
               +body+script+'</body></html>')
     resp=Response(document,mimetype='text/html')
     csp="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
-    if nonce:csp+="; script-src 'nonce-"+nonce+"'"
+    csp+="; script-src 'nonce-"+nonce+"' https://analytics.mielniczuk.com"
     if discover or gallery:csp=csp.replace("form-action 'none'","form-action 'self'")
-    if manage:csp+="; connect-src 'self'"
+    csp+="; connect-src 'self' https://analytics.mielniczuk.com"
     resp.headers['Content-Security-Policy']=csp
     resp.headers['X-Content-Type-Options']='nosniff'
     resp.headers['Cache-Control']='no-store'

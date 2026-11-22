@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.62",
-  "title": "Paint Lab v0.1.62 — Focused Mobile Sliders",
+  "version": "0.1.63",
+  "title": "Paint Lab v0.1.63 — Optional Analytics & Responsive Undo",
   "datetime": "2026-11-22",
   "changes": [
-    "Replace the desktop-like Brush/Dynamics/Effects/Stylize tabs in the mobile settings sheet with a single contextual editor for whichever toolbar button was long-pressed.",
-    "Combine common brush settings, natural stroke width, bristle behaviour, paint load, and pencil response into the Brush & Dynamics editor without making users switch modes inside it.",
-    "Keep Effects and Stylize adjustment sheets limited to their own relevant sliders; select or disable effects only through the original mobile toolbar buttons.",
-    "Adapt the bottom-anchored editor to the available phone height: short panels fit their contents, long brush controls scroll beneath a fixed header, with larger 38-pixel slider handles and compact spacing.",
-    "Keep all mobile sliders connected to the same underlying desktop settings, preserving persistence, painting, eraser, Undo/Redo, gestures and saved-project compatibility."
+    "Load Umami tracking asynchronously after page load and during idle time, without waiting for analytics or requiring connectivity; support normal pageviews across the editor and public gallery.",
+    "Send only a bounded set of anonymized, throttled action events for opening artwork, local saves, public publishing, exports and gallery use; never send canvas pixels, names or stroke contents.",
+    "Make the Undo window configurable with a default of 20 steps. Preserve older action data in saved projects instead of silently discarding editable layers, brush strokes or project portability.",
+    "Cache per-stroke before-and-after pixel tiles on mobile for rapid Undo/Redo without copying all full-resolution layers; cap patch memory at 48 MB and use yielding replay for uncached operations.",
+    "Keep undo/redo button states and history navigation limited to the most recent window, while existing complex saved artworks and older project formats remain readable."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.62",
+      "title": "Paint Lab v0.1.62 — Focused Mobile Sliders",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Replace the desktop-like Brush/Dynamics/Effects/Stylize tabs in the mobile settings sheet with a single contextual editor for whichever toolbar button was long-pressed.",
+        "Combine common brush settings, natural stroke width, bristle behaviour, paint load, and pencil response into the Brush & Dynamics editor without making users switch modes inside it.",
+        "Keep Effects and Stylize adjustment sheets limited to their own relevant sliders; select or disable effects only through the original mobile toolbar buttons.",
+        "Adapt the bottom-anchored editor to the available phone height: short panels fit their contents, long brush controls scroll beneath a fixed header, with larger 38-pixel slider handles and compact spacing.",
+        "Keep all mobile sliders connected to the same underlying desktop settings, preserving persistence, painting, eraser, Undo/Redo, gestures and saved-project compatibility."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.61",
