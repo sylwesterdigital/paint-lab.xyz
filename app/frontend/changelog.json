@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.55",
-  "title": "Paint Lab v0.1.55 — Responsive Gallery Opening and Clear Mobile Tool Choices",
+  "version": "0.1.56",
+  "title": "Paint Lab v0.1.56 — Single Mobile Brush Controller",
   "datetime": "2026-11-22",
   "changes": [
-    "Open saved gallery artwork with an immediate blocking progress overlay and frame-sliced editable history restoration; large individual strokes now yield between point batches instead of freezing the interface.",
-    "Replace cryptic mobile FX and ST buttons with live tool icons and the actual selected effect or stylization names inside each button, including None.",
-    "Show a pigment icon alongside the active painting material name and keep centre-screen 850-millisecond mode feedback.",
-    "Make brush-tip and brush-size controls two visibly separated, non-overlapping touch targets above the colour swatch: TIP cycles or opens the library on hold, and SIZE displays the diameter and opens the coloured vertical slider with a centre-screen live preview.",
-    "Preserve the single-row bottom dock, left colour / right Undo-Redo placement, save/share, history cache and project compatibility."
+    "Replace the two stacked TIP/SIZE buttons with one icon-only current-brush preview button above the colour swatch.",
+    "Open a slim edge brush rail from that single button: drag the colour-matched vertical size slider and tap the tip preview inside the rail to cycle brush shapes.",
+    "Long-press the in-rail tip preview to open the existing searchable-by-category tip gallery; return to the same open rail after selecting a tip.",
+    "Remove all redundant size numbers from the launcher and popup; show the actual brush shape and current pigment in the centre during adjustment.",
+    "Preserve the left-aligned swatch, right-aligned Undo/Redo, icon-plus-current-name mode choices, opening-artwork progress, and saved project compatibility."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.55",
+      "title": "Paint Lab v0.1.55 — Responsive Gallery Opening and Clear Mobile Tool Choices",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Open saved gallery artwork with an immediate blocking progress overlay and frame-sliced editable history restoration; large individual strokes now yield between point batches instead of freezing the interface.",
+        "Replace cryptic mobile FX and ST buttons with live tool icons and the actual selected effect or stylization names inside each button, including None.",
+        "Show a pigment icon alongside the active painting material name and keep centre-screen 850-millisecond mode feedback.",
+        "Make brush-tip and brush-size controls two visibly separated, non-overlapping touch targets above the colour swatch: TIP cycles or opens the library on hold, and SIZE displays the diameter and opens the coloured vertical slider with a centre-screen live preview.",
+        "Preserve the single-row bottom dock, left colour / right Undo-Redo placement, save/share, history cache and project compatibility."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.54",

@@ -25,7 +25,7 @@ class MobileBrushV152(unittest.TestCase):
         self.assertNotIn('<span>Next tip</span>',HTML)
         self.assertIn('id="mobileTipCycle"',HTML)
         self.assertNotIn('id="mobileBrushNext"',HTML)
-        self.assertIn('aria-label="Adjust brush diameter"',HTML)
+        self.assertIn('aria-label="Open brush size and tip controls"',HTML)
     def test_long_hold_deferred_until_synthetic_touch_click_ends(self):
         self.assertIn('holdTimer=setTimeout(()=>{holdTimer=null;held=true;},500)',HTML)
         self.assertIn('setTimeout(()=>openMobileTipGallery(),130)',HTML)

@@ -8,16 +8,16 @@ HTML=(ROOT/'frontend/index.html').read_text()
 
 class Mobile154(unittest.TestCase):
     def test_version_and_devlog(self):
-        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.55')
-        self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.55')
+        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.56')
+        self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.56')
 
     def test_tip_tap_accessibility_and_gallery(self):
         self.assertIn('id="mobileTipCycle"',HTML)
-        self.assertIn('class="mobile-tip-hint"',HTML)
-        self.assertIn('z-index:6!important;pointer-events:auto!important',HTML)
+        self.assertIn('id="mobileBrushLauncherImage"',HTML)
+        self.assertIn('.mobile-workspace #mobileBrushPopover #mobileTipCycle{',HTML)
         self.assertIn('function mobileNextTip()',HTML)
         self.assertIn('function openMobileTipGallery()',HTML)
-        self.assertIn('id="mobileBrushNumber"',HTML)
+        self.assertIn('id="mobileSizeSlider"',HTML)
 
     def test_colour_and_history_are_pinned_to_opposite_edges(self):
         self.assertIn('right:calc(8px + env(safe-area-inset-right,0px))!important;',HTML)

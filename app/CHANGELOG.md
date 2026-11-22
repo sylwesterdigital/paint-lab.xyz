@@ -1,3 +1,10 @@
+# v0.1.56 — Single Mobile Brush Controller (2026-11-22)
+
+- Replace separate TIP and SIZE buttons above the mobile colour swatch with one icon-only button showing the selected brush tip.
+- Tap that single button to open a slim left-side size rail. Inside the rail, drag vertically for true-size tip preview or tap its brush-shape button to cycle tips. Hold the shape to open the category-filtered tip gallery.
+- Remove duplicated persistent size numbers, keep the slider colour-matched to the chosen paint colour, and return from the gallery to the open rail.
+- Keep the single-row square mobile dock, icon and current name FX/Stylize controls, cached Undo/Redo, and saved-artwork loading feedback.
+
 # v0.1.55 — Responsive Gallery Opening and Clear Mobile Tool Choices (2026-11-22)
 
 - Show an opening-artwork progress overlay immediately and reconstruct complex saved paintings across browser frames, including long stroke segments, to keep the screen responsive.
