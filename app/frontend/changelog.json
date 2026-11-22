@@ -1,17 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.49",
-  "title": "Paint Lab v0.1.49 — Mobile Tool Clarity & Canvas Reset",
+  "version": "0.1.50",
+  "title": "Paint Lab v0.1.50 — Single-Row Mobile Toolbar & Raised Layers Sheet",
   "datetime": "2026-11-22",
   "changes": [
-    "Offer an optional Reset painting tools checkbox when clearing the canvas; restore normal oil brush, round tip, size and dynamics, and turn Effects and Stylize off without changing paper, saved presets or project data.",
-    "Replace separate mobile brush-tip and brush-size buttons with one combined Brush & Size button immediately above Palette; retain fast tip cycling inside its size-slider popover.",
-    "Expose persistent mobile Effects and Stylize selectors that cycle every supported mode, display their current names and provide an immediate None control; choosing Stylize returns to normal brush mode and choosing Effects switches Stylize off.",
-    "Replace the redundant mobile Share button with a direct Layers button; Share remains accessible in Save & share.",
-    "Shorten the mobile layers sheet, enlarge its layer thumbnails and compact its toolbar while keeping add, duplicate, delete, blend, opacity, reorder and transform tools.",
-    "Keep desktop editing, existing cloud accounts and publications, fast Undo/Redo, and the checksum-verified watcher deployment compatible."
+    "Consolidate mobile Brush and Size, Colour, Material, Effects, Stylize, optional Eraser, Undo and Redo into one anchored horizontal row; eliminate the separate mode row and stacked brush/colour buttons.",
+    "Shrink mobile buttons evenly at 320px and 390px without wrapping or horizontal scrolling, while keeping selected effects and styles accessible and offering tap-to-clear controls.",
+    "Place the Layers sheet physically above the mobile toolbar and fix its stacking order so layer previews and tools are never obscured by paint controls.",
+    "Maintain the compact mobile brush/size popover and colour palette directly above the tool row, with full accessible names for modes.",
+    "Retain existing local and public galleries, project data, masked stylization, cloud save/share and fast Undo/Redo."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.49",
+      "title": "Paint Lab v0.1.49 — Mobile Tool Clarity & Canvas Reset",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Offer an optional Reset painting tools checkbox when clearing the canvas; restore normal oil brush, round tip, size and dynamics, and turn Effects and Stylize off without changing paper, saved presets or project data.",
+        "Replace separate mobile brush-tip and brush-size buttons with one combined Brush & Size button immediately above Palette; retain fast tip cycling inside its size-slider popover.",
+        "Expose persistent mobile Effects and Stylize selectors that cycle every supported mode, display their current names and provide an immediate None control; choosing Stylize returns to normal brush mode and choosing Effects switches Stylize off.",
+        "Replace the redundant mobile Share button with a direct Layers button; Share remains accessible in Save & share.",
+        "Shorten the mobile layers sheet, enlarge its layer thumbnails and compact its toolbar while keeping add, duplicate, delete, blend, opacity, reorder and transform tools.",
+        "Keep desktop editing, existing cloud accounts and publications, fast Undo/Redo, and the checksum-verified watcher deployment compatible."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.48",
