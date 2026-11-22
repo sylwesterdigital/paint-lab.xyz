@@ -1,3 +1,9 @@
+# v0.1.62 — Focused Mobile Sliders (2026-11-22)
+
+- Long-press a mode button to open only its relevant brush, effect, or stylization settings, without internal tabs or switches.
+- Use compact touch-first full-width sliders with larger thumbs; shorter panels fit their content and longer brush lists scroll within the phone height.
+- Retain the normal toolbar for selecting modes and disabling Effects or Stylize; adjust the underlying desktop brush values without duplication.
+
 # v0.1.60 — Restore Mobile Rotation & Preserve Canvas Aspect (2026-11-22)
 
 - Restore two-finger rotation together with pinch-to-zoom and pan, including for users whose rotation was disabled automatically in v0.1.58. Honour explicit preferences.

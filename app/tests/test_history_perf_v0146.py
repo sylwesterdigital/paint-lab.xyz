@@ -9,8 +9,8 @@ HTML=(ROOT/'frontend/index.html').read_text()
 class HistoryPerformanceV146(unittest.TestCase):
     def test_release_and_project_compatibility(self):
         version=json.loads((ROOT/'version.json').read_text())['version']
-        self.assertEqual(version,'0.1.61')
-        self.assertIn('content="0.1.61"',HTML)
+        self.assertEqual(version,'0.1.62')
+        self.assertIn('content="0.1.62"',HTML)
         self.assertIn("format:'paint-lab-webgl'",HTML)
 
     def test_undo_uses_bounded_checkpoints(self):

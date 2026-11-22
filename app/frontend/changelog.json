@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.61",
-  "title": "Paint Lab v0.1.61 — Mobile Eraser & Dynamics Controls",
+  "version": "0.1.62",
+  "title": "Paint Lab v0.1.62 — Focused Mobile Sliders",
   "datetime": "2026-11-22",
   "changes": [
-    "Place a single equal-size Eraser / Brush toggle immediately to the left of mobile Undo and Redo; restore the previous painting mode when leaving eraser.",
-    "Long-press the current pigment button to open a touch-friendly mobile Brush/Dynamics editor with wide horizontal sliders and live numerical values for the desktop stroke, width, material and bristle settings.",
-    "Long-press the Effects or Stylize mode button for its relevant strength, brush texture, pattern size and intensity sliders; single taps continue to cycle through modes including None.",
-    "Keep the canonical desktop sliders as the shared data model: mobile slider changes immediately update actual brush physics, effect properties, persistence and future editable strokes.",
-    "Preserve the single mobile tip/size control, pinch rotation, fixed right-hand history, layers, IndexedDB projects, and public gallery."
+    "Replace the desktop-like Brush/Dynamics/Effects/Stylize tabs in the mobile settings sheet with a single contextual editor for whichever toolbar button was long-pressed.",
+    "Combine common brush settings, natural stroke width, bristle behaviour, paint load, and pencil response into the Brush & Dynamics editor without making users switch modes inside it.",
+    "Keep Effects and Stylize adjustment sheets limited to their own relevant sliders; select or disable effects only through the original mobile toolbar buttons.",
+    "Adapt the bottom-anchored editor to the available phone height: short panels fit their contents, long brush controls scroll beneath a fixed header, with larger 38-pixel slider handles and compact spacing.",
+    "Keep all mobile sliders connected to the same underlying desktop settings, preserving persistence, painting, eraser, Undo/Redo, gestures and saved-project compatibility."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.61",
+      "title": "Paint Lab v0.1.61 — Mobile Eraser & Dynamics Controls",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Place a single equal-size Eraser / Brush toggle immediately to the left of mobile Undo and Redo; restore the previous painting mode when leaving eraser.",
+        "Long-press the current pigment button to open a touch-friendly mobile Brush/Dynamics editor with wide horizontal sliders and live numerical values for the desktop stroke, width, material and bristle settings.",
+        "Long-press the Effects or Stylize mode button for its relevant strength, brush texture, pattern size and intensity sliders; single taps continue to cycle through modes including None.",
+        "Keep the canonical desktop sliders as the shared data model: mobile slider changes immediately update actual brush physics, effect properties, persistence and future editable strokes.",
+        "Preserve the single mobile tip/size control, pinch rotation, fixed right-hand history, layers, IndexedDB projects, and public gallery."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.60",

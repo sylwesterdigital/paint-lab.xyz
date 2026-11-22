@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SRC=(ROOT/'frontend/index.html').read_text()
 class MobileRotation160(unittest.TestCase):
  def test_version(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.61')
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.62')
  def test_default_rotation_and_explicit_opt_out(self):
   self.assertIn('rotateCanvas:true',SRC)
   self.assertIn('if(!data.rotationUserSet)mobileOptions.rotateCanvas=true',SRC)

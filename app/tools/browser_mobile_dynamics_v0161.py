@@ -1,4 +1,4 @@
-"""Real-touch acceptance for mobile v0.1.61: Eraser at right, long-hold tuning, mirrored sliders."""
+"""Real-touch acceptance for mobile v0.1.62: one contextual editor, compact handles and fixed header."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 APP=Path(__file__).resolve().parents[1]
@@ -46,19 +46,32 @@ with sync_playwright() as p:
   after=page.evaluate('__qa161.state()')
   assert abs(after['strength']-.39)<.001,(before,after)
   assert page.locator('#strength').input_value()=='39'
-  page.locator('[data-mobile-tuning-tab="dynamics"]').tap()
+  assert not page.locator('#mobileDynamicsTabs').count()
+  assert not page.locator('[data-mobile-tuning-tab]').count()
+  assert not page.locator('.mobile-tuning-choice').count()
   assert page.locator('#mobileTune_density').is_visible()
   assert page.locator('#mobileTune_pencilHardness').is_visible()
   page.locator('#mobileTune_density').fill('28')
   assert abs(page.evaluate('__qa161.state().density')-.28)<.001
   assert page.locator('#density').input_value()=='28'
+  # Natural-height sheet stays within the visual viewport; header stays visible when the long brush editor scrolls.
+  brush_sheet=page.locator('#mobileDynamicsSheet').bounding_box()
+  assert brush_sheet['y']>=0 and brush_sheet['y']+brush_sheet['height']<=height+1,brush_sheet
+  assert brush_sheet['height']>height*.65,brush_sheet
+  assert page.locator('#mobileTune_strength').evaluate('e=>getComputedStyle(e).height')=='45px'
+  title_y=page.locator('#mobileDynamicsTitle').bounding_box()['y']
+  page.locator('#mobileDynamicsBody').evaluate('e=>e.scrollTop=e.scrollHeight')
+  assert abs(page.locator('#mobileDynamicsTitle').bounding_box()['y']-title_y)<2
+  assert page.locator('#mobileDynamicsBody').evaluate('e=>e.scrollTop')>0
+  if width==390:
+   page.locator('#mobileDynamicsBody').evaluate('e=>e.scrollTop=0')
+   page.screenshot(path='/mnt/data/paintlab_v0162_mobile_brush.png')
   # Desktop natural-width checkbox is the same state in the sheet.
   checkbox=page.locator('#mobileDynamicsBody .mobile-tuning-check input').first
   was=page.evaluate('__qa161.state().naturalWidth')
   checkbox.set_checked(not was)
   assert page.evaluate('__qa161.state().naturalWidth') != was
-  if width==390:
-   page.screenshot(path='/mnt/data/paintlab_v0161_mobile_dynamics.png')
+
   page.locator('#mobileDynamicsClose').tap()
   assert not page.locator('#mobileDynamicsSheet').is_visible()
   assert page.evaluate('__qa161.state().material')=='oil','holding material must not cycle'
@@ -66,6 +79,9 @@ with sync_playwright() as p:
   assert page.evaluate('__qa161.state().material')=='pencil','short press cycles'
   # Effects long-hold and stylization long-hold open the appropriate live controls.
   hold('#mobileEffects',2)
+  effect_sheet=page.locator('#mobileDynamicsSheet').bounding_box()
+  assert effect_sheet['height']<=brush_sheet['height']+1,(brush_sheet,effect_sheet)
+  assert effect_sheet['y']>=0 and effect_sheet['y']+effect_sheet['height']<=height+1
   assert page.locator('#mobileTune_strength').is_visible()
   assert page.locator('#mobileTune_scatter').is_visible()
   page.locator('#mobileDynamicsClose').tap()
@@ -77,9 +93,9 @@ with sync_playwright() as p:
   assert abs(page.evaluate('__qa161.state().styleAmount')-.45)<.001
   assert page.locator('#styleAmount').input_value()=='45'
   if width==390:
-   page.screenshot(path='/mnt/data/paintlab_v0161_mobile_stylize.png')
+   page.screenshot(path='/mnt/data/paintlab_v0162_mobile_stylize.png')
   page.locator('#mobileDynamicsClose').tap()
   assert not errors,(width,errors)
-  print('PASS',width,'mobile eraser, exact history alignment, real long press, wide canonical sliders, tabs, model values, and no JS errors',flush=True)
+  print('PASS',width,'context-only mobile editor, thumb size, scrolling header, short effects sheet, real long press and canonical values',flush=True)
   ctx.close()
  browser.close()
