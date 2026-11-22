@@ -24,7 +24,8 @@ class CompactMobileDockV153(unittest.TestCase):
         self.assertIn('height:var(--dock-size)!important',PAGE)
         self.assertIn('width:max-content!important',PAGE)
         self.assertNotIn('id="mobileBrushNext"',PAGE)
-        self.assertIn('id="mobileTipCycle"',PAGE)
+        self.assertNotIn('id="mobileTipCycle"',PAGE)
+        self.assertIn('id="mobileBrush"',PAGE)
         self.assertIn('id="mobileSizeSlider"',PAGE)
 
 if __name__=='__main__':unittest.main()

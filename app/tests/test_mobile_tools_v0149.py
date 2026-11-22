@@ -9,7 +9,7 @@ class MobileControlV149(unittest.TestCase):
    self.assertIn('id="'+key+'"',PAGE)
   self.assertNotIn('id="mobileShare"',PAGE)
   self.assertNotIn('id="mobileSizeButton"',PAGE)
-  self.assertIn("$('mobileBrush').onclick=()=>toggleMobilePopover('mobileBrushPopover')",PAGE)
+  self.assertIn('initMobileBrushController();',PAGE)
   self.assertIn("$('mobileLayers').onclick=()=>",PAGE)
  def test_mobile_none_states_and_routed_effects(self):
   self.assertIn('const MOBILE_EFFECT_MODES=[0,',PAGE)

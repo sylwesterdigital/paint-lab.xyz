@@ -16,7 +16,7 @@ class Mobile019(unittest.TestCase):
   self.assertIn('id="mobileSizeSlider" class="mobile-size-track"',HTML)
   self.assertIn('setPointerCapture(e.pointerId)',HTML)
   self.assertIn('function drawMobileTipPreviews()',HTML)
-  self.assertIn('id="mobileBrushImage"',HTML)
+  self.assertIn('id="mobileBrushLauncherImage"',HTML)
  def test_gestures_and_account(self):
   self.assertIn('const pair=[...touchPointers.keys()].slice(0,2)',HTML)
   self.assertIn('if(d<25)return',HTML)
@@ -24,5 +24,5 @@ class Mobile019(unittest.TestCase):
   self.assertIn('id="mobileAccountEntry"',HTML)
   self.assertIn('data-mobile-action="account"',HTML)
  def test_release(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.56')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.56">',HTML)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.57')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.57">',HTML)

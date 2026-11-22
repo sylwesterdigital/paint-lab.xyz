@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.56",
-  "title": "Paint Lab v0.1.56 — Single Mobile Brush Controller",
+  "version": "0.1.57",
+  "title": "Paint Lab v0.1.57 — One Mobile Brush Button",
   "datetime": "2026-11-22",
   "changes": [
-    "Replace the two stacked TIP/SIZE buttons with one icon-only current-brush preview button above the colour swatch.",
-    "Open a slim edge brush rail from that single button: drag the colour-matched vertical size slider and tap the tip preview inside the rail to cycle brush shapes.",
-    "Long-press the in-rail tip preview to open the existing searchable-by-category tip gallery; return to the same open rail after selecting a tip.",
-    "Remove all redundant size numbers from the launcher and popup; show the actual brush shape and current pigment in the centre during adjustment.",
-    "Preserve the left-aligned swatch, right-aligned Undo/Redo, icon-plus-current-name mode choices, opening-artwork progress, and saved project compatibility."
+    "Keep exactly one square brush-tip preview button above the colour swatch; never add another button when size controls open.",
+    "First tap of this same button opens the edge-aligned vertical size slider; tapping the unchanged button again cycles through brush tips while keeping the slider open.",
+    "Long-press the same button to open the category-filtered tip gallery; after choosing a tip, return to the open size rail.",
+    "Remove the duplicate in-rail tip button and persistent size labels; keep selected-colour slider thumb, central actual-tip preview, and equal-sized mobile dock controls.",
+    "Preserve full editable artwork, gallery loading progress, saved projects, Undo/Redo, and public sharing."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.56",
+      "title": "Paint Lab v0.1.56 — Single Mobile Brush Controller",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Replace the two stacked TIP/SIZE buttons with one icon-only current-brush preview button above the colour swatch.",
+        "Open a slim edge brush rail from that single button: drag the colour-matched vertical size slider and tap the tip preview inside the rail to cycle brush shapes.",
+        "Long-press the in-rail tip preview to open the existing searchable-by-category tip gallery; return to the same open rail after selecting a tip.",
+        "Remove all redundant size numbers from the launcher and popup; show the actual brush shape and current pigment in the centre during adjustment.",
+        "Preserve the left-aligned swatch, right-aligned Undo/Redo, icon-plus-current-name mode choices, opening-artwork progress, and saved project compatibility."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.55",

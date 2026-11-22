@@ -1,3 +1,10 @@
+# v0.1.57 — One Mobile Brush Button (2026-11-22)
+
+- One compact brush silhouette button above the colour swatch: tap once to open size, tap the same button again to cycle brush tips.
+- Long-press that same button for the brush gallery, filtered by category. The selection returns to the still-open size rail.
+- Remove the second tip icon from the slider rail entirely. All bottom controls retain equal dimensions and existing placement.
+- Preserve canvas content, mobile Undo/Redo, saved artwork progress and editable project compatibility.
+
 # v0.1.56 — Single Mobile Brush Controller (2026-11-22)
 
 - Replace separate TIP and SIZE buttons above the mobile colour swatch with one icon-only button showing the selected brush tip.
