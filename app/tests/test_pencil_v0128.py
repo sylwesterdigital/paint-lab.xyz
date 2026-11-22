@@ -6,8 +6,8 @@ SRC=(ROOT/'frontend/index.html').read_text()
 
 class ContinuousPencilTests(unittest.TestCase):
  def test_metadata(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.60')
-  self.assertIn('<title>Paint Lab v0.1.60</title>',SRC)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.61')
+  self.assertIn('<title>Paint Lab v0.1.61</title>',SRC)
  def test_new_strokes_record_engine(self):
   self.assertIn("pencilEngine:'continuous-v1'",SRC[SRC.index('function snapshot()'):SRC.index('function snapshot()')+750])
  def test_continuous_path_and_legacy_fallback(self):

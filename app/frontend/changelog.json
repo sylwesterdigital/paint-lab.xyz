@@ -1,15 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.60",
-  "title": "Paint Lab v0.1.60 — Restore Mobile Rotation & Preserve Canvas Aspect",
+  "version": "0.1.61",
+  "title": "Paint Lab v0.1.61 — Mobile Eraser & Dynamics Controls",
   "datetime": "2026-11-22",
   "changes": [
-    "Restore two-finger canvas rotation by default alongside pinch zoom and pan; preserve explicit user choices and undo the forced opt-out introduced in v0.1.58.",
-    "Stop mobile layout changes, interrupted contacts and app/tab restoration from automatically straightening the canvas.",
-    "Size the render backing canvas from its actual displayed CSS bounds so browser-chrome and viewport changes cannot stretch the artwork or displace touch painting.",
-    "Retain the earlier gesture rollback and coordinate mapping safeguards, with touch regression tests for zoom, rotation, aspect ratio and resumed drawing."
+    "Place a single equal-size Eraser / Brush toggle immediately to the left of mobile Undo and Redo; restore the previous painting mode when leaving eraser.",
+    "Long-press the current pigment button to open a touch-friendly mobile Brush/Dynamics editor with wide horizontal sliders and live numerical values for the desktop stroke, width, material and bristle settings.",
+    "Long-press the Effects or Stylize mode button for its relevant strength, brush texture, pattern size and intensity sliders; single taps continue to cycle through modes including None.",
+    "Keep the canonical desktop sliders as the shared data model: mobile slider changes immediately update actual brush physics, effect properties, persistence and future editable strokes.",
+    "Preserve the single mobile tip/size control, pinch rotation, fixed right-hand history, layers, IndexedDB projects, and public gallery."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.60",
+      "title": "Paint Lab v0.1.60 — Restore Mobile Rotation & Preserve Canvas Aspect",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Restore two-finger canvas rotation by default alongside pinch zoom and pan; preserve explicit user choices and undo the forced opt-out introduced in v0.1.58.",
+        "Stop mobile layout changes, interrupted contacts and app/tab restoration from automatically straightening the canvas.",
+        "Size the render backing canvas from its actual displayed CSS bounds so browser-chrome and viewport changes cannot stretch the artwork or displace touch painting.",
+        "Retain the earlier gesture rollback and coordinate mapping safeguards, with touch regression tests for zoom, rotation, aspect ratio and resumed drawing."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.59",

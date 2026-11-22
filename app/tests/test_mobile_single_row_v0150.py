@@ -30,8 +30,8 @@ class MobileSingleRowV150(unittest.TestCase):
  def test_stylize_and_effects_remain_resettable(self):
   self.assertNotIn('id="mobileEffectsNone"',PAGE)
   self.assertNotIn('id="mobileStylizeNone"',PAGE)
-  self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>{setMode(0);announceMobileChoice('Effect','None');})",PAGE)
-  self.assertIn("initMobileModePress('mobileStylize',mobileCycleStylize,()=>{selectStrokeStyle('none')",PAGE)
+  self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>openMobileTuning('effects'))",PAGE)
+  self.assertIn("initMobileModePress('mobileStylize',mobileCycleStylize,()=>openMobileTuning('stylize')",PAGE)
   self.assertIn("setMobileModeTile('mobileEffects',effectText",PAGE)
   self.assertIn("setMobileModeTile('mobileStylize',styleText",PAGE)
 

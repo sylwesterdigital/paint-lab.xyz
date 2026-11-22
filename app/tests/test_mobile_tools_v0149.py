@@ -17,8 +17,8 @@ class MobileControlV149(unittest.TestCase):
   self.assertIn('function mobileCycleStylize()',PAGE)
   self.assertNotIn('id="mobileEffectsNone"',PAGE)
   self.assertNotIn('id="mobileStylizeNone"',PAGE)
-  self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>{setMode(0);announceMobileChoice('Effect','None');})",PAGE)
-  self.assertIn("initMobileModePress('mobileStylize',mobileCycleStylize,()=>{selectStrokeStyle('none')",PAGE)
+  self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>openMobileTuning('effects'))",PAGE)
+  self.assertIn("initMobileModePress('mobileStylize',mobileCycleStylize,()=>openMobileTuning('stylize')",PAGE)
   self.assertIn("if(next!==0&&strokeStyle!=='none')selectStrokeStyle('none')",PAGE)
   self.assertIn("if(next!=='none'&&mode!==0)setMode(0)",PAGE)
  def test_optional_clear_reset_is_guarded(self):
