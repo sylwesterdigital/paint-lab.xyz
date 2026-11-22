@@ -12,7 +12,7 @@ Paint Lab is an experimental digital art workspace, not a conventional static dr
 - **Painting:** material shortcuts, brush shapes, pressure-sensitive stylus input, flow, strength, opacity, wetness, and textured paint simulation.
 - **Canvas:** touch and trackpad pan, canvas-only pinch zoom and rotation, paper backgrounds, transparent PNG export, and editable project JSON.
 - **Workspace:** movable/resizable panels, undo/redo, draggable quick tools, palettes, four interface themes, and adjustable typography.
-- **Projects:** automatic browser draft recovery and an image-first, fully clickable IndexedDB gallery; optional server-side private canvases backed by SQLite.
+- **Projects:** automatic browser draft recovery and a responsive, native-aspect masonry IndexedDB gallery with local search, date filters and editing; optional server-side private canvases backed by SQLite.
 - **Extensibility:** authenticated Flask API, WebSocket project notifications, encrypted AI-provider credentials and connection checks. **AI-generated layer editing is not implemented yet.**
 
 **What’s New** appears once per release until dismissed. Open previous versions at any time with the development-log icon in the top toolbar. The same history lives in [CHANGELOG.md](CHANGELOG.md) and [app/changelog.json](app/changelog.json).

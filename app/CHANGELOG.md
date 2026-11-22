@@ -1,3 +1,22 @@
+# v0.1.52 — Mobile Layer & Brush Control Redesign (2026-11-22)
+
+- Honor Icon only preferences in mobile pigment, effects, and stylization controls with accessible names and explicit selected states.
+- Position the combined brush tip/size button above the square colour palette swatch without adding another full-width toolbar row.
+- Open Layers from the very top of the mobile viewport as a full-height sheet, with sticky layer creation, merge, visibility, and transformation actions while only the layer list scrolls.
+- Enlarge mobile layer thumbnails by roughly 50%, reorganise each row with larger visibility/edit/reorder controls and a compact layer-name line.
+- Replace repeated inline layer opacity sliders with one wide, accessible slider that opens when the layer opacity control is tapped; preserve undoable opacity edits.
+- Center all mobile layer-sheet close controls and make the sheet close action visually unambiguous.
+- Replace the bulky mobile brush-size popover with a narrow rail aligned to the left edge. The rail and drag handle adopt the selected paint colour.
+- Show a central true-tip silhouette sized for the live canvas zoom while adjusting the brush, without modifying image pixels.
+- Use an icon-only tip-cycle button. Long-press to open a scrollable brush gallery with category pills, recipe presets, custom tips and personal brushes.
+
+# v0.1.51 — Native-Aspect Local Masonry Gallery (2026-11-22)
+
+- Replace the compressed internal IndexedDB gallery thumbnails with naturally proportioned artwork cards distributed across responsive masonry columns.
+- Generate proportional previews for new local and cloud saves. Display historical 360×220 thumbnails at the saved painting's actual canvas ratio without modifying records.
+- Search artwork titles, filter by Today / 7 days / 30 days or custom dates, and sort newest / oldest / A–Z / Z–A.
+- Retain full-card opening, local Rename/Delete edit mode, New artwork, Save as new, Overwrite, and public gallery navigation.
+
 # v0.1.47 — Compact Save & Share (2026-11-22)
 
 - Compress the Save & share interface into a single small panel: artwork name; Save as new, Overwrite, Publish and Device share in one row; PNG with paper, transparent PNG, project ZIP and project JSON in another.

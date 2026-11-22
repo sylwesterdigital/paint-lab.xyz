@@ -1,16 +1,45 @@
 {
   "project": "paint-lab",
-  "version": "0.1.50",
-  "title": "Paint Lab v0.1.50 — Single-Row Mobile Toolbar & Raised Layers Sheet",
+  "version": "0.1.52",
+  "title": "Paint Lab v0.1.52 — Mobile Layer & Brush Control Redesign",
   "datetime": "2026-11-22",
   "changes": [
-    "Consolidate mobile Brush and Size, Colour, Material, Effects, Stylize, optional Eraser, Undo and Redo into one anchored horizontal row; eliminate the separate mode row and stacked brush/colour buttons.",
-    "Shrink mobile buttons evenly at 320px and 390px without wrapping or horizontal scrolling, while keeping selected effects and styles accessible and offering tap-to-clear controls.",
-    "Place the Layers sheet physically above the mobile toolbar and fix its stacking order so layer previews and tools are never obscured by paint controls.",
-    "Maintain the compact mobile brush/size popover and colour palette directly above the tool row, with full accessible names for modes.",
-    "Retain existing local and public galleries, project data, masked stylization, cloud save/share and fast Undo/Redo."
+    "Honor Icon only preferences in mobile pigment, effects, and stylization controls with accessible names and explicit selected states.",
+    "Position the combined brush tip/size button above the square colour palette swatch without adding another full-width toolbar row.",
+    "Open Layers from the very top of the mobile viewport as a full-height sheet, with sticky layer creation, merge, visibility, and transformation actions while only the layer list scrolls.",
+    "Enlarge mobile layer thumbnails by roughly 50%, reorganise each row with larger visibility/edit/reorder controls and a compact layer-name line.",
+    "Replace repeated inline layer opacity sliders with one wide, accessible slider that opens when the layer opacity control is tapped; preserve undoable opacity edits.",
+    "Center all mobile layer-sheet close controls and make the sheet close action visually unambiguous.",
+    "Replace the mobile brush-size popup with a slim left-edge vertical rail, using the currently selected pigment colour for its draggable handle and fill.",
+    "Show a live, actual-tip brush-size silhouette in the centre of the canvas while adjusting diameter, scaled to the visible canvas zoom without painting pixels.",
+    "Replace the redundant Next tip label with a single coloured tip icon; tap to cycle or long-press to open a scrolling grid of brush tips and saved recipes with filter-category pills."
   ],
   "history": [
+    {
+      "version": "0.1.51",
+      "title": "Paint Lab v0.1.51 — Native-Aspect Local Masonry Gallery",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Preserve each local artwork’s native aspect ratio in a responsive masonry gallery, matching the public discovery wall without cropped or stretched thumbnails.",
+        "Generate new IndexedDB gallery thumbnails at proportional dimensions and correctly display legacy 360×220 thumbnails using the saved project canvas ratio; existing artwork records need no migration.",
+        "Add local gallery quick date filters, free-text title search, date-range filters, and newest/oldest/A–Z/Z–A sorting with result counts and Reset.",
+        "Keep full-card opening for editable paintings, separate owner-only Rename/Delete controls in Edit mode, New artwork, Save as new and Overwrite current.",
+        "Provide a larger scrollable desktop gallery and a one-column mobile gallery, without changing saved projects or public publication APIs."
+      ]
+    },
+    {
+      "project": "paint-lab",
+      "version": "0.1.50",
+      "title": "Paint Lab v0.1.50 — Single-Row Mobile Toolbar & Raised Layers Sheet",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Consolidate mobile Brush and Size, Colour, Material, Effects, Stylize, optional Eraser, Undo and Redo into one anchored horizontal row; eliminate the separate mode row and stacked brush/colour buttons.",
+        "Shrink mobile buttons evenly at 320px and 390px without wrapping or horizontal scrolling, while keeping selected effects and styles accessible and offering tap-to-clear controls.",
+        "Place the Layers sheet physically above the mobile toolbar and fix its stacking order so layer previews and tools are never obscured by paint controls.",
+        "Maintain the compact mobile brush/size popover and colour palette directly above the tool row, with full accessible names for modes.",
+        "Retain existing local and public galleries, project data, masked stylization, cloud save/share and fast Undo/Redo."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.49",

@@ -20,6 +20,6 @@ class GestureRegression(unittest.TestCase):
  def test_contextual_mobile_transforms(self):
   self.assertIn("name==='transform'?!transformMode||!mobileOptions.transform",HTML)
   for label in ('move','rotate','scale'):
-   self.assertIn(f'data-transform="{label}">{label.title()}</button>',HTML)
+   self.assertIn(f'data-transform="{label}" aria-label="{label.title()} layer"',HTML)
   self.assertIn("$('transformDone').onclick",HTML)
 if __name__=='__main__':unittest.main()

@@ -11,7 +11,7 @@ class LocalGalleryV0143Tests(unittest.TestCase):
                   '.artcard-title{', 'background:linear-gradient(',
                   '.galleryGrid{display:grid;', '.artcard img{width:100%;height:auto;object-fit:contain',
                   'className=\'artcard-open\'', "open.setAttribute('aria-label','Open artwork: '",
-                  "open.append(title)", 'card.append(pic,open)'):
+                  "open.append(title)", 'card.append(frame,open)'):
             self.assertIn(s,HTML)
         self.assertNotIn('className=\'artcard-main\'',HTML)
         gallery=HTML[HTML.index("async function renderGallery()"):HTML.index("function validateData(",HTML.index("async function renderGallery()"))]
