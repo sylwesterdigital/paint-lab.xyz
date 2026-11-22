@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.43
+# Paint Lab · v0.1.44
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -166,7 +166,7 @@ Or use `create USERNAME` (password prompted interactively) from a trusted shell.
 
 - **New Canvas** offers Window, 1:1, 3:2, 2:3, 16:9, 3:4, 4:3, 2:1 and Custom pixel sizes (maximum 16 megapixels for memory safety). Optional names prefill Save.
 - **Save Artwork** includes PNG with paper, transparent PNG, and **Portable project ZIP**. The ZIP uses uncompressed entries containing already-compressed PNGs: `project.json` (editable document/history, layer manifest), `assets/layers/*.png` (lossless layer pixels), `assets/brushes/*.png` (user tips) and `assets/previews/artwork.png`. Import ZIP under Export to resume editing; JSON-only imports remain supported. ZIP readers that support stored/unencrypted entries can inspect the files.
-- **Share** opens the native OS share sheet for PNG files where supported; when unavailable a PNG downloads. Account holders can explicitly publish a rendered image as a public page at `/p/<token>` and see public artwork at `/u/<username>`. Only the rendered image and public username/title are shared, never private project JSON, layer history or API keys. Owners can revoke published images from Share.
+- **Share** opens the native OS share sheet for PNG files where supported; when unavailable a PNG downloads. Account holders can explicitly publish a rendered image as a public page at `/p/<token>` and see public artwork at `/u/<username>`. Everyone can browse explicitly published images across accounts on `/explore` with title/artist search, date filters and sorting; the discovery page links to Rantlist.me for discussion and potential collaborations. Only the rendered image and public username/title are shared, never private project JSON, layer history or API keys. Owners can revoke published images from Share.
 - Publishing has a 7 MB image limit and downscales the public preview to at most 1600 px; local PNG and ZIP exports retain the artwork's document resolution.
 
 ### Palette sizes and movement-driven colour flow (v0.1.23)

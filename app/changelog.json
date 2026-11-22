@@ -1,16 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.43",
-  "title": "Paint Lab v0.1.43 — Image-First Local Gallery",
+  "version": "0.1.44",
+  "title": "Paint Lab v0.1.44 — Community Art Discovery",
   "datetime": "2026-11-22",
   "changes": [
-    "Redesign the browser-local IndexedDB My gallery cards as edge-to-edge image thumbnails with a subtle gradient and artwork title overlaid in the bottom-left corner, removing the redundant white details area and Open button.",
-    "Make the full artwork card one accessible, keyboard-focusable Open action; preserve the unsaved-changes confirmation, editable project loading, and original IndexedDB project contents.",
-    "Keep the Edit gallery checkbox as a separate mode, showing compact top-right Rename and Delete actions that do not trigger artwork opening. Retain existing rename and delete confirmation safeguards.",
-    "Keep gallery artwork previews uncropped with contain fitting and fluid responsive columns, improve hover/focus and mobile tap targets, and preserve the v0.1.42 public masonry gallery and viewer unchanged.",
-    "No changes to project data, SQLite, published URLs, gallery records, watcher or Ubuntu deployment schema."
+    "Introduce /explore, a public, cross-artist discovery gallery combining explicitly published PNG artworks from every account, newest first; retain every artist gallery and existing /p/ share link.",
+    "Search public artwork by title or artist, select Today / Past 7 days / Past 30 days, apply custom from/to dates, and sort newest, oldest, title A–Z, title Z–A or artist A–Z.",
+    "Present a responsive uncropped masonry art feed with clickable artwork, artist profile links, dates and paginated results; accessible on mobile without requiring login or JavaScript.",
+    "Keep the full-height artwork viewer connected to the current discovery result page when browsing across artists; direct /p/<token> links still open the established same-artist carousel and remain shareable.",
+    "Add a Rantlist.me community invitation to discuss art and seek collaborators; provide a discovery entry point in the studio Share dialog without posting or sending private data to Rantlist.",
+    "Proxy /explore through nginx, extend deployment route probes and index public artwork creation time without migrating or changing saved art, accounts, private projects, or existing publications."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.43",
+      "title": "Paint Lab v0.1.43 — Image-First Local Gallery",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Redesign the browser-local IndexedDB My gallery cards as edge-to-edge image thumbnails with a subtle gradient and artwork title overlaid in the bottom-left corner, removing the redundant white details area and Open button.",
+        "Make the full artwork card one accessible, keyboard-focusable Open action; preserve the unsaved-changes confirmation, editable project loading, and original IndexedDB project contents.",
+        "Keep the Edit gallery checkbox as a separate mode, showing compact top-right Rename and Delete actions that do not trigger artwork opening. Retain existing rename and delete confirmation safeguards.",
+        "Keep gallery artwork previews uncropped with contain fitting and fluid responsive columns, improve hover/focus and mobile tap targets, and preserve the v0.1.42 public masonry gallery and viewer unchanged.",
+        "No changes to project data, SQLite, published URLs, gallery records, watcher or Ubuntu deployment schema."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.42",

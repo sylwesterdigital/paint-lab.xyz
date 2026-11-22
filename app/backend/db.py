@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS publications (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX IF NOT EXISTS idx_publications_owner ON publications(owner_id,created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_publications_recent ON publications(created_at DESC,token DESC);
 CREATE TABLE IF NOT EXISTS provider_keys (
   owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   provider TEXT NOT NULL, ciphertext BLOB NOT NULL,

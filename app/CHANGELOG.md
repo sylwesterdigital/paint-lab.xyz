@@ -1,3 +1,9 @@
+# v0.1.44 — Community Art Discovery (2026-11-22)
+
+- Introduce `/explore`, a public combined masonry gallery of all explicitly published artworks, newest first, with title/artist search, date presets, custom date range, multiple sort orders and pagination.
+- Add artist links, uncropped art, and access from local My gallery and Share; invite visitors to discuss collaboration on Rantlist.me without automatic cross-site sharing.
+- Proxy the new route through nginx and protect it with the deployment readiness checks. Existing public links, private projects and SQLite accounts remain unchanged.
+
 # v0.1.43 — Image-First Local Gallery (2026-11-22)
 
 - Make each local IndexedDB gallery tile fully clickable to open its editable painting, subject to the existing unsaved-work confirmation.

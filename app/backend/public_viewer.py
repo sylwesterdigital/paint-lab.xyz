@@ -32,6 +32,90 @@ main h1{font-size:clamp(20px,3vw,29px);line-height:1.25;overflow-wrap:anywhere}
 @media(max-width:480px){.gallery{columns:1}.gallery-page main{padding:18px 12px 40px}.gallery-page main h1{margin-bottom:16px}.gallery .card{margin-bottom:14px}}
 '''
 
+# The cross-artist discovery wall is public, server-rendered and works without JS.
+DISCOVER_CSS = r'''
+.discover-page nav{gap:18px;flex-wrap:wrap}
+.discover-page main.discover-main{max-width:none;width:100%;margin:0;padding:clamp(18px,3vw,44px) clamp(12px,3vw,48px) 70px}
+.discovery-hero{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:25px}
+.discovery-kicker{font-size:11px;color:#a7cab7;font-weight:780;letter-spacing:.14em;text-transform:uppercase}
+.discover-page main h1{font-size:clamp(30px,5vw,56px);letter-spacing:-.045em;line-height:1.05;margin:6px 0 9px}
+.discovery-subtitle{color:#b2c0bb;margin:0;max-width:550px}
+.community-invite{display:flex;align-items:center;gap:12px;justify-content:space-between;max-width:420px;border:1px solid #52655b;background:linear-gradient(135deg,#293c35,#202a28);border-radius:18px;padding:15px 18px}
+.community-invite strong{display:block;font-size:15px}
+.community-invite span{display:block;font-size:12px;color:#bacbc0;margin-top:2px}
+.community-invite a{flex:none;white-space:nowrap;border-radius:11px;background:#b2d7a5;color:#17251b;padding:10px 13px;font-weight:750;font-size:13px}
+.discovery-filters{border:1px solid #354440;background:#202726;border-radius:18px;padding:15px;margin:0 0 18px}
+.discovery-quick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.discovery-chip{border:1px solid #475951;border-radius:100px;padding:7px 14px;font-size:13px;color:#d1ddd5}
+.discovery-chip[aria-current=page]{color:#112419;background:#add4a3;border-color:#add4a3;font-weight:700}
+.discovery-form{display:grid;grid-template-columns:minmax(170px,2fr) minmax(120px,1fr) repeat(2,minmax(120px,.75fr)) auto;align-items:end;gap:10px}
+.discovery-form label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:#aebbb5;font-weight:600}
+.discovery-form input,.discovery-form select{width:100%;min-width:0;padding:11px 12px;min-height:43px;border-radius:10px;border:1px solid #52605c;background:#151b1a;color:#f0f6f1;font:inherit;font-size:14px;color-scheme:dark}
+.discovery-form button{border:0;background:#add4a3;color:#102118;border-radius:10px;min-height:43px;padding:0 19px;font-weight:740;cursor:pointer}
+.discovery-form button:hover,.community-invite a:hover{background:#c9e8c1;text-decoration:none}
+.discovery-meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;color:#aab7b0;font-size:13px;margin:15px 0}
+.discovery-meta a{color:#bbd9c9}
+.discovery-wall{columns:270px;column-gap:clamp(11px,1.5vw,22px)}
+.discovery-tile{break-inside:avoid;display:inline-block;width:100%;margin-bottom:clamp(11px,1.5vw,22px);overflow:hidden;border-radius:14px;border:1px solid #31423b;background:#202a26;vertical-align:top}
+.discovery-tile .artwork-link{display:block;position:relative;color:#fff}
+.discovery-tile img{display:block;width:100%;height:auto;object-fit:contain;max-width:100%;background:#28302d}
+.discovery-tile .discovery-caption{display:block;position:relative;padding:10px 12px 4px;font-weight:680;font-size:14px;overflow-wrap:anywhere}
+.discovery-tile:hover{border-color:#94bc9f;transform:translateY(-2px);transition:transform .15s,border-color .15s}
+.discovery-artist{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 12px 10px;font-size:12px;color:#b7c5bc}
+.discovery-artist a{color:#b6d6bb;font-weight:650}
+.discovery-artist time{color:#879a90;font-variant-numeric:tabular-nums}
+.discovery-empty{text-align:center;margin:7vh auto;padding:34px;max-width:460px;border:1px solid #39473e;border-radius:16px;color:#b8c7ba}
+.discovery-pager{display:flex;justify-content:center;align-items:center;gap:15px;margin:24px auto}
+.discovery-pager a{padding:10px 17px;border:1px solid #52645a;border-radius:11px}
+@media(max-width:850px){.discovery-form{grid-template-columns:repeat(2,minmax(0,1fr))}.discovery-form .discovery-search{grid-column:1/-1}}
+@media(max-width:500px){.discovery-form{grid-template-columns:repeat(2,minmax(0,1fr))}.discovery-form button{grid-column:1/-1}.discovery-wall{columns:1}.community-invite{width:100%;max-width:none}.discovery-hero{gap:18px}}
+@media(prefers-reduced-motion:reduce){.discovery-tile:hover{transform:none}}
+'''
+
+
+def discover_markup(items, filters, total, page, urls):
+    """One public discovery page. All untrusted text is HTML-escaped."""
+    escape=lambda value: html.escape(str(value),quote=True)
+    chips=''.join('<a class="discovery-chip" href="'+escape(urls['period'][name])+'"'+
+       (' aria-current="page"' if filters.period==name else '')+'>'+label+'</a>'
+       for name,label in [('all','All art'),('today','Today'),('week','Past 7 days'),('month','Past 30 days')])
+    sorts=[('recent','Newest first'),('oldest','Oldest first'),('az','Title A–Z'),
+           ('za','Title Z–A'),('artist','Artist A–Z')]
+    options=''.join('<option value="'+key+'"'+(' selected' if filters.sort==key else '')+'>'+escape(label)+'</option>' for key,label in sorts)
+    cards=''.join(
+        '<article class="discovery-tile"><a class="artwork-link" href="'+escape(item['url'])+'">'
+        '<img src="'+escape(item['image'])+'" loading="lazy" decoding="async" alt="'+escape(item['title'])+'">'
+        '<span class="discovery-caption">'+escape(item['title'])+'</span></a>'
+        '<div class="discovery-artist"><a href="'+escape(item['artist_url'])+'">@'+escape(item['username'])+'</a>'
+        '<time datetime="'+escape(str(item['created_at'])[:10])+'">'+escape(str(item['created_at'])[:10])+'</time></div></article>'
+        for item in items)
+    pager = ''
+    if total > 48:
+        pager = '<div class="discovery-pager" aria-label="Art page navigation">'
+        if urls.get('prev'):
+            pager += '<a href="'+escape(urls['prev'])+'">← Previous</a>'
+        pager += '<span>Page '+str(page)+' / '+str(max(1,(total+47)//48))+'</span>'
+        if urls.get('next'):
+            pager += '<a href="'+escape(urls['next'])+'">Next →</a>'
+        pager += '</div>'
+    return ('<main class="discover-main" id="publicDiscovery">'
+      '<header class="discovery-hero"><div><div class="discovery-kicker">Discover · Paint Lab</div>'
+      '<h1>Art from everyone.</h1><p class="discovery-subtitle">A public gallery of paintings shared by the community. Explore, find artists, and start creating.</p></div>'
+      '<aside class="community-invite"><div><strong>Make art together</strong><span>Talk about ideas, share a link and find collaborators on Rantlist.</span></div>'
+      '<a href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Join the conversation</a></aside></header>'
+      '<section class="discovery-filters" aria-label="Find public artworks"><div class="discovery-quick">'+chips+'</div>'
+      '<form class="discovery-form" action="/explore" method="get">'
+      '<input type="hidden" name="period" value="'+escape(filters.period)+'">'
+      '<label class="discovery-search" for="discoverQuery">Search title or artist<input id="discoverQuery" type="search" name="q" maxlength="100" placeholder="Search art or artist…" value="'+escape(filters.q)+'"></label>'
+      '<label for="discoverSort">Sort by<select id="discoverSort" name="sort">'+options+'</select></label>'
+      '<label for="discoverFrom">From date<input id="discoverFrom" type="date" name="from" value="'+escape(filters.date_from)+'"></label>'
+      '<label for="discoverTo">To date<input id="discoverTo" type="date" name="to" value="'+escape(filters.date_to)+'"></label>'
+      '<button type="submit">Show artworks</button></form></section>'
+      '<div class="discovery-meta"><span><strong>'+str(total)+'</strong> published '+('artwork' if total==1 else 'artworks')+' · Page '+str(page)+'</span>'
+      '<a href="/explore">Clear filters</a></div>'
+      +('<div class="discovery-wall">'+cards+'</div>' if items else '<div class="discovery-empty"><strong>No matching artwork yet.</strong><p>Try a different search or date range, or create something new.</p><a href="/">Open Paint Lab</a></div>')+
+      pager+'</main>')
+
 VIEWER_CSS = '''
 body.viewer-page{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
 .viewer-page nav{flex:none}
@@ -45,9 +129,10 @@ body.viewer-page{height:100vh;height:100dvh;display:flex;flex-direction:column;o
 .art-arrow{position:absolute;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:52px;height:60px;padding:0;border:1px solid #ffffff44;border-radius:12px;background:#182120cf;color:#fff;font-size:30px;line-height:1;cursor:pointer;z-index:2;backdrop-filter:blur(6px)}
 .art-arrow:hover{background:#324640f0}.art-arrow.prev{left:12px}.art-arrow.next{right:12px}
 .art-arrow[hidden]{display:none}
-.art-foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:34px;font-size:12px;color:#a9b8b1}
+.art-foot{flex:none;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;min-height:34px;font-size:12px;color:#a9b8b1}
 .art-foot .art-counter{font-variant-numeric:tabular-nums;min-width:54px}
 .art-foot .art-hint{flex:1;text-align:center}
+.art-foot .community-link{flex:none;color:#b5d7cc;padding:8px;font-weight:650}
 .art-foot .download{flex:none;display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border:1px solid #566966;border-radius:9px;font-weight:650}
 @media(max-width:620px){
   .viewer-page nav{min-height:48px;padding-top:8px;padding-bottom:8px}
@@ -76,6 +161,7 @@ VIEWER_JS = r'''(() => {
   if (!slides.length) return;
   const image = document.getElementById('artImage');
   const title = document.getElementById('artTitle');
+  const creator = document.getElementById('artCreator');
   const counter = document.getElementById('artCounter');
   const download = document.getElementById('artDownload');
   const stage = document.getElementById('artStage');
@@ -85,18 +171,19 @@ VIEWER_JS = r'''(() => {
   let index = Math.min(total - 1, Math.max(0, Number(root.dataset.index) || 0));
   const at = i => (i + total) % total;
   const currentPath = () => window.location.pathname;
-  const indexForPath = () => slides.findIndex(slide => slide.url === currentPath());
+  const indexForPath = () => slides.findIndex(slide => slide.url.split('?')[0] === currentPath());
   function show(i, push = true) {
     index = at(i);
     const item = slides[index];
     image.src = item.image;
     image.alt = item.title;
     title.textContent = item.title;
+    if (creator && item.username && item.artist_url) { creator.textContent = item.username; creator.href = item.artist_url; }
     counter.textContent = (index + 1) + ' / ' + total;
     download.href = item.image;
     download.setAttribute('download', 'paint-lab-artwork.png');
     document.title = item.title + ' · Paint Lab';
-    if (push && currentPath() !== item.url) history.pushState({paintLabPublicSlide: true}, '', item.url);
+    if (push && currentPath() !== item.url.split('?')[0]) history.pushState({paintLabPublicSlide: true}, '', item.url);
     if (total > 1) {
       const adjacent = new Image();
       adjacent.src = slides[at(index + 1)].image;
@@ -158,7 +245,7 @@ def gallery_markup(items: list[dict], username: str) -> str:
     return '<main class="gallery-main" id="publicGallery">' + heading + '<div class="gallery">' + cards + '</div></main>'
 
 
-def viewer_markup(slides: list[dict], active: int, username: str, space_path: str) -> str:
+def viewer_markup(slides: list[dict], active: int, username: str, space_path: str, *, gallery_url: str | None = None) -> str:
     """Build the page for public paintings by one artist, newest first."""
     if not slides or not 0 <= active < len(slides):
         raise ValueError('Viewer requires a published active artwork')
@@ -172,9 +259,9 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         f'<main class="artwork-viewer" id="publicViewer" data-slides="{slide_data}" data-index="{active}">'
         '<header class="art-head"><div>'
         f'<h1 id="artTitle">{escape(item["title"])}</h1>'
-        f'<p>By <a href="{escape(space_path)}">{escape(username)}</a> · Public artwork</p>'
+        f'<p>By <a id="artCreator" href="{escape(space_path)}">{escape(username)}</a> · Public artwork</p>'
         '</div>'
-        f'<a class="gallery-link" href="{escape(space_path)}">All artworks</a>'
+        f'<a class="gallery-link" href="{escape(gallery_url or space_path)}">All artworks</a>'
         '</header>'
         '<section class="art-stage" id="artStage" aria-label="Published artwork preview">'
         f'<img id="artImage" src="{escape(item["image"])}" alt="{escape(item["title"])}" draggable="false">'
@@ -184,6 +271,7 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         '<footer class="art-foot">'
         f'<span class="art-counter" id="artCounter" aria-live="polite">{active+1} / {len(slides)}</span>'
         f'<span class="art-hint">{hint}</span>'
+        '<a class="community-link" href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Discuss art</a>'
         f'<a class="download" id="artDownload" href="{escape(item["image"])}" download="paint-lab-artwork.png">Download PNG</a>'
         '</footer></main>'
     )

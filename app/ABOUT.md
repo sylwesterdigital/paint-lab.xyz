@@ -92,7 +92,7 @@ Keyboard transforms use the desktop pointer position without snapping the layer 
 
 Creating a new canvas now offers common aspect ratios, viewport fit, and custom pixel dimensions up to 16 megapixels; a new optional name becomes the Save Artwork default. Local exports include PNG with or without paper and a portable `.paintlab.zip` file carrying `project.json`, PNG layer assets, imported brush tips, and a preview. The project history remains editable after ZIP import. ZIP files use stored entries (each PNG is already compressed internally), making them readable by general ZIP tools without an online library.
 
-Sharing is explicitly separate from private cloud canvases. A PNG may be shared through the operating system's Web Share sheet, falling back to download when unavailable. Signed-in users can choose to publish a rendered PNG, obtain a revocable public link, and maintain a public image gallery at `/u/<username>`. Public visitors cannot read private editable history or provider credentials.
+Sharing is explicitly separate from private cloud canvases. A PNG may be shared through the operating system's Web Share sheet, falling back to download when unavailable. Signed-in users can choose to publish a rendered PNG, obtain a revocable public link, and maintain a public image gallery at `/u/<username>`. Everyone may browse `/explore`, an opt-in-only global public artwork feed with search and date sorting. Rantlist.me is linked as an external conversation venue, with no automated transfer of artwork or user data. Public visitors cannot read private editable history or provider credentials.
 
 ### Palette sizes and movement-driven colour flow (v0.1.23)
 

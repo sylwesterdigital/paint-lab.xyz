@@ -35,6 +35,8 @@ class Backend(http.server.BaseHTTPRequestHandler):
             body=b'PNG_FROM_FLASK' if typ=='image/png' else b'PUBLISHED_ART_FROM_FLASK'
         elif self.path.startswith('/u/'):
             typ='text/html';body=b'PUBLIC_GALLERY_FROM_FLASK'
+        elif self.path == '/explore':
+            typ='text/html';body=b'PAINT_LAB_DISCOVER_FROM_FLASK'
         elif self.path.startswith('/api/'):
             typ='application/json';body=b'{"ok":true}'
         else:
@@ -75,6 +77,7 @@ def main():
             # Reproduce v0.1.39's old worker configuration: public URLs
             # initially fall through to the editor SPA before nginx is reloaded.
             legacy=re.sub(r'(?m)^ location \^~ /(?:p|u)/ \{\n.*?^ \}\n','',site,flags=re.S)
+            legacy=re.sub(r'(?m)^ location (?:= /explore|\^~ /explore/) \{\n.*?^ \}\n','',legacy,flags=re.S)
             assert legacy!=site and 'location ^~ /p/' not in legacy and 'location ^~ /u/' not in legacy
             write_config(legacy)
             test=subprocess.run([nginx,'-t','-p',str(root),'-c',str(config)],capture_output=True,text=True,timeout=15)
@@ -91,6 +94,8 @@ def main():
             else:raise AssertionError('Disposable nginx did not start: '+((root/'error.log').read_text()[-700:] if (root/'error.log').exists() else 'status '+str(nginx_process.poll())))
             with urllib.request.urlopen(base+'/p/paintlabtestpublishedimage',timeout=2) as response:
                 assert response.status==200 and response.read()==b'PAINT_LAB_EDITOR_SPA_FALLBACK'
+            with urllib.request.urlopen(base+'/explore',timeout=2) as response:
+                assert response.status==200 and response.read()==b'PAINT_LAB_EDITOR_SPA_FALLBACK'
             write_config(site)
             test=subprocess.run([nginx,'-t','-p',str(root),'-c',str(config)],capture_output=True,text=True,timeout=15)
             if test.returncode:raise AssertionError('updated nginx -t failed: '+test.stderr)
@@ -105,11 +110,12 @@ def main():
             for route,content in [('/p/paintlabtestpublishedimage',b'PUBLISHED_ART_FROM_FLASK'),
                                   ('/p/paintlabtestpublishedimage/image.png',b'PNG_FROM_FLASK'),
                                   ('/u/paintlabtestartist',b'PUBLIC_GALLERY_FROM_FLASK'),
+                                  ('/explore',b'PAINT_LAB_DISCOVER_FROM_FLASK'),
                                   ('/api/health',b'{"ok":true}')]:
                 with urllib.request.urlopen(base+route,timeout=3) as response:
                     data=response.read();status=response.status
                 assert status==200 and data==content,(route,status,data)
-            print('PASS: real nginx SPA fallback -> graceful reload -> Flask public page/PNG/gallery/API')
+            print('PASS: real nginx SPA fallback -> graceful reload -> Flask public page/PNG/gallery/discover/API')
     finally:
         upstream.shutdown();upstream.server_close()
         if nginx_process:

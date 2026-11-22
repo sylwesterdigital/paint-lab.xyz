@@ -10,7 +10,7 @@ from flask import Flask,abort,g,jsonify,request,session,send_from_directory,send
 from flask_sock import Sock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash,check_password_hash
-from . import db,keyvault,project_format,public_image,public_viewer
+from . import db,keyvault,project_format,public_image,public_viewer,public_discovery
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=Path(os.environ.get('PAINT_LAB_DATA_DIR',str(ROOT/'var'))).resolve()
@@ -349,21 +349,22 @@ def publication_image(token):
     response.headers['X-Content-Type-Options']='nosniff'
     return response
 
-def public_page(body,title_text,*,viewer=False,gallery=False):
+def public_page(body,title_text,*,viewer=False,gallery=False,discover=False):
     # User-controlled titles and artwork data remain escaped. Only the fixed
     # viewer script may run, under a per-response CSP nonce.
     nonce=secrets.token_urlsafe(20) if viewer else None
-    css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')
+    css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')+(public_viewer.DISCOVER_CSS if discover else '')
     script=f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else ''
-    body_class=' class="viewer-page"' if viewer else (' class="gallery-page"' if gallery else '')
+    body_class=' class="viewer-page"' if viewer else (' class="gallery-page"' if gallery else (' class="discover-page"' if discover else ''))
     document=('<!doctype html><html lang="en"><head><meta charset="utf-8">'
               '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
               '<title>'+html.escape(title_text)+'</title><style>'+css+'</style></head>'
-              '<body'+body_class+'><nav><a href="/">Paint Lab</a><span>Public gallery</span></nav>'
+              '<body'+body_class+'><nav><a href="/">Paint Lab</a><a href="/explore">Explore art</a><span>Public gallery</span></nav>'
               +body+script+'</body></html>')
     resp=Response(document,mimetype='text/html')
     csp="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
     if nonce:csp+="; script-src 'nonce-"+nonce+"'"
+    if discover:csp=csp.replace("form-action 'none'","form-action 'self'")
     resp.headers['Content-Security-Policy']=csp
     resp.headers['X-Content-Type-Options']='nosniff'
     resp.headers['Cache-Control']='no-store'
@@ -374,6 +375,26 @@ def view_publication(token):
     if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
     row=con().execute('SELECT p.title,p.token,p.owner_id,u.username FROM publications p JOIN users u ON u.id=p.owner_id WHERE p.token=?',(token,)).fetchone()
     if not row:abort(404)
+    # A viewer entered from the global discovery feed navigates across artists
+    # in the same filtered result page. Direct /p/<token> links retain the
+    # established same-artist carousel and stable published URL.
+    if request.args.get('browse')=='explore':
+        filters=public_discovery.normalized(request.args)
+        feed_rows,total,page=public_discovery.search(con(),filters)
+        active=next((i for i,item in enumerate(feed_rows) if item['token']==token),None)
+        if active is not None:
+            query_args={'sort':filters.sort,'period':filters.period,'q':filters.q,
+                        'from':filters.date_from,'to':filters.date_to,'page':page}
+            query_args={key:value for key,value in query_args.items() if value}
+            slides=[{'token':item['token'],'title':item['title'],
+                     'username':item['username'],
+                     'artist_url':url_for('public_user_space',username=item['username']),
+                     'url':url_for('view_publication',token=item['token'],browse='explore',**query_args),
+                     'image':url_for('publication_image',token=item['token'])} for item in feed_rows]
+            space=url_for('public_user_space',username=row['username'])
+            gallery_url=url_for('discover_artworks',**query_args)
+            body=public_viewer.viewer_markup(slides,active,row['username'],space,gallery_url=gallery_url)
+            return public_page(body,row['title']+' · Paint Lab',viewer=True)
     publications=con().execute('SELECT token,title FROM publications WHERE owner_id=? ORDER BY created_at DESC,token DESC LIMIT 50',(row['owner_id'],)).fetchall()
     slides=[{'token':item['token'],'title':item['title'],
              'url':url_for('view_publication',token=item['token']),
@@ -383,6 +404,31 @@ def view_publication(token):
     space=url_for('public_user_space',username=row['username'])
     content=public_viewer.viewer_markup(slides,active,row['username'],space)
     return public_page(content,row['title']+' · Paint Lab',viewer=True)
+
+@app.get('/explore')
+def discover_artworks():
+    """Search all explicitly published artwork across users (anonymous-accessible)."""
+    filters=public_discovery.normalized(request.args)
+    rows,total,page=public_discovery.search(con(),filters)
+    browse_params={'browse':'explore','sort':filters.sort,'period':filters.period,'q':filters.q,
+                   'from':filters.date_from,'to':filters.date_to,'page':page}
+    browse_params={key:value for key,value in browse_params.items() if value}
+    items=[{'url':url_for('view_publication',token=row['token'],**browse_params),
+            'image':url_for('publication_image',token=row['token']),
+            'artist_url':url_for('public_user_space',username=row['username']),
+            'username':row['username'],'title':row['title'],
+            'created_at':row['created_at']} for row in rows]
+    def search_url(**updates):
+        fields={'q':filters.q,'sort':filters.sort,'period':filters.period,
+                'from':filters.date_from,'to':filters.date_to}
+        fields.update(updates)
+        return url_for('discover_artworks',**{key:val for key,val in fields.items() if val})
+    pages=(total+public_discovery.PAGE_SIZE-1)//public_discovery.PAGE_SIZE
+    urls={'period':{name:search_url(period=name,page=None) for name in public_discovery.PERIODS},
+          'prev':search_url(page=page-1) if page>1 else None,
+          'next':search_url(page=page+1) if page<pages else None}
+    body=public_viewer.discover_markup(items,filters,total,page,urls)
+    return public_page(body,'Explore public art · Paint Lab',discover=True)
 
 @app.get('/u/<username>')
 def public_user_space(username):

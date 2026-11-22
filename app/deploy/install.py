@@ -88,6 +88,20 @@ server {
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_read_timeout 40s;
  }
+ # Public, cross-user discovery feed. An exact location keeps the SPA fallback
+ # from swallowing /explore, and the prefix covers route probes and future pages.
+ location = /explore {
+  proxy_pass http://127.0.0.1:18766;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_set_header X-Real-IP $remote_addr;
+ }
+ location ^~ /explore/ {
+  proxy_pass http://127.0.0.1:18766;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_set_header X-Real-IP $remote_addr;
+ }
  location /assets/ { try_files $uri =404; }
  location = /version.json { add_header Cache-Control "no-store" always; try_files $uri =404; }
  location / { try_files $uri $uri/ /index.html; }
@@ -259,6 +273,7 @@ PUBLIC_ROUTE_PROBES=(
     '/p/paintlabunknownpublication9999',
     '/p/paintlabunknownpublication9999/image.png',
     '/u/PaintLabUnknownPublicUser9999',
+    '/explore/paintlabunknownroute9999',
 )
 
 def probe_backend_public_route(route):
@@ -321,7 +336,7 @@ def check_public_routes(max_attempts=45,pause_seconds=.5):
             except (OSError,ssl.SSLError,DeployError) as exc:
                 failures.append(route+' '+str(exc))
         if not failures:
-            print('PUBLIC ROUTES OK /p/, /p/<token>/image.png, /u/ after '+str(attempt)+' nginx probe(s)',flush=True)
+            print('PUBLIC ROUTES OK /p/, /p/<token>/image.png, /u/, /explore/ after '+str(attempt)+' nginx probe(s)',flush=True)
             return
         last_error='; '.join(failures)
         if attempt==1:
