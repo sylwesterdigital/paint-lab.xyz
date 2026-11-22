@@ -27,5 +27,5 @@ class TestTransforms(unittest.TestCase):
   self.assertIn("if(['g','r','s'].includes(key)&&!e.shiftKey)",JS)
   self.assertIn('id="mobileTransforms"',JS)
  def test_versions(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.40')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.40">',JS)
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.41')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.41">',JS)

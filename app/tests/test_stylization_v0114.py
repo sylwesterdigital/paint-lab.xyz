@@ -29,9 +29,9 @@ class StylizeTests(unittest.TestCase):
   self.assertIn('function updateLayerFilterCache(',SRC)
   self.assertIn("else if(a.kind==='layer-filter')",SRC)
  def test_release_integrity(self):
-  v=json.loads((ROOT/'version.json').read_text())['version'];self.assertEqual(v,'0.1.40')
+  v=json.loads((ROOT/'version.json').read_text())['version'];self.assertEqual(v,'0.1.41')
   log=json.loads((ROOT/'changelog.json').read_text());self.assertEqual(log['version'],v)
-  self.assertEqual(log['history'][0]['version'],'0.1.39')
-  self.assertIn('Account Save & Public Share',log['history'][2]['title'])
-  self.assertIn('Existing-Image Mask Reveal Filters',log['history'][3]['title'])
+  self.assertEqual(log['history'][0]['version'],'0.1.40')
+  self.assertIn('Account Save & Public Share',log['history'][3]['title'])
+  self.assertIn('Existing-Image Mask Reveal Filters',log['history'][4]['title'])
 if __name__=='__main__':unittest.main()

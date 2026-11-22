@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.40",
-  "title": "Paint Lab v0.1.40 \u2014 Reliable Public-Link Routing Gate",
+  "version": "0.1.41",
+  "title": "Paint Lab v0.1.41 \u2014 Full-Height Published Artwork Viewer",
   "datetime": "2026-11-22",
   "changes": [
-    "Fix the v0.1.39 production deployment rollback triggered by a premature public-share route probe. nginx reload is graceful and can briefly leave old workers serving the previous SPA fallback; the installer now waits and retries HTTPS publication, PNG, and gallery routes before declaring failure.",
-    "Verify the Flask upstream directly for each nonexistent public URL before probing local production nginx. If Flask returns 404 but nginx continues returning the editor with HTTP 200, keep deployment blocked and report each failing route and response type.",
-    "Continue verifying certificate trust, hostname/SNI, and HTTPS through localhost. Limit retries to a short deployment window; genuine misrouting, bad TLS, or broken backend routes still cause rollback rather than false deployment success.",
-    "Add automated regression tests for asynchronous nginx rollover, persistent SPA fallback, missing publication PNG routing and upstream errors. Preserve all v0.1.39 nginx location fixes, existing links, SQLite records and uploaded images without any migration.",
-    "Keep watcher v0.1.6, checksum manifests, Ubuntu app-only release tests, editable cloud projects, and existing-image stylization intact."
+    "Replace the published-artwork page with an edge-to-edge, viewport-height image viewer. Fit every image inside the available window height and width using contain, with no cropping or stretching on desktop or mobile.",
+    "Add previous/next navigation arrows, accessible keyboard Left/Right controls, visible artwork count, and native horizontal swipe recognition on iPhone, iPad and Android touch screens.",
+    "Browse the same artist\u2019s public paintings without returning to the gallery. Update the current artwork title, PNG download link and shareable /p/<token> URL as the viewer advances, with browser Back/Forward history and adjacent-image preloading.",
+    "Keep galleries linked to individual public painting URLs and enforce a per-response Content Security Policy nonce for the static viewer script. Escape public titles and account names, and never expose private SQLite project data in the viewer.",
+    "Retain the v0.1.40 public-route deployment checks, v0.1.6 watcher, existing published PNG files and links, and SHA-256 verified Ubuntu release packaging without database migrations."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.40",
+      "title": "Paint Lab v0.1.40 \u2014 Reliable Public-Link Routing Gate",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Fix the v0.1.39 production deployment rollback triggered by a premature public-share route probe. nginx reload is graceful and can briefly leave old workers serving the previous SPA fallback; the installer now waits and retries HTTPS publication, PNG, and gallery routes before declaring failure.",
+        "Verify the Flask upstream directly for each nonexistent public URL before probing local production nginx. If Flask returns 404 but nginx continues returning the editor with HTTP 200, keep deployment blocked and report each failing route and response type.",
+        "Continue verifying certificate trust, hostname/SNI, and HTTPS through localhost. Limit retries to a short deployment window; genuine misrouting, bad TLS, or broken backend routes still cause rollback rather than false deployment success.",
+        "Add automated regression tests for asynchronous nginx rollover, persistent SPA fallback, missing publication PNG routing and upstream errors. Preserve all v0.1.39 nginx location fixes, existing links, SQLite records and uploaded images without any migration.",
+        "Keep watcher v0.1.6, checksum manifests, Ubuntu app-only release tests, editable cloud projects, and existing-image stylization intact."
+      ]
+    },
     {
       "version": "0.1.39",
       "title": "Paint Lab v0.1.39 \u2014 Published Artwork Link Routing",

@@ -1,3 +1,11 @@
+# v0.1.41 — Full-Height Published Artwork Viewer (2026-11-22)
+
+- Published art now opens in a full-height, screen-fitted viewer; artwork is never cropped, and portrait/landscape images use the available viewport height.
+- Use the previous/next arrows or Left/Right keyboard shortcuts to browse the same artist’s public artworks. Swipe horizontally on mobile and tablet touchscreens.
+- Navigation updates the active public link and download target; browser Back/Forward works. Adjacent images are preloaded.
+- The gallery and existing `/p/<token>` links continue to work; viewer data contains only published PNGs, and the viewer script runs under a strict nonce-based CSP. No SQLite migration.
+- Preserve nginx route verification, v0.1.6 watcher, SHA-256 manifests, and app-only Ubuntu deployment validation.
+
 # v0.1.40 — Reliable Public-Link Routing Gate (2026-11-22)
 
 - Fix the failed v0.1.39 Ubuntu deployment gate: graceful nginx reloads can temporarily retain workers using the previous `/p/` and `/u/` SPA fallback rules; a single immediate 200 response no longer causes premature rollback.

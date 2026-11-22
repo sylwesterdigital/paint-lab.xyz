@@ -10,7 +10,7 @@ from flask import Flask,abort,g,jsonify,request,session,send_from_directory,send
 from flask_sock import Sock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash,check_password_hash
-from . import db,keyvault,project_format,public_image
+from . import db,keyvault,project_format,public_image,public_viewer
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=Path(os.environ.get('PAINT_LAB_DATA_DIR',str(ROOT/'var'))).resolve()
@@ -349,12 +349,22 @@ def publication_image(token):
     response.headers['X-Content-Type-Options']='nosniff'
     return response
 
-def public_page(body,title_text):
-    # User-controlled values are HTML escaped before constructing markup.
-    css='body{margin:0;background:#161b1b;color:#f1f1ea;font:16px system-ui,sans-serif}main{max-width:1100px;margin:35px auto;padding:0 18px}a{color:#a4deca}img{display:block;width:100%;height:auto;border-radius:12px;background:#fff;object-fit:contain}h1{font-size:24px}.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.card{padding:12px;background:#232b2b;border-radius:14px}.card h2{font-size:15px}nav{padding:20px;background:#232b2b}'
-    document='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(title_text)+'</title><style>'+css+'</style><nav><a href="/">Paint Lab</a></nav><main>'+body+'</main></html>'
+def public_page(body,title_text,*,viewer=False):
+    # User-controlled titles and artwork data remain escaped. Only the fixed
+    # viewer script may run, under a per-response CSP nonce.
+    nonce=secrets.token_urlsafe(20) if viewer else None
+    css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')
+    script=f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else ''
+    body_class=' class="viewer-page"' if viewer else ''
+    document=('<!doctype html><html lang="en"><head><meta charset="utf-8">'
+              '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
+              '<title>'+html.escape(title_text)+'</title><style>'+css+'</style></head>'
+              '<body'+body_class+'><nav><a href="/">Paint Lab</a><span>Public gallery</span></nav>'
+              +body+script+'</body></html>')
     resp=Response(document,mimetype='text/html')
-    resp.headers['Content-Security-Policy']="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"
+    csp="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+    if nonce:csp+="; script-src 'nonce-"+nonce+"'"
+    resp.headers['Content-Security-Policy']=csp
     resp.headers['X-Content-Type-Options']='nosniff'
     resp.headers['Cache-Control']='no-store'
     return resp
@@ -362,11 +372,17 @@ def public_page(body,title_text):
 @app.get('/p/<token>')
 def view_publication(token):
     if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
-    row=con().execute('SELECT p.title,p.token,u.username FROM publications p JOIN users u ON u.id=p.owner_id WHERE p.token=?',(token,)).fetchone()
+    row=con().execute('SELECT p.title,p.token,p.owner_id,u.username FROM publications p JOIN users u ON u.id=p.owner_id WHERE p.token=?',(token,)).fetchone()
     if not row:abort(404)
-    heading=html.escape(row['title']);author=html.escape(row['username']);space=url_for('public_user_space',username=row['username'])
-    image=url_for('publication_image',token=token)
-    return public_page(f'<h1>{heading}</h1><p>By <a href="{html.escape(space,quote=True)}">{author}</a> · Public artwork</p><img src="{html.escape(image,quote=True)}" alt="{heading}"><p><a href="{html.escape(image,quote=True)}" download>Download PNG</a></p>',row['title']+' · Paint Lab')
+    publications=con().execute('SELECT token,title FROM publications WHERE owner_id=? ORDER BY created_at DESC,token DESC LIMIT 50',(row['owner_id'],)).fetchall()
+    slides=[{'token':item['token'],'title':item['title'],
+             'url':url_for('view_publication',token=item['token']),
+             'image':url_for('publication_image',token=item['token'])} for item in publications]
+    active=next((i for i,item in enumerate(slides) if item['token']==token),None)
+    if active is None:abort(404)
+    space=url_for('public_user_space',username=row['username'])
+    content=public_viewer.viewer_markup(slides,active,row['username'],space)
+    return public_page(content,row['title']+' · Paint Lab',viewer=True)
 
 @app.get('/u/<username>')
 def public_user_space(username):
