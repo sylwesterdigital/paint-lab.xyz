@@ -1,16 +1,40 @@
 {
   "project": "paint-lab",
-  "version": "0.1.38",
-  "title": "Paint Lab v0.1.38 \u2014 Git Worktree Archive Preflight Repair",
+  "version": "0.1.40",
+  "title": "Paint Lab v0.1.40 \u2014 Reliable Public-Link Routing Gate",
   "datetime": "2026-11-22",
   "changes": [
-    "Repair deployment preflight failures caused by standalone, untracked PAINT_LAB_RELEASE_vX.Y.Z.zip files left in the Git repository root. The release watcher now classifies only exact-versioned, regular root-level release ZIPs as ignorable deployment artifacts.",
-    "Apply the same narrowly scoped exception to automatic GitHub documentation publication, while continuing to reject uncommitted source changes, unknown untracked paths, modified tracked files and symlinked release artifacts.",
-    "Upgrade the packaged macOS watcher from v0.1.5 to v0.1.6; preserve branch, GitHub-origin, SHA-256 manifest, installed-layout testing, SSH, HTTPS and rollback safeguards.",
-    "Add isolated Git-worktree regression checks for benign root release ZIPs, unexpected files, tracked modifications and symlinked archives, including the Ubuntu app-only test layout.",
-    "Preserve v0.1.37 cloud document-version compatibility and PNG share validation. The installed watcher v0.1.5 still needs a one-time local relocation of an obstructing archive before its first deployment of this update."
+    "Fix the v0.1.39 production deployment rollback triggered by a premature public-share route probe. nginx reload is graceful and can briefly leave old workers serving the previous SPA fallback; the installer now waits and retries HTTPS publication, PNG, and gallery routes before declaring failure.",
+    "Verify the Flask upstream directly for each nonexistent public URL before probing local production nginx. If Flask returns 404 but nginx continues returning the editor with HTTP 200, keep deployment blocked and report each failing route and response type.",
+    "Continue verifying certificate trust, hostname/SNI, and HTTPS through localhost. Limit retries to a short deployment window; genuine misrouting, bad TLS, or broken backend routes still cause rollback rather than false deployment success.",
+    "Add automated regression tests for asynchronous nginx rollover, persistent SPA fallback, missing publication PNG routing and upstream errors. Preserve all v0.1.39 nginx location fixes, existing links, SQLite records and uploaded images without any migration.",
+    "Keep watcher v0.1.6, checksum manifests, Ubuntu app-only release tests, editable cloud projects, and existing-image stylization intact."
   ],
   "history": [
+    {
+      "version": "0.1.39",
+      "title": "Paint Lab v0.1.39 \u2014 Published Artwork Link Routing",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Fix the confirmed public-share routing issue: nginx now forwards published artwork pages (/p/<token>), their PNG image URLs (/p/<token>/image.png), and public artist galleries (/u/<username>) to the Flask application instead of serving the editor index.html.",
+        "Keep the public share URLs and SQLite publication records unchanged, so previously published artwork links work again after deployment without republishing or a database migration.",
+        "Preserve explicit /api/ and /ws upstream handling, static frontend files, TLS termination, forwarded original Host and HTTPS scheme, and secure content delivery for published PNGs.",
+        "Add deployment-time public route validation through local nginx and TLS after restart, with automatic rollback if share pages fall through to the editor, plus release regression tests for the nginx proxy paths.",
+        "Retain v0.1.38 Git worktree release-archive handling and watcher v0.1.6, the v0.1.37 cloud document version-4 compatibility fix, and stroke-based existing-image stylization."
+      ]
+    },
+    {
+      "version": "0.1.38",
+      "title": "Paint Lab v0.1.38 \u2014 Git Worktree Archive Preflight Repair",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Repair deployment preflight failures caused by standalone, untracked PAINT_LAB_RELEASE_vX.Y.Z.zip files left in the Git repository root. The release watcher now classifies only exact-versioned, regular root-level release ZIPs as ignorable deployment artifacts.",
+        "Apply the same narrowly scoped exception to automatic GitHub documentation publication, while continuing to reject uncommitted source changes, unknown untracked paths, modified tracked files and symlinked release artifacts.",
+        "Upgrade the packaged macOS watcher from v0.1.5 to v0.1.6; preserve branch, GitHub-origin, SHA-256 manifest, installed-layout testing, SSH, HTTPS and rollback safeguards.",
+        "Add isolated Git-worktree regression checks for benign root release ZIPs, unexpected files, tracked modifications and symlinked archives, including the Ubuntu app-only test layout.",
+        "Preserve v0.1.37 cloud document-version compatibility and PNG share validation. The installed watcher v0.1.5 still needs a one-time local relocation of an obstructing archive before its first deployment of this update."
+      ]
+    },
     {
       "version": "0.1.37",
       "title": "Paint Lab v0.1.37 \u2014 Account Save & Public Share Format Compatibility",

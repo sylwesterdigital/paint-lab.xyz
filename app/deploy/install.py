@@ -5,7 +5,7 @@ Run ONLY by the ZIP watcher over an authenticated SSH connection; never silently
 replace existing vhosts or unrelated services. Artwork and secrets live outside releases.
 """
 from __future__ import annotations
-import argparse,hashlib,ipaddress,json,os,pwd,re,secrets,shutil,socket,subprocess,sys,time,urllib.request
+import argparse,hashlib,http.client,ipaddress,json,os,pwd,re,secrets,shutil,socket,ssl,subprocess,sys,time,urllib.request
 from pathlib import Path
 
 DOMAIN='paint-lab.xyz';SERVICE='paint-lab';PORT=18766;MANAGED='# PAINT_LAB_MANAGED_V1'
@@ -66,6 +66,27 @@ server {
   proxy_set_header X-Forwarded-Proto $scheme;
   proxy_set_header X-Real-IP $remote_addr;
   proxy_read_timeout 90s;
+ }
+ # Public artwork pages and profile galleries are Flask routes, not static SPA assets.
+ # Keep the original URI intact (no trailing slash on proxy_pass), including
+ # /p/<token>/image.png, so shared links open art rather than index.html.
+ location ^~ /p/ {
+  proxy_pass http://127.0.0.1:18766;
+  proxy_http_version 1.1;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_read_timeout 40s;
+ }
+ location ^~ /u/ {
+  proxy_pass http://127.0.0.1:18766;
+  proxy_http_version 1.1;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_read_timeout 40s;
  }
  location /assets/ { try_files $uri =404; }
  location = /version.json { add_header Cache-Control "no-store" always; try_files $uri =404; }
@@ -229,6 +250,87 @@ def reload_nginx():
     run('nginx','-t',timeout=20)
     run('systemctl','reload','nginx',timeout=20)
 
+# Public nginx route readiness is eventually consistent after `systemctl reload nginx`:
+# the command can return after signalling a graceful reload while a previous
+# worker still accepts a few new connections with the SPA fallback config.
+# Probe the Flask upstream separately to distinguish an upstream 404 from an
+# nginx location-routing bug, then retry the HTTPS front door before rolling back.
+PUBLIC_ROUTE_PROBES=(
+    '/p/paintlabunknownpublication9999',
+    '/p/paintlabunknownpublication9999/image.png',
+    '/u/PaintLabUnknownPublicUser9999',
+)
+
+def probe_backend_public_route(route):
+    """Return upstream response status, using a direct socket without proxies."""
+    connection=http.client.HTTPConnection('127.0.0.1',PORT,timeout=4)
+    try:
+        connection.request('GET',route,headers={'Host':DOMAIN,'Cache-Control':'no-store'})
+        response=connection.getresponse()
+        response.read(256)
+        return response.status
+    finally:
+        connection.close()
+
+def probe_https_public_route(route):
+    """Return local nginx response status and type via verified production TLS.
+
+    Send the actual hostname as SNI and Host while connecting directly to
+    localhost. That excludes external DNS and third-party proxy caching.
+    """
+    with socket.create_connection(('127.0.0.1',443),timeout=5) as raw:
+        with ssl.create_default_context().wrap_socket(raw,server_hostname=DOMAIN) as connection:
+            connection.settimeout(5)
+            connection.sendall(('GET '+route+' HTTP/1.1\r\nHost: '+DOMAIN+
+                '\r\nConnection: close\r\nCache-Control: no-store\r\nAccept: text/html\r\n\r\n').encode('ascii'))
+            response=b''
+            while b'\r\n\r\n' not in response and len(response)<8192:
+                chunk=connection.recv(1024)
+                if not chunk:break
+                response+=chunk
+    head,_,_=response.partition(b'\r\n\r\n')
+    lines=head.split(b'\r\n')
+    status=lines[0].decode('ascii','replace') if lines else ''
+    match=re.match(r'^HTTP/1\.[01] (\d{3})(?: |$)',status)
+    if not match:raise DeployError('Invalid nginx HTTP response for '+route+': '+repr(status[:100]))
+    content_type=next((line.split(b':',1)[1].decode('latin1').strip() for line in lines[1:]
+        if line.lower().startswith(b'content-type:')),'unknown')
+    return int(match.group(1)),content_type
+
+def check_public_routes(max_attempts=45,pause_seconds=.5):
+    """Wait for public Flask routes to be active after graceful nginx reload.
+
+    Known-absent publication/gallery URLs must return 404, not the editor SPA's
+    HTTP 200. Probe Flask itself first; only nginx can cause a 200/404 mismatch.
+    A bounded retry tolerates workers retiring asynchronously without hiding a
+    persistently wrong nginx vhost, a bad certificate or a broken Flask route.
+    """
+    for route in PUBLIC_ROUTE_PROBES:
+        upstream=probe_backend_public_route(route)
+        if upstream!=404:
+            raise DeployError('Flask public-route contract failed: '+route+
+                ' returned '+str(upstream)+' directly from 127.0.0.1:'+str(PORT))
+    last_error='no response'
+    for attempt in range(1,max_attempts+1):
+        failures=[]
+        for route in PUBLIC_ROUTE_PROBES:
+            try:
+                status,content_type=probe_https_public_route(route)
+                if status!=404:
+                    failures.append(route+' HTTP '+str(status)+' ('+content_type+')')
+            except (OSError,ssl.SSLError,DeployError) as exc:
+                failures.append(route+' '+str(exc))
+        if not failures:
+            print('PUBLIC ROUTES OK /p/, /p/<token>/image.png, /u/ after '+str(attempt)+' nginx probe(s)',flush=True)
+            return
+        last_error='; '.join(failures)
+        if attempt==1:
+            print('PUBLIC ROUTES: waiting for nginx reload to take effect; '+last_error,flush=True)
+        if attempt<max_attempts:time.sleep(pause_seconds)
+    raise DeployError('Public share URL not routed to Flask after '+str(max_attempts)+
+        ' HTTPS checks (Flask upstream returned 404): '+last_error+
+        '. Verify the live 443 vhost, enabled site symlink and nginx reload on the server.')
+
 def certificate_ready():return CERT.is_file() and PRIVKEY.is_file()
 
 def certbot_identity():
@@ -316,6 +418,7 @@ def install(stage:Path,version:str):
         run('systemctl','restart','paint-lab',timeout=35)
         wait_health(version)
         reload_nginx()
+        check_public_routes()
         print('DEPLOYED v'+version)
         print('SERVER UNIT '+str(UNIT))
         print('PUBLIC URL https://'+DOMAIN+'/')

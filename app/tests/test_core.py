@@ -85,6 +85,37 @@ class PaintLabAPI(unittest.TestCase):
         self.assertEqual(self.c.delete('/api/projects/'+pid,headers={'X-CSRF-Token':self.token}).status_code,200)
         self.assertEqual(self.c.get('/api/projects/'+pid).status_code,404)
 
+
+    def test_published_art_links_and_images_open_for_anonymous_visitors(self):
+        """Publication links are public HTML routes, not links to the SPA/editor."""
+        from urllib.parse import urlsplit
+        from tests.test_cloud_format_v0137 import make_png
+        self.register('artist_publish_routes')
+        png64,png_bytes=make_png()
+        response=self.post('/api/publications',{'title':'Shared blue study','image':png64})
+        self.assertEqual(response.status_code,201,response.json)
+        details=response.json
+        self.assertTrue(details['url'].endswith('/p/'+details['token']))
+        self.assertTrue(details['image_url'].endswith('/p/'+details['token']+'/image.png'))
+        anonymous=self.app.test_client()
+        article=anonymous.get(urlsplit(details['url']).path)
+        self.assertEqual(article.status_code,200)
+        self.assertEqual(article.mimetype,'text/html')
+        self.assertIn(b'Shared blue study',article.data)
+        self.assertIn(b'/p/'+details['token'].encode()+b'/image.png',article.data)
+        self.assertNotIn(b'<title>Paint Lab v',article.data)
+        picture=anonymous.get(urlsplit(details['image_url']).path)
+        self.assertEqual(picture.status_code,200)
+        self.assertEqual(picture.mimetype,'image/png')
+        self.assertEqual(picture.data,png_bytes)
+        gallery=anonymous.get('/u/artist_publish_routes')
+        self.assertEqual(gallery.status_code,200)
+        self.assertIn(b'Shared blue study',gallery.data)
+        self.assertIn(b'/p/'+details['token'].encode(),gallery.data)
+        self.assertEqual(anonymous.get('/p/paintlabunknownpublication9999').status_code,404)
+        self.assertEqual(anonymous.get('/p/paintlabunknownpublication9999/image.png').status_code,404)
+        self.assertEqual(anonymous.get('/u/PaintLabUnknownPublicUser9999').status_code,404)
+
     def test_provider_secret_not_returned(self):
         self.register('artist_api_keys')
         key='sk-user-private-1234567890'

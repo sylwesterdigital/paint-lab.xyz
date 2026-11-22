@@ -1,3 +1,17 @@
+# v0.1.40 — Reliable Public-Link Routing Gate (2026-11-22)
+
+- Fix the failed v0.1.39 Ubuntu deployment gate: graceful nginx reloads can temporarily retain workers using the previous `/p/` and `/u/` SPA fallback rules; a single immediate 200 response no longer causes premature rollback.
+- Directly confirm Flask returns 404 for unknown publication pages, PNG assets and artist galleries. Retry the corresponding TLS-verified nginx routes for a bounded period until the new workers serve the correct routes.
+- Keep failing closed if public pages still return the editor after retries. Surface status codes and content types with actionable nginx diagnostics instead of reporting only `HTTP/1.1 200 OK`.
+- Preserve all published images, public links, SQLite data, nginx proxy configuration, watcher v0.1.6, SHA-256 manifests and app-only Ubuntu tests. No database migration is needed.
+
+# v0.1.39 — Published Artwork Link Routing (2026-11-22)
+
+- Route public `/p/<token>` artwork pages, `/p/<token>/image.png` assets, and `/u/<username>` public galleries to Flask through dedicated nginx locations. Previously the SPA fallback served the editor at published links.
+- Preserve existing publication URLs, SQLite records, uploaded artwork, and private user projects; no database migration or republishing required.
+- Verify all three public proxy routes over verified TLS against local nginx after the release restart; roll back on routing failure.
+- Keep watcher v0.1.6, app-only Ubuntu release validation, editable project v4 compatibility, and composited stroke-mask filters.
+
 # v0.1.38 — Git Worktree Archive Preflight Repair (2026-11-22)
 
 - Prevent safe, untracked `PAINT_LAB_RELEASE_vX.Y.Z.zip` artifacts at the Git repository root from failing the deployment preflight. Only regular files matching the exact versioned archive pattern are ignored; arbitrary untracked files and modified tracked files still block the release.

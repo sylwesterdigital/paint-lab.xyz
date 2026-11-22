@@ -18,5 +18,5 @@ class LayerV0117Contracts(unittest.TestCase):
   self.assertIn('id="pl-eye-hidden"',SOURCE)
   self.assertIn("l.visible?'eye':'eye-hidden'",SOURCE)
  def test_version(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.38')
-  self.assertIn('content="0.1.38"',SOURCE)
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.40')
+  self.assertIn('content="0.1.40"',SOURCE)
