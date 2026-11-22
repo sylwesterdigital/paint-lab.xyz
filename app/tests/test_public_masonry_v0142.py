@@ -67,10 +67,10 @@ class PublicMasonryGalleryTests(unittest.TestCase):
 
     def test_public_route_uses_shared_markup_and_scoped_page(self):
         app=(APP/'backend/app.py').read_text()
-        self.assertIn('public_viewer.gallery_markup(items,row[\'username\'])',app)
-        self.assertIn("gallery=True)",app)
+        self.assertIn('public_viewer.discover_markup(items,filters,total,page,urls,',app)
+        self.assertIn("gallery=True,manage=edit)",app)
         self.assertIn('gallery-page',app)
-        self.assertIn("'image':url_for('publication_image',token=item['token'])",app)
-        self.assertIn("'url':url_for('view_publication',token=item['token'])",app)
+        self.assertIn("'image':url_for('owner_publication_image',token=r['token']) if edit else url_for('publication_image',token=r['token'])",app)
+        self.assertIn("'url':url_for('view_publication',token=r['token'])",app)
 
 if __name__=='__main__': unittest.main()

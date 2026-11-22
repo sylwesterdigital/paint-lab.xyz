@@ -45,11 +45,15 @@ def normalized(params) -> Filters:
                    page=max(1, min(MAX_PAGE,page)))
 
 
-def search(connection, filters: Filters, now=None):
+def search(connection, filters: Filters, now=None, *, owner_id=None, include_hidden=False):
     """Return public records, total matches, and 1-based page, newest by default."""
     today = (now or datetime.now(timezone.utc)).date()
     clauses = []
     values = []
+    if not include_hidden: clauses.append('p.is_visible=1')
+    if owner_id is not None:
+        clauses.append('p.owner_id=?')
+        values.append(owner_id)
     if filters.q:
         # instr treats %, _, and backslash as literal search characters, not wildcards.
         clauses.append('(instr(lower(p.title),lower(?)) > 0 OR instr(lower(u.username),lower(?)) > 0)')
@@ -68,7 +72,7 @@ def search(connection, filters: Filters, now=None):
     tables = ' FROM publications p JOIN users u ON u.id=p.owner_id'
     total = connection.execute('SELECT COUNT(*)'+tables+condition,values).fetchone()[0]
     page = min(filters.page,max(1,(total+PAGE_SIZE-1)//PAGE_SIZE))
-    rows=connection.execute('SELECT p.token,p.title,p.created_at,u.username'+tables+condition+
+    rows=connection.execute('SELECT p.token,p.title,p.created_at,p.is_visible,u.username'+tables+condition+
         ' ORDER BY '+SORTS[filters.sort]+' LIMIT ? OFFSET ?',
         [*values,PAGE_SIZE,(page-1)*PAGE_SIZE]).fetchall()
     return rows,total,page

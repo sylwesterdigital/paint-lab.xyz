@@ -134,7 +134,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("@app.get('/explore')",source)
         self.assertIn('public_discovery.search(con(),filters)',source)
         frontend=(Path(__file__).resolve().parents[1]/'frontend/index.html').read_text()
-        self.assertIn('Explore all public artwork',frontend)
+        self.assertIn('href="/explore"',frontend)
         self.assertIn('Explore public gallery',frontend)
         self.assertIn('https://rantlist.me/',frontend)
 

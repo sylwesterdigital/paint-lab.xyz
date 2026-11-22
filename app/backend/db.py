@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS publications (
   owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   file_name TEXT NOT NULL,
+  is_visible INTEGER NOT NULL DEFAULT 1 CHECK(is_visible IN (0,1)),
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
 CREATE INDEX IF NOT EXISTS idx_publications_owner ON publications(owner_id,created_at DESC);
@@ -48,3 +49,7 @@ def init(path: Path):
         columns={row[1] for row in con.execute('PRAGMA table_info(users)')}
         if 'role' not in columns:
             con.execute("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user','admin'))")
+        # Visibility is reversible; existing public artwork stays public.
+        pub_columns={row[1] for row in con.execute('PRAGMA table_info(publications)')}
+        if 'is_visible' not in pub_columns:
+            con.execute('ALTER TABLE publications ADD COLUMN is_visible INTEGER NOT NULL DEFAULT 1 CHECK(is_visible IN (0,1))')

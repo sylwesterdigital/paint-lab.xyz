@@ -31,7 +31,7 @@ class PortableProjectTests(unittest.TestCase):
   self.assertIn('l.ctx.drawImage(img,0,0,l.canvas.width,l.canvas.height)',HTML)
   self.assertIn('validateData(doc)',HTML)
  def test_sharing_is_explicit_and_uses_uploaded_icon(self):
-  for item in ('pl-share','shareOverlay','shareNative','publishArtwork','copyShareLink','sharePublications','mobileShare'):
+  for item in ('pl-share','shareOverlay','shareNative','publishArtwork','copyShareLink','sharePublicSpace','mobileShare'):
    self.assertIn('id="'+item+'"',HTML)
   self.assertIn('navigator.canShare',HTML)
   self.assertIn("apiCall('/publications','POST'",HTML)

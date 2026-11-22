@@ -35,10 +35,10 @@ main h1{font-size:clamp(20px,3vw,29px);line-height:1.25;overflow-wrap:anywhere}
 # The cross-artist discovery wall is public, server-rendered and works without JS.
 DISCOVER_CSS = r'''
 .discover-page nav{gap:18px;flex-wrap:wrap}
-.discover-page main.discover-main{max-width:none;width:100%;margin:0;padding:clamp(18px,3vw,44px) clamp(12px,3vw,48px) 70px}
+.discover-page main.discover-main,.gallery-page main.discover-main{max-width:none;width:100%;margin:0;padding:clamp(18px,3vw,44px) clamp(12px,3vw,48px) 70px}
 .discovery-hero{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:25px}
 .discovery-kicker{font-size:11px;color:#a7cab7;font-weight:780;letter-spacing:.14em;text-transform:uppercase}
-.discover-page main h1{font-size:clamp(30px,5vw,56px);letter-spacing:-.045em;line-height:1.05;margin:6px 0 9px}
+.discover-page main h1,.gallery-page main.discover-main h1{font-size:clamp(30px,5vw,56px);letter-spacing:-.045em;line-height:1.05;margin:6px 0 9px}
 .discovery-subtitle{color:#b2c0bb;margin:0;max-width:550px}
 .community-invite{display:flex;align-items:center;gap:12px;justify-content:space-between;max-width:420px;border:1px solid #52655b;background:linear-gradient(135deg,#293c35,#202a28);border-radius:18px;padding:15px 18px}
 .community-invite strong{display:block;font-size:15px}
@@ -73,7 +73,7 @@ DISCOVER_CSS = r'''
 '''
 
 
-def discover_markup(items, filters, total, page, urls):
+def discover_markup(items, filters, total, page, urls, *, artist=None, edit=False, is_owner=False, csrf="", gallery_url=None):
     """One public discovery page. All untrusted text is HTML-escaped."""
     escape=lambda value: html.escape(str(value),quote=True)
     chips=''.join('<a class="discovery-chip" href="'+escape(urls['period'][name])+'"'+
@@ -82,13 +82,24 @@ def discover_markup(items, filters, total, page, urls):
     sorts=[('recent','Newest first'),('oldest','Oldest first'),('az','Title A–Z'),
            ('za','Title Z–A'),('artist','Artist A–Z')]
     options=''.join('<option value="'+key+'"'+(' selected' if filters.sort==key else '')+'>'+escape(label)+'</option>' for key,label in sorts)
-    cards=''.join(
-        '<article class="discovery-tile"><a class="artwork-link" href="'+escape(item['url'])+'">'
-        '<img src="'+escape(item['image'])+'" loading="lazy" decoding="async" alt="'+escape(item['title'])+'">'
-        '<span class="discovery-caption">'+escape(item['title'])+'</span></a>'
-        '<div class="discovery-artist"><a href="'+escape(item['artist_url'])+'">@'+escape(item['username'])+'</a>'
-        '<time datetime="'+escape(str(item['created_at'])[:10])+'">'+escape(str(item['created_at'])[:10])+'</time></div></article>'
-        for item in items)
+    def card(item):
+        visible=item.get('visible',True)
+        token=escape(item.get('token',''))
+        title=escape(item['title'])
+        img='<img src="'+escape(item['image'])+'" loading="lazy" decoding="async" alt="'+title+'">'
+        main=('<a class="artwork-link" href="'+escape(item['url'])+'">'+img+
+              '<span class="discovery-caption">'+title+'</span></a>') if visible else (
+              '<div class="artwork-link">'+img+'<span class="discovery-caption">'+title+'</span></div>')
+        controls=''
+        if edit:
+            controls=('<div class="owner-controls"><span class="visibility-label">'+('Public' if visible else 'Hidden from public')+'</span>'
+                '<button type="button" data-visibility="'+token+'" data-next="'+('0' if visible else '1')+'">'+('Hide' if visible else 'Show')+'</button>'
+                '<button type="button" class="danger" data-remove="'+token+'">Remove</button></div>')
+        return ('<article class="discovery-tile'+(' owner-hidden' if not visible else '')+'" data-publication="'+token+'">'
+            +main+'<div class="discovery-artist"><a href="'+escape(item['artist_url'])+'">@'+escape(item['username'])+'</a>'
+            '<time datetime="'+escape(str(item['created_at'])[:10])+'">'+escape(str(item['created_at'])[:10])+'</time></div>'
+            +controls+'</article>')
+    cards=''.join(card(item) for item in items)
     pager = ''
     if total > 48:
         pager = '<div class="discovery-pager" aria-label="Art page navigation">'
@@ -98,21 +109,28 @@ def discover_markup(items, filters, total, page, urls):
         if urls.get('next'):
             pager += '<a href="'+escape(urls['next'])+'">Next →</a>'
         pager += '</div>'
-    return ('<main class="discover-main" id="publicDiscovery">'
-      '<header class="discovery-hero"><div><div class="discovery-kicker">Discover · Paint Lab</div>'
-      '<h1>Art from everyone.</h1><p class="discovery-subtitle">A public gallery of paintings shared by the community. Explore, find artists, and start creating.</p></div>'
-      '<aside class="community-invite"><div><strong>Make art together</strong><span>Talk about ideas, share a link and find collaborators on Rantlist.</span></div>'
-      '<a href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Join the conversation</a></aside></header>'
+    heading = ('<div class="discovery-kicker">Artist gallery · Paint Lab</div><h1>@'+escape(artist)+'</h1>'
+        '<p class="discovery-subtitle">'+('Manage public and hidden artworks. Hide is reversible; Remove deletes permanently.' if edit else 'Published artworks by this artist.')+'</p>') if artist else (
+        '<div class="discovery-kicker">Discover · Paint Lab</div><h1>Art from everyone.</h1>'
+        '<p class="discovery-subtitle">A public gallery of paintings shared by the community. Explore, find artists, and start creating.</p>')
+    owner_link=('<a class="owner-edit-link" href="'+escape(gallery_url)+('?edit=1' if not edit else '')+'">'+
+        ('View public gallery' if edit else 'Edit my gallery')+'</a>') if is_owner and gallery_url else ''
+    invite=('' if artist else '<aside class="community-invite"><div><strong>Make art together</strong><span>Talk about ideas, share a link and find collaborators on Rantlist.</span></div>'
+        '<a href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Join the conversation</a></aside>')
+    action='/u/'+escape(artist) if artist else '/explore'
+    edit_field='<input type="hidden" name="edit" value="1">' if edit else ''
+    return ('<main class="discover-main" id="publicDiscovery"'+(' data-csrf="'+escape(csrf)+'"' if edit else '')+'>' +
+      '<header class="discovery-hero"><div>'+heading+owner_link+'</div>'+invite+'</header>'
       '<section class="discovery-filters" aria-label="Find public artworks"><div class="discovery-quick">'+chips+'</div>'
-      '<form class="discovery-form" action="/explore" method="get">'
+      '<form class="discovery-form" action="'+action+'" method="get">'+edit_field+
       '<input type="hidden" name="period" value="'+escape(filters.period)+'">'
       '<label class="discovery-search" for="discoverQuery">Search title or artist<input id="discoverQuery" type="search" name="q" maxlength="100" placeholder="Search art or artist…" value="'+escape(filters.q)+'"></label>'
       '<label for="discoverSort">Sort by<select id="discoverSort" name="sort">'+options+'</select></label>'
       '<label for="discoverFrom">From date<input id="discoverFrom" type="date" name="from" value="'+escape(filters.date_from)+'"></label>'
       '<label for="discoverTo">To date<input id="discoverTo" type="date" name="to" value="'+escape(filters.date_to)+'"></label>'
       '<button type="submit">Show artworks</button></form></section>'
-      '<div class="discovery-meta"><span><strong>'+str(total)+'</strong> published '+('artwork' if total==1 else 'artworks')+' · Page '+str(page)+'</span>'
-      '<a href="/explore">Clear filters</a></div>'
+      '<div class="discovery-meta"><span><strong>'+str(total)+'</strong> '+('artworks including hidden' if edit else 'published '+('artwork' if total==1 else 'artworks'))+' · Page '+str(page)+'</span>'
+      '<a href="'+action+('?edit=1' if edit else '')+'">Clear filters</a></div>'
       +('<div class="discovery-wall">'+cards+'</div>' if items else '<div class="discovery-empty"><strong>No matching artwork yet.</strong><p>Try a different search or date range, or create something new.</p><a href="/">Open Paint Lab</a></div>')+
       pager+'</main>')
 
@@ -275,3 +293,48 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         f'<a class="download" id="artDownload" href="{escape(item["image"])}" download="paint-lab-artwork.png">Download PNG</a>'
         '</footer></main>'
     )
+
+
+MANAGE_CSS = r'''
+.owner-edit-link{display:inline-block;margin-top:14px;background:#b0d7a7;color:#183023;padding:10px 17px;border-radius:10px;font-weight:750}
+.owner-hidden{opacity:.82;border-style:dashed}
+.owner-hidden img{filter:grayscale(.55)}
+.owner-controls{display:flex;align-items:center;gap:7px;padding:7px 11px 12px;flex-wrap:wrap}
+.owner-controls .visibility-label{flex:1;font-size:12px;color:#b9c8be;min-width:65px}
+.owner-controls button{border:1px solid #627c6a;background:#2c4036;border-radius:8px;color:#eff6ed;padding:8px 10px;font-weight:700;cursor:pointer}
+.owner-controls button:hover{background:#41604d}
+.owner-controls button.danger{border-color:#8b5f5f;background:#422f30}
+.owner-controls button.danger:hover{background:#623c3c}
+.owner-controls button:disabled{opacity:.5;cursor:wait}
+.gallery-page main.discover-main{max-width:none;padding:clamp(18px,3vw,44px) clamp(12px,3vw,48px) 70px}
+.gallery-page .discovery-hero h1{font-size:clamp(27px,4.2vw,50px);letter-spacing:-.03em;margin:5px 0 9px}
+'''
+
+MANAGE_JS = r'''
+(()=>{
+ const gallery=document.getElementById('publicDiscovery');
+ if(!gallery)return;
+ const csrf=gallery.dataset.csrf;
+ gallery.addEventListener('click',async event=>{
+   const button=event.target.closest('button[data-visibility],button[data-remove]');
+   if(!button)return;
+   const token=button.dataset.visibility||button.dataset.remove;
+   if(!/^[A-Za-z0-9_-]{20,80}$/.test(token))return;
+   const remove=button.hasAttribute('data-remove');
+   const visible=button.dataset.next==='1';
+   if(remove&&!confirm('Permanently remove this publication? Its public link will stop working.'))return;
+   const card=button.closest('[data-publication]');
+   card.querySelectorAll('button').forEach(b=>b.disabled=true);
+   try{
+     const response=await fetch('/api/publications/'+encodeURIComponent(token),{
+       method:remove?'DELETE':'PATCH',credentials:'same-origin',
+       headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},
+       body:JSON.stringify(remove?{}:{visible})
+     });
+     if(!response.ok){const problem=await response.json().catch(()=>({}));throw Error(problem.error||'Could not update artwork');}
+     // Refresh filtered result counts, dates, sort order and the visibility badge.
+     window.location.reload();
+   }catch(error){alert(error.message);card.querySelectorAll('button').forEach(b=>b.disabled=false);}
+ });
+})();
+'''

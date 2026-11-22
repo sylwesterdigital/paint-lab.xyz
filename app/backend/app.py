@@ -295,7 +295,7 @@ def public_space_link(username):
     return request.url_root.rstrip('/')+url_for('public_user_space',username=username)
 
 def publication_record(row):
-    return dict(token=row['token'],title=row['title'],created_at=row['created_at'],
+    return dict(token=row['token'],title=row['title'],created_at=row['created_at'],visible=bool(row['is_visible']) if 'is_visible' in row.keys() else True,
                 url=publication_link(row['token']),image_url=request.url_root.rstrip('/')+url_for('publication_image',token=row['token']))
 
 def check_public_png(data):
@@ -304,7 +304,7 @@ def check_public_png(data):
 @app.get('/api/publications')
 @auth
 def list_publications():
-    rows=con().execute('SELECT token,title,created_at FROM publications WHERE owner_id=? ORDER BY created_at DESC LIMIT 100',(user(),)).fetchall()
+    rows=con().execute('SELECT token,title,created_at,is_visible FROM publications WHERE owner_id=? ORDER BY created_at DESC LIMIT 100',(user(),)).fetchall()
     return jsonify(publications=[publication_record(row) for row in rows],
         public_space=public_space_link(con().execute('SELECT username FROM users WHERE id=?',(user(),)).fetchone()['username']))
 
@@ -326,8 +326,21 @@ def publish_artwork():
     except Exception:
         image_path.unlink(missing_ok=True)
         raise
-    row=con().execute('SELECT token,title,created_at FROM publications WHERE token=?',(token,)).fetchone()
+    row=con().execute('SELECT token,title,created_at,is_visible FROM publications WHERE token=?',(token,)).fetchone()
     return jsonify(ok=True,**publication_record(row)),201
+
+@app.patch('/api/publications/<token>')
+@auth
+def set_publication_visibility(token):
+    require_csrf()
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):return jsonify(error='Invalid publication'),404
+    data=payload()
+    if type(data.get('visible')) is not bool:return jsonify(error='Expected visible: true or false'),400
+    with con():
+        result=con().execute('UPDATE publications SET is_visible=? WHERE token=? AND owner_id=?',
+            (int(data['visible']),token,user()))
+    if not result.rowcount:return jsonify(error='Not found'),404
+    return jsonify(ok=True,visible=data['visible'])
 
 @app.delete('/api/publications/<token>')
 @auth
@@ -340,21 +353,32 @@ def revoke_publication(token):
     (PUBLIC_DIR/row['file_name']).unlink(missing_ok=True)
     return jsonify(ok=True)
 
+@app.get('/api/publications/<token>/image.png')
+@auth
+def owner_publication_image(token):
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
+    row=con().execute('SELECT file_name FROM publications WHERE token=? AND owner_id=?',(token,user())).fetchone()
+    if not row:abort(404)
+    response=send_file(PUBLIC_DIR/row['file_name'],mimetype='image/png',conditional=True)
+    response.headers['Cache-Control']='private, no-store'
+    response.headers['X-Content-Type-Options']='nosniff'
+    return response
+
 @app.get('/p/<token>/image.png')
 def publication_image(token):
     if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
-    row=con().execute('SELECT file_name FROM publications WHERE token=?',(token,)).fetchone()
+    row=con().execute('SELECT file_name FROM publications WHERE token=? AND is_visible=1',(token,)).fetchone()
     if not row:abort(404)
     response=send_file(PUBLIC_DIR/row['file_name'],mimetype='image/png',conditional=True,max_age=60)
     response.headers['X-Content-Type-Options']='nosniff'
     return response
 
-def public_page(body,title_text,*,viewer=False,gallery=False,discover=False):
+def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,manage=False):
     # User-controlled titles and artwork data remain escaped. Only the fixed
     # viewer script may run, under a per-response CSP nonce.
-    nonce=secrets.token_urlsafe(20) if viewer else None
-    css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')+(public_viewer.DISCOVER_CSS if discover else '')
-    script=f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else ''
+    nonce=secrets.token_urlsafe(20) if viewer or manage else None
+    css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')+(public_viewer.DISCOVER_CSS if discover or gallery else '')+(public_viewer.MANAGE_CSS if manage else '')
+    script=(f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else '')+(f'<script nonce="{nonce}">{public_viewer.MANAGE_JS}</script>' if manage else '')
     body_class=' class="viewer-page"' if viewer else (' class="gallery-page"' if gallery else (' class="discover-page"' if discover else ''))
     document=('<!doctype html><html lang="en"><head><meta charset="utf-8">'
               '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
@@ -364,7 +388,8 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False):
     resp=Response(document,mimetype='text/html')
     csp="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
     if nonce:csp+="; script-src 'nonce-"+nonce+"'"
-    if discover:csp=csp.replace("form-action 'none'","form-action 'self'")
+    if discover or gallery:csp=csp.replace("form-action 'none'","form-action 'self'")
+    if manage:csp+="; connect-src 'self'"
     resp.headers['Content-Security-Policy']=csp
     resp.headers['X-Content-Type-Options']='nosniff'
     resp.headers['Cache-Control']='no-store'
@@ -373,7 +398,7 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False):
 @app.get('/p/<token>')
 def view_publication(token):
     if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
-    row=con().execute('SELECT p.title,p.token,p.owner_id,u.username FROM publications p JOIN users u ON u.id=p.owner_id WHERE p.token=?',(token,)).fetchone()
+    row=con().execute('SELECT p.title,p.token,p.owner_id,u.username FROM publications p JOIN users u ON u.id=p.owner_id WHERE p.token=? AND p.is_visible=1',(token,)).fetchone()
     if not row:abort(404)
     # A viewer entered from the global discovery feed navigates across artists
     # in the same filtered result page. Direct /p/<token> links retain the
@@ -395,7 +420,7 @@ def view_publication(token):
             gallery_url=url_for('discover_artworks',**query_args)
             body=public_viewer.viewer_markup(slides,active,row['username'],space,gallery_url=gallery_url)
             return public_page(body,row['title']+' · Paint Lab',viewer=True)
-    publications=con().execute('SELECT token,title FROM publications WHERE owner_id=? ORDER BY created_at DESC,token DESC LIMIT 50',(row['owner_id'],)).fetchall()
+    publications=con().execute('SELECT token,title FROM publications WHERE owner_id=? AND is_visible=1 ORDER BY created_at DESC,token DESC LIMIT 50',(row['owner_id'],)).fetchall()
     slides=[{'token':item['token'],'title':item['title'],
              'url':url_for('view_publication',token=item['token']),
              'image':url_for('publication_image',token=item['token'])} for item in publications]
@@ -435,12 +460,31 @@ def public_user_space(username):
     if not re.fullmatch(r'[A-Za-z0-9_.-]{3,40}',username):abort(404)
     row=con().execute('SELECT id,username FROM users WHERE username=?',(username,)).fetchone()
     if not row:abort(404)
-    images=con().execute('SELECT token,title FROM publications WHERE owner_id=? ORDER BY created_at DESC LIMIT 100',(row['id'],)).fetchall()
-    items=[{'url':url_for('view_publication',token=item['token']),
-            'image':url_for('publication_image',token=item['token']),
-            'title':item['title']} for item in images]
-    content=public_viewer.gallery_markup(items,row['username'])
-    return public_page(content,row['username']+' · Paint Lab',gallery=True)
+    is_owner=session.get('user_id')==row['id']
+    edit=is_owner and request.args.get('edit')=='1'
+    filters=public_discovery.normalized(request.args)
+    rows,total,page=public_discovery.search(con(),filters,owner_id=row['id'],include_hidden=edit)
+    browse_params={'sort':filters.sort,'period':filters.period,'q':filters.q,
+                   'from':filters.date_from,'to':filters.date_to,'page':page}
+    browse_params={key:v for key,v in browse_params.items() if v}
+    items=[{'url':url_for('view_publication',token=r['token']),
+            'image':url_for('owner_publication_image',token=r['token']) if edit else url_for('publication_image',token=r['token']),
+            'title':r['title'],'username':row['username'],'token':r['token'],
+            'artist_url':url_for('public_user_space',username=row['username']),
+            'created_at':r['created_at'],'visible':bool(r['is_visible'])} for r in rows]
+    def gallery_url(**updates):
+        fields={'q':filters.q,'sort':filters.sort,'period':filters.period,
+                'from':filters.date_from,'to':filters.date_to,'edit':'1' if edit else None}
+        fields.update(updates)
+        return url_for('public_user_space',username=row['username'],**{k:v for k,v in fields.items() if v is not None and v != ''})
+    pages=(total+public_discovery.PAGE_SIZE-1)//public_discovery.PAGE_SIZE
+    urls={'period':{name:gallery_url(period=name,page=None) for name in public_discovery.PERIODS},
+          'prev':gallery_url(page=page-1) if page>1 else None,
+          'next':gallery_url(page=page+1) if page<pages else None}
+    content=public_viewer.discover_markup(items,filters,total,page,urls,
+        artist=row['username'],edit=edit,is_owner=is_owner,csrf=csrf() if edit else '',
+        gallery_url=url_for('public_user_space',username=row['username']))
+    return public_page(content,row['username']+' · Paint Lab',gallery=True,manage=edit)
 
 @app.get('/api/providers')
 @auth

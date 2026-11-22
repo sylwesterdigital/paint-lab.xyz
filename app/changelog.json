@@ -1,16 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.47",
-  "title": "Paint Lab v0.1.47 — Compact Save & Share",
+  "version": "0.1.48",
+  "title": "Paint Lab v0.1.48 — Brush Collections & Public Gallery Management",
   "datetime": "2026-11-22",
   "changes": [
-    "Redesign Save & share as a compact, single-view panel approximately half the previous height: one artwork-name field, four equally sized primary actions and four download options.",
-    "Remove repetitive section headers, divider lines, descriptive button subtitles, the extra Done footer and idle status prose; Close at the top-right is the only dismiss control.",
-    "Keep Save as new, guarded Overwrite, Publish and Device share independently actionable; preserve account sign-in, paper option and post-publication copyable link in a compact disclosure.",
-    "Preserve direct PNG (paper/transparent), editable project ZIP and JSON exports, safe Save-before-clear, all legacy projects and private gallery data.",
-    "Retain v0.1.46 accelerated Undo/Redo checkpoints and frame-sliced older-history reconstruction with regression verification."
+    "Introduce built-in category-based brush recipe collections for Dry Media, Gouache, Halftones, Manga, Spatter and Watercolour, alongside original tip shapes.",
+    "Add a compact brush editor with material, size, opacity, flow, spacing and scatter controls, plus personal brushes that can be saved, updated, renamed, deleted and imported/exported as JSON.",
+    "Replace the long Share-dialog publication list with a direct Manage my public gallery link and remove the redundant Done footer.",
+    "Give each artist gallery the same search, date presets, custom date range, sorting and masonry presentation as community Explore.",
+    "Add signed-in owner Edit gallery mode with reversible Hide/Show and permanent Remove, protecting hidden PNGs from anonymous public routes; migrate existing SQLite publications automatically.",
+    "Preserve private editable projects, existing public URLs for visible work, the fast Undo/Redo engine, mobile navigation, and watcher-based versioned deployments."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.47",
+      "title": "Paint Lab v0.1.47 — Compact Save & Share",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Redesign Save & share as a compact, single-view panel approximately half the previous height: one artwork-name field, four equally sized primary actions and four download options.",
+        "Remove repetitive section headers, divider lines, descriptive button subtitles, the extra Done footer and idle status prose; Close at the top-right is the only dismiss control.",
+        "Keep Save as new, guarded Overwrite, Publish and Device share independently actionable; preserve account sign-in, paper option and post-publication copyable link in a compact disclosure.",
+        "Preserve direct PNG (paper/transparent), editable project ZIP and JSON exports, safe Save-before-clear, all legacy projects and private gallery data.",
+        "Retain v0.1.46 accelerated Undo/Redo checkpoints and frame-sliced older-history reconstruction with regression verification."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.46",

@@ -71,7 +71,7 @@ class PublicArtworkViewerTests(unittest.TestCase):
 
     def test_backend_selects_only_published_images_by_same_owner(self):
         app=(APP/'backend/app.py').read_text()
-        self.assertIn("WHERE owner_id=? ORDER BY created_at DESC,token DESC LIMIT 50",app)
+        self.assertIn("WHERE owner_id=? AND is_visible=1 ORDER BY created_at DESC,token DESC LIMIT 50",app)
         self.assertIn("'url':url_for('view_publication',token=item['token'])",app)
         self.assertIn("'image':url_for('publication_image',token=item['token'])",app)
         self.assertIn("public_viewer.viewer_markup(slides,active,row['username'],space)",app)

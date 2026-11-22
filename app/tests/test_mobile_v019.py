@@ -24,5 +24,5 @@ class Mobile019(unittest.TestCase):
   self.assertIn('id="mobileAccountEntry"',HTML)
   self.assertIn('data-mobile-action="account"',HTML)
  def test_release(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.47')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.47">',HTML)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.48')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.48">',HTML)
