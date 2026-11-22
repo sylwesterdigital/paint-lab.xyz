@@ -1,4 +1,4 @@
-# Paint Lab · v0.1.35
+# Paint Lab · v0.1.38
 
 A browser painting studio with procedural brush tips, shape tools, multiple layers, local browser gallery, cloud canvas storage, and optional encrypted AI service credentials.
 
@@ -51,7 +51,7 @@ Watcher environment variables:
 | `PAINT_LAB_INSTALL_PACKAGES` | `1` | Allow installation of missing Ubuntu packages only |
 | `PAINT_LAB_PUBLIC_URL` | `https://paint-lab.xyz/` | Public verification address |
 
-`--status`, `--tail`, `--diagnose`, and `--rollback` are supported. The watcher refuses a dirty Git worktree, wrong Git origin, incorrect checksum/version, unsafe ZIP, unsafe SSH target, and a conflicting nginx virtual host. It stages via SSH, tests in the release context, switches an atomic release symlink, checks localhost Flask/SQLite health, checks public HTTPS, and only then commits/pushes the release to GitHub `main`.
+`--status`, `--tail`, `--diagnose`, and `--rollback` are supported. The watcher refuses uncommitted source changes, unexpected untracked files, wrong Git origin, incorrect checksum/version, unsafe ZIP, unsafe SSH target, and a conflicting nginx virtual host. From watcher v0.1.6, a regular untracked `PAINT_LAB_RELEASE_vX.Y.Z.zip` in the repository root is treated as an archive artifact (not as source). On v0.1.5, first move that archive to `updates/archive/` to unblock deployment of the upgrade. It stages via SSH, tests in the release context, switches an atomic release symlink, checks localhost Flask/SQLite health, checks public HTTPS, and only then commits/pushes the release to GitHub `main`.
 
 **First deployment requires:** DNS `paint-lab.xyz` pointed at the intended Ubuntu server, key-based root SSH with a trusted host key, port 80/443 reachable for certbot, and a real email for Let's Encrypt when the certificate is absent. SSH, DNS, firewall and TLS have **not** been tested on the user's live server by this generated release. If nginx already serves `paint-lab.xyz` from an unmanaged configuration, deployment **stops** rather than rewriting it.
 
@@ -131,6 +131,10 @@ Press **G** to move, **R** to rotate, or **S** to scale the active painting laye
 
 Navigation now uses a cached document-resolution paint texture with an independent viewport transform: pinch, pan and rotation do not force layer recomposition. The mobile Move/Rotate/Scale controls appear only in an active transform, started from Layers.
 
+### Stroke-masked image reveal filters (v0.1.36)
+
+In Brush & Paint → **Stylize**, choose Pixel, Halftone, ASCII, Symbols, Mosaic, Invert or another conversion filter, then brush over **already-existing artwork**. The brush pressure and tip determine a reveal mask; the filter reads the *existing visible image* under the mask, not newly deposited pigment. A transparent empty area stays empty. New stroke actions record `existing-image-fx-v3` for replay and undo/redo, while pre-0.1.36 saved stylization actions retain their historical appearance. Filter patterns stay aligned to document coordinates. The brush engine remains a 2D raster approximation, not a GPU pigment solver.
+
 ### Stroke stylization (v0.1.14)
 
 Brush & Paint → **Stylize** offers halftone, ASCII, inverted-colour, pixel, mosaic and symbol strokes. The stroke effect is separate from Pencil/Chalk/Watercolour/Oil and the artistic tip. Pattern size and strength are configurable and saved with each stroke. Oil freehand now uses a persistent bristle-load contact model: bristles pick up underlying colour, deposit mixed pigment and draw thickness-dependent ridges. The 24 Brush Tips thumbnails share a single cached atlas, rather than using 24 canvases. This is a bounded wet-media 2D approximation, not the full GPU fluid solver. References: [David Li Fluid Paint](https://github.com/dli/paint) (MIT), [Patch Oil Paint](https://patch.gg/blendi/oil-paint) (MIT/CC0).
@@ -193,3 +197,18 @@ Unlike watcher v0.1.3, the release gate now verifies the complete embedded `DEVL
 ## Release test topology (v0.1.33)
 
 The local ZIP contains `watch-paint-lab.sh`, `manifest.json`, and `app/`. The Ubuntu installer intentionally copies **only `app/`** into `releases/vX.Y.Z`. Unit tests must not require the watcher or manifest beside `app/` on production. Watcher v0.1.5 runs the suite in both layouts before deployment; never weaken the live server test gate.
+
+## Cloud project and public sharing formats (v0.1.37)
+
+The private account API stores editable project JSON in SQLite. Browser documents
+have `format: "paint-lab-webgl"` and `version: 4`, including masked image-filter
+strokes and historical layer-filter actions. The backend accepts versions 2, 3,
+and 4; cloud save, overwrite and reopen preserve the complete original document.
+Cloud editable history is limited to 16 MiB of JSON and 16 million canvas pixels.
+Existing SQLite databases require no schema migration.
+
+Public sharing is deliberately **PNG-only**. The `/api/publications` endpoint
+never accepts or publishes private editable project JSON. The client resizes
+public PNGs to at most 7 MiB; the backend validates structure and CRCs before
+storing the image. Export ZIP/JSON for editable projects and use the account
+cloud canvas storage to resume editing between devices.

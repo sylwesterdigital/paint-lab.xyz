@@ -8,8 +8,8 @@ SOURCE=(ROOT/'frontend/index.html').read_text()
 
 class OilContactV29(unittest.TestCase):
     def test_release_version(self):
-        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.35')
-        self.assertIn('<title>Paint Lab v0.1.35</title>',SOURCE)
+        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.38')
+        self.assertIn('<title>Paint Lab v0.1.38</title>',SOURCE)
     def test_entry_and_exit_contact_profiles(self):
         for marker in ('function oilEntryBehaviour(', 'function oilEntryMetrics(',
                        'function oilReleaseMetrics(', 'function oilEnvelopeSegments(',
@@ -43,7 +43,7 @@ class OilContactV29(unittest.TestCase):
         watcher_path=ROOT.parent/'watch-paint-lab.sh'
         if watcher_path.is_file():
             watcher=watcher_path.read_text()
-            self.assertIn("VERSION='0.1.5'",watcher)
+            self.assertIn("VERSION='0.1.6'",watcher)
             self.assertIn("'-m','compileall','-q'",watcher)
         else:
             self.assertTrue((ROOT/'version.json').is_file())

@@ -43,7 +43,7 @@ class ReleaseIntegrityV131(unittest.TestCase):
         watcher_path=APP.parent/'watch-paint-lab.sh'
         if watcher_path.is_file():
             watcher=watcher_path.read_text()
-            self.assertIn("VERSION='0.1.5'",watcher)
+            self.assertIn("VERSION='0.1.6'",watcher)
             self.assertIn("if embedded!=main_log or embedded.get('version')!=version:",watcher)
             self.assertIn("server_app=Path(simulated_root)/'releases'/('v'+version)",watcher)
             self.assertIn("shutil.copytree(stage/'app',server_app)",watcher)

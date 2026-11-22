@@ -1,16 +1,52 @@
 {
   "project": "paint-lab",
-  "version": "0.1.35",
-  "title": "Paint Lab v0.1.35 \u2014 Painted-Stroke Image Filters",
-  "datetime": "2026-11-21",
+  "version": "0.1.38",
+  "title": "Paint Lab v0.1.38 \u2014 Git Worktree Archive Preflight Repair",
+  "datetime": "2026-11-22",
   "changes": [
-    "Correct the stylization model: Pixel, Halftone, ASCII, Symbols, Mosaic, Invert and other styles now process the RGBA pixels produced by a newly painted stroke, not the whole layer and not existing paint beneath a stroke-shaped mask.",
-    "When a stylized stroke starts, render its natural pigment, bristle texture, pressure, colour and transparency to a temporary canvas; transform those pixels with the chosen image effect, preview the result as the stroke grows, and composite the transformed image onto the destination layer only at release.",
-    "Selecting a stylization now chooses the next stroke treatment without immediately altering existing artwork. None returns to ordinary painting. Pattern size and intensity affect new strokes, while the Brush Tip, pigment engines and canvas history continue to operate normally.",
-    "Keep deterministic, editable replay by saving the stroke-filter parameters with each stroke. Preserve existing v0.1.34 projects, including legacy whole-layer filters and older stamp-stylized stroke actions, without applying new filters to their history.",
-    "Package through the canonical manifest/SHA-256 release builder and retain production watcher preflight, app-only Ubuntu test layout and rollback safeguards."
+    "Repair deployment preflight failures caused by standalone, untracked PAINT_LAB_RELEASE_vX.Y.Z.zip files left in the Git repository root. The release watcher now classifies only exact-versioned, regular root-level release ZIPs as ignorable deployment artifacts.",
+    "Apply the same narrowly scoped exception to automatic GitHub documentation publication, while continuing to reject uncommitted source changes, unknown untracked paths, modified tracked files and symlinked release artifacts.",
+    "Upgrade the packaged macOS watcher from v0.1.5 to v0.1.6; preserve branch, GitHub-origin, SHA-256 manifest, installed-layout testing, SSH, HTTPS and rollback safeguards.",
+    "Add isolated Git-worktree regression checks for benign root release ZIPs, unexpected files, tracked modifications and symlinked archives, including the Ubuntu app-only test layout.",
+    "Preserve v0.1.37 cloud document-version compatibility and PNG share validation. The installed watcher v0.1.5 still needs a one-time local relocation of an obstructing archive before its first deployment of this update."
   ],
   "history": [
+    {
+      "version": "0.1.37",
+      "title": "Paint Lab v0.1.37 \u2014 Account Save & Public Share Format Compatibility",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Fix a confirmed browser/server format mismatch: frontend projects use paint-lab-webgl document version 4, but the Flask SQLite API rejected all versions newer than 3. Accept editable document versions 2, 3 and 4 on cloud create and overwrite, retaining layer-filter and existing-image-fx-v3 actions without downgrading or discarding them.",
+        "Introduce a shared standard-library project-format validator used by the Flask backend and mandatory release tests. Validate canvas dimensions, action types, stroke coordinates, JSON size and filter stacks before SQLite persistence; preserve existing v2/v3 cloud canvases and SQLite rows without a database migration.",
+        "Keep public sharing explicitly PNG-only: inspect PNG chunks, CRC checksums, image dimensions and the complete trailer before publishing so malformed payloads cannot create broken public links. Public pages never expose private editable project history.",
+        "If a detailed artwork would exceed the public 7 MB PNG limit, automatically downscale and re-encode the public image before publishing. Device sharing retains the full PNG, and account saving reports the 16 MB editable-history limit clearly.",
+        "Add dependency-free cloud-format, SQLite JSON roundtrip and public PNG acceptance/rejection regressions, plus optional Flask integration tests for v4 account creation, retrieval, overwrite and public image publishing. Preserve all v0.1.36 existing-artwork stylization behaviour and watcher release safeguards."
+      ]
+    },
+    {
+      "version": "0.1.36",
+      "title": "Paint Lab v0.1.36 \u2014 Existing-Image Mask Reveal Filters",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Correct Stylize to paint a reveal MASK over existing visible artwork. Pixel, Halftone, ASCII, Symbols, Mosaic and tonal filters now sample the canvas as it looked when the brush touched down, transform that source image, and reveal the result only through the stroke-contact mask; they never manufacture new paint pixels.",
+        "Capture the visible artwork including underlying layers and existing historical layer filters before the stylization stroke begins. If there is no existing image under the stroke, the stylization brush leaves the canvas unchanged. The selected paint colour only influences the invisible contact mask; it is not deposited as pigment.",
+        "Anchor pixel and halftone grids to document coordinates rather than moving stroke bounding boxes, and intersect filtered output with both brush alpha and existing image alpha to stop effects leaking onto blank canvas.",
+        "Keep live in-progress preview, undo/redo, deterministic history replay and portable projects. New strokes record existing-image-fx-v3 while historical stroke-fx-v2, legacy stamp effects and historical layer-filter actions retain their prior replay implementation.",
+        "Release the complete project with its manifest, SHA-256 file checksums, watcher script and an Ubuntu-shaped installation preflight. No automatic production deployment."
+      ]
+    },
+    {
+      "version": "0.1.35",
+      "title": "Paint Lab v0.1.35 \u2014 Painted-Stroke Image Filters",
+      "datetime": "2026-11-21",
+      "changes": [
+        "Correct the stylization model: Pixel, Halftone, ASCII, Symbols, Mosaic, Invert and other styles now process the RGBA pixels produced by a newly painted stroke, not the whole layer and not existing paint beneath a stroke-shaped mask.",
+        "When a stylized stroke starts, render its natural pigment, bristle texture, pressure, colour and transparency to a temporary canvas; transform those pixels with the chosen image effect, preview the result as the stroke grows, and composite the transformed image onto the destination layer only at release.",
+        "Selecting a stylization now chooses the next stroke treatment without immediately altering existing artwork. None returns to ordinary painting. Pattern size and intensity affect new strokes, while the Brush Tip, pigment engines and canvas history continue to operate normally.",
+        "Keep deterministic, editable replay by saving the stroke-filter parameters with each stroke. Preserve existing v0.1.34 projects, including legacy whole-layer filters and older stamp-stylized stroke actions, without applying new filters to their history.",
+        "Package through the canonical manifest/SHA-256 release builder and retain production watcher preflight, app-only Ubuntu test layout and rollback safeguards."
+      ]
+    },
     {
       "version": "0.1.34",
       "title": "Paint Lab v0.1.34 \u2014 Immediate Pixel Filters",

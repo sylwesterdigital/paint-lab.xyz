@@ -1,6 +1,6 @@
 """Paint Lab: browser painting frontend, private SQLite canvases, provider vault and WebSocket events."""
 from __future__ import annotations
-import json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.request,uuid,logging,collections,base64,binascii,struct,html
+import json,os,re,secrets,sqlite3,threading,time,urllib.error,urllib.request,uuid,logging,collections,html
 from datetime import timedelta,datetime,timezone
 from functools import wraps
 from logging.handlers import RotatingFileHandler
@@ -10,7 +10,7 @@ from flask import Flask,abort,g,jsonify,request,session,send_from_directory,send
 from flask_sock import Sock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash,check_password_hash
-from . import db,keyvault
+from . import db,keyvault,project_format,public_image
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=Path(os.environ.get('PAINT_LAB_DATA_DIR',str(ROOT/'var'))).resolve()
@@ -122,15 +122,8 @@ def serialize_project(row,include_document=False):
     return item
 
 def validate_document(obj):
-    if not isinstance(obj,dict) or obj.get('format')!='paint-lab-webgl' or obj.get('version') not in (2,3):
-        raise ValueError('Invalid Paint Lab project format')
-    actions=obj.get('actions')
-    if not isinstance(actions,list) or len(actions)>20000:raise ValueError('Invalid project actions')
-    if not isinstance(obj.get('baseW'),(int,float)) or not 32<=obj['baseW']<=8192:raise ValueError('Invalid canvas width')
-    if not isinstance(obj.get('baseH'),(int,float)) or not 32<=obj['baseH']<=8192:raise ValueError('Invalid canvas height')
-    raw=json.dumps(obj,separators=(',',':'),ensure_ascii=False,allow_nan=False)
-    if len(raw.encode('utf-8'))>16*1024*1024:raise ValueError('Project exceeds 16 MB')
-    return raw
+    return project_format.validate_document(obj)
+
 
 def title(v):
     if not isinstance(v,str) or not v.strip():raise ValueError('Give this painting a name')
@@ -162,7 +155,7 @@ def health():
     try:
         ok=con().execute('SELECT 1').fetchone()[0]==1
     except sqlite3.Error:ok=False
-    return jsonify(ok=ok,version=VERSION,storage='sqlite',websocket=True),200 if ok else 503
+    return jsonify(ok=ok,version=VERSION,storage='sqlite',websocket=True,editable_formats=sorted(project_format.READABLE_VERSIONS),current_editable_format=project_format.CURRENT_VERSION,public_share_format='image/png'),200 if ok else 503
 
 @app.get('/api/auth/me')
 def me():
@@ -306,16 +299,7 @@ def publication_record(row):
                 url=publication_link(row['token']),image_url=request.url_root.rstrip('/')+url_for('publication_image',token=row['token']))
 
 def check_public_png(data):
-    if not isinstance(data,str) or len(data)>PUBLIC_IMAGE_LIMIT*1.4+256 or not data.startswith('data:image/png;base64,'):
-        raise ValueError('Provide a PNG image smaller than 7 MB')
-    try:raw=base64.b64decode(data.split(',',1)[1],validate=True)
-    except (binascii.Error,ValueError):raise ValueError('Invalid PNG encoding')
-    if len(raw)>PUBLIC_IMAGE_LIMIT or len(raw)<32 or raw[:8]!=b'\x89PNG\r\n\x1a\n' or raw[12:16]!=b'IHDR':
-        raise ValueError('Invalid or oversized PNG')
-    width,height=struct.unpack('>II',raw[16:24]);
-    if not 1<=width<=8192 or not 1<=height<=8192 or width*height>16_000_000:
-        raise ValueError('Unsupported image dimensions')
-    return raw
+    return public_image.check_public_png(data,limit=PUBLIC_IMAGE_LIMIT)
 
 @app.get('/api/publications')
 @auth

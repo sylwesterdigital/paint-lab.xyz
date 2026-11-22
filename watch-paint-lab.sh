@@ -10,7 +10,7 @@ from pathlib import Path,PurePosixPath
 
 ROOT=Path(sys.argv[1]).resolve();sys.argv=[sys.argv[0]]+sys.argv[2:]
 UPDATES=ROOT/'updates';UPLOADS=ROOT/'uploads';STATE=ROOT/'.paint-lab'
-VERSION='0.1.5'
+VERSION='0.1.6'
 ZIP_RE=re.compile(r'^PAINT_LAB_RELEASE_v(\d+\.\d+\.\d+)\.zip$')
 REPO='git@github.com:sylwesterdigital/paint-lab.xyz.git'
 HOST=os.getenv('PAINT_LAB_SSH_HOST','root@46.62.232.64')
@@ -191,6 +191,17 @@ def validate(archive,stage):
         say('ZIP hashes, Python, UI markers, JavaScript syntax (when installed), tests OK','PASS')
         return version,info
 
+def ignorable_untracked(path):
+    # Only known local runtime directories and release-archive files are allowed.
+    # An archive at the repository root must be a regular file, not a symlink.
+    # Never ignore arbitrary untracked source files, tracked edits, or staged changes.
+    if path.startswith(('uploads/','updates/','.paint-lab/')) or path=='.DS_Store':
+        return True
+    if ZIP_RE.fullmatch(path):
+        candidate=ROOT/path
+        return candidate.is_file() and not candidate.is_symlink()
+    return False
+
 def preflight(stage):
     if not (ROOT/'.git').is_dir():raise Failure('Watcher must be at Git repository root')
     if command(['git','branch','--show-current'],cwd=ROOT).stdout.strip()!='main':raise Failure('Only main can deploy')
@@ -200,7 +211,7 @@ def preflight(stage):
     changes=[line for line in command(['git','status','--porcelain=v1','-z','--untracked-files=all'],cwd=ROOT).stdout.split('\0') if line]
     for line in changes:
         path=line[3:]
-        if line.startswith('?? ') and (path.startswith(('uploads/','updates/','.paint-lab/')) or path=='.DS_Store'):continue
+        if line.startswith('?? ') and ignorable_untracked(path):continue
         # Safe in-place watcher upgrades are permitted only if the file matches
         # the validated, checksum-verified watcher bundled in this release.
         if path=='watch-paint-lab.sh' and (ROOT/path).is_file() and (ROOT/path).read_bytes()==(stage/'watch-paint-lab.sh').read_bytes():continue
@@ -324,10 +335,11 @@ def publish_repo_docs():
         say('GitHub README, ABOUT and CHANGELOG already in sync','PASS')
         return False
     # Do not inadvertently commit unreviewed changes anywhere else.
+    # As in deployment preflight, standalone release archives are harmless.
     changes_all=[line for line in command(['git','status','--porcelain=v1','-z','--untracked-files=all'],cwd=ROOT).stdout.split('\0') if line]
     for line in changes_all:
         name=line[3:]
-        if line.startswith('?? ') and (name.startswith(('uploads/','updates/','.paint-lab/')) or name=='.DS_Store'):
+        if line.startswith('?? ') and ignorable_untracked(name):
             continue
         raise Failure('Unrelated local changes prevent docs publication: '+line)
     remote=command(['git','ls-remote','origin','refs/heads/main'],cwd=ROOT,timeout=60).stdout

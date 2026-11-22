@@ -30,7 +30,30 @@ class PaintLabAPI(unittest.TestCase):
         self.assertEqual(response.status_code,201,response.json)
         self.token=response.json['csrf'];return response
 
-    def sample(self):return {'format':'paint-lab-webgl','version':3,'baseW':900,'baseH':700,'actions':[],'title':'Canvas'}
+    def sample(self):return {'format':'paint-lab-webgl','version':4,'baseW':900,'baseH':700,'actions':[],'title':'Canvas'}
+
+    def test_v4_document_and_format_contract(self):
+        self.register('artist_v4_formats')
+        doc=self.sample()
+        doc['actions']=[{'kind':'stroke','layerId':'base-layer','seed':53,
+            'cfg':{'styleEngine':'existing-image-fx-v3','strokeEffect':{'kind':'ascii','cell':16,'amount':1}},
+            'points':[{'x':20,'y':40},{'x':35,'y':41}]},
+            {'kind':'layer-filter','layerId':'base-layer','filters':[]}] 
+        saved=self.post('/api/projects',{'title':'Version 4 — stylized','document':doc})
+        self.assertEqual(saved.status_code,201,saved.json)
+        loaded=self.c.get('/api/projects/'+saved.json['id'])
+        self.assertEqual(loaded.status_code,200,loaded.json)
+        self.assertEqual(loaded.json['project']['document'],doc)
+        changed=self.c.put('/api/projects/'+saved.json['id'],json={
+            'title':'v4 overwritten','document':doc},headers={'X-CSRF-Token':self.token})
+        self.assertEqual(changed.status_code,200,changed.json)
+        report=self.c.get('/api/health').json
+        self.assertEqual(report['current_editable_format'],4)
+        self.assertEqual(report['editable_formats'],[2,3,4])
+        self.assertEqual(report['public_share_format'],'image/png')
+        doc['version']=5
+        rejected=self.post('/api/projects',{'title':'Not supported','document':doc})
+        self.assertEqual(rejected.status_code,400,rejected.json)
 
     def test_health_and_version(self):
         r=self.c.get('/api/health');self.assertEqual(r.status_code,200)
