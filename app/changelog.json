@@ -1,17 +1,31 @@
 {
   "project": "paint-lab",
-  "version": "0.1.48",
-  "title": "Paint Lab v0.1.48 — Brush Collections & Public Gallery Management",
+  "version": "0.1.49",
+  "title": "Paint Lab v0.1.49 — Mobile Tool Clarity & Canvas Reset",
   "datetime": "2026-11-22",
   "changes": [
-    "Introduce built-in category-based brush recipe collections for Dry Media, Gouache, Halftones, Manga, Spatter and Watercolour, alongside original tip shapes.",
-    "Add a compact brush editor with material, size, opacity, flow, spacing and scatter controls, plus personal brushes that can be saved, updated, renamed, deleted and imported/exported as JSON.",
-    "Replace the long Share-dialog publication list with a direct Manage my public gallery link and remove the redundant Done footer.",
-    "Give each artist gallery the same search, date presets, custom date range, sorting and masonry presentation as community Explore.",
-    "Add signed-in owner Edit gallery mode with reversible Hide/Show and permanent Remove, protecting hidden PNGs from anonymous public routes; migrate existing SQLite publications automatically.",
-    "Preserve private editable projects, existing public URLs for visible work, the fast Undo/Redo engine, mobile navigation, and watcher-based versioned deployments."
+    "Offer an optional Reset painting tools checkbox when clearing the canvas; restore normal oil brush, round tip, size and dynamics, and turn Effects and Stylize off without changing paper, saved presets or project data.",
+    "Replace separate mobile brush-tip and brush-size buttons with one combined Brush & Size button immediately above Palette; retain fast tip cycling inside its size-slider popover.",
+    "Expose persistent mobile Effects and Stylize selectors that cycle every supported mode, display their current names and provide an immediate None control; choosing Stylize returns to normal brush mode and choosing Effects switches Stylize off.",
+    "Replace the redundant mobile Share button with a direct Layers button; Share remains accessible in Save & share.",
+    "Shorten the mobile layers sheet, enlarge its layer thumbnails and compact its toolbar while keeping add, duplicate, delete, blend, opacity, reorder and transform tools.",
+    "Keep desktop editing, existing cloud accounts and publications, fast Undo/Redo, and the checksum-verified watcher deployment compatible."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.48",
+      "title": "Paint Lab v0.1.48 — Brush Collections & Public Gallery Management",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Introduce built-in category-based brush recipe collections for Dry Media, Gouache, Halftones, Manga, Spatter and Watercolour, alongside original tip shapes.",
+        "Add a compact brush editor with material, size, opacity, flow, spacing and scatter controls, plus personal brushes that can be saved, updated, renamed, deleted and imported/exported as JSON.",
+        "Replace the long Share-dialog publication list with a direct Manage my public gallery link and remove the redundant Done footer.",
+        "Give each artist gallery the same search, date presets, custom date range, sorting and masonry presentation as community Explore.",
+        "Add signed-in owner Edit gallery mode with reversible Hide/Show and permanent Remove, protecting hidden PNGs from anonymous public routes; migrate existing SQLite publications automatically.",
+        "Preserve private editable projects, existing public URLs for visible work, the fast Undo/Redo engine, mobile navigation, and watcher-based versioned deployments."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.47",
