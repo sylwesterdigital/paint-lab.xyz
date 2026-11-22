@@ -1,3 +1,10 @@
+# v0.1.55 — Responsive Gallery Opening and Clear Mobile Tool Choices (2026-11-22)
+
+- Show an opening-artwork progress overlay immediately and reconstruct complex saved paintings across browser frames, including long stroke segments, to keep the screen responsive.
+- Display the actual selected pigment, effect and stylization names alongside their icons in the mobile toolbar; briefly announce selections at the centre of the screen.
+- Fix the invisible overlapping brush-control hit regions: clearly separated TIP and SIZE controls above the bottom-left colour swatch. TIP cycles or long-presses to browse; SIZE opens the colour-matched left-edge slider with an accurate central tip preview.
+- Preserve bottom-left colour and bottom-right Undo/Redo, editable artwork compatibility and gallery filters.
+
 # v0.1.54 — Clear Mobile Tools & Faster History (2026-11-22)
 
 - Restore logical mobile layout: square colour swatch pinned to the bottom-left, with painting tools next and Undo/Redo pinned to the bottom-right in the same row.

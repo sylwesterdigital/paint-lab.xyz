@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.54",
-  "title": "Paint Lab v0.1.54 — Clear Mobile Tools & Faster History",
+  "version": "0.1.55",
+  "title": "Paint Lab v0.1.55 — Responsive Gallery Opening and Clear Mobile Tool Choices",
   "datetime": "2026-11-22",
   "changes": [
-    "Restore logical mobile layout: square colour swatch pinned to the bottom-left, with painting tools next and Undo/Redo pinned to the bottom-right in the same row.",
-    "Restore a usable split brush-tip and size tile above the colour swatch. Tip tapping cycles silhouettes, long-press opens the filtered tip gallery, and the size readout opens the edge-mounted size rail; fix pointer-layer interception that previously blocked tip taps.",
-    "Always display the actual pigment name (Oil, Pencil, Chalk, or Water) in the mobile paint-mode button instead of an ambiguous generic drawing icon.",
-    "Cycle through FX and Stylize options including None; remove tinted selected-button backgrounds and display the exact newly chosen mode in the centre of the screen for 850 milliseconds. Long-press resets to None.",
-    "Speed up recent mobile Undo/Redo by capturing bounded full-resolution checkpoints immediately before new strokes, reduce the wait for idle checkpoint creation, and minimise work per fallback replay frame; defer off-screen layer thumbnail rebuilding until Layers is opened."
+    "Open saved gallery artwork with an immediate blocking progress overlay and frame-sliced editable history restoration; large individual strokes now yield between point batches instead of freezing the interface.",
+    "Replace cryptic mobile FX and ST buttons with live tool icons and the actual selected effect or stylization names inside each button, including None.",
+    "Show a pigment icon alongside the active painting material name and keep centre-screen 850-millisecond mode feedback.",
+    "Make brush-tip and brush-size controls two visibly separated, non-overlapping touch targets above the colour swatch: TIP cycles or opens the library on hold, and SIZE displays the diameter and opens the coloured vertical slider with a centre-screen live preview.",
+    "Preserve the single-row bottom dock, left colour / right Undo-Redo placement, save/share, history cache and project compatibility."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.54",
+      "title": "Paint Lab v0.1.54 — Clear Mobile Tools & Faster History",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Restore logical mobile layout: square colour swatch pinned to the bottom-left, with painting tools next and Undo/Redo pinned to the bottom-right in the same row.",
+        "Restore a usable split brush-tip and size tile above the colour swatch. Tip tapping cycles silhouettes, long-press opens the filtered tip gallery, and the size readout opens the edge-mounted size rail; fix pointer-layer interception that previously blocked tip taps.",
+        "Always display the actual pigment name (Oil, Pencil, Chalk, or Water) in the mobile paint-mode button instead of an ambiguous generic drawing icon.",
+        "Cycle through FX and Stylize options including None; remove tinted selected-button backgrounds and display the exact newly chosen mode in the centre of the screen for 850 milliseconds. Long-press resets to None.",
+        "Speed up recent mobile Undo/Redo by capturing bounded full-resolution checkpoints immediately before new strokes, reduce the wait for idle checkpoint creation, and minimise work per fallback replay frame; defer off-screen layer thumbnail rebuilding until Layers is opened."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.53",

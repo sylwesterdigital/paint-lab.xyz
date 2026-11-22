@@ -6,9 +6,9 @@ HTML=(ROOT/'frontend/index.html').read_text()
 class LocalMasonryV0151Tests(unittest.TestCase):
  def test_release_versions_and_changelog(self):
   data=json.loads((ROOT/'changelog.json').read_text())
-  self.assertEqual(data['version'],'0.1.54')
-  self.assertEqual(data['history'][0]['version'],'0.1.53')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.54">',HTML)
+  self.assertEqual(data['version'],'0.1.55')
+  self.assertEqual(data['history'][0]['version'],'0.1.54')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.55">',HTML)
  def test_native_ratio_thumbnail_and_legacy_preservation(self):
   for fragment in ('const src=createExportCanvas(true),scale=Math.min(520/src.width,520/src.height,1);',
     'c.height=Math.max(1,Math.round(src.height*scale))',
@@ -25,8 +25,8 @@ class LocalMasonryV0151Tests(unittest.TestCase):
        'id="galleryTo"','id="galleryResetFilters"','data-gallery-period="all"',
        'data-gallery-period="today"','data-gallery-period="week"','data-gallery-period="month"',
        "function galleryFilterRecords(records)","if(edit){",
-       "open.onclick=async()=>", "rename.onclick=async()=>", "trash.onclick=async()=>",
-       "loadProject(item.data,item.id)","hideModal('galleryOverlay')",
+       "open.onclick=()=>openSavedGalleryArtwork(item)", "rename.onclick=async()=>", "trash.onclick=async()=>",
+       "openSavedGalleryArtwork(item)","hideModal('galleryOverlay')",
        "window.addEventListener('resize',()=>{if($('galleryOverlay').classList.contains('visible'))renderGallery();});"):
    self.assertIn(fragment,HTML)
   self.assertIn('confirmAction(`Delete',HTML)

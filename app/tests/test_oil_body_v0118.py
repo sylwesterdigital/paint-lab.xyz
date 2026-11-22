@@ -13,7 +13,7 @@ class OilBodyAndStartup(unittest.TestCase):
         self.assertIn('const broken=',SOURCE)
         self.assertIn('br.load=Math.max(.24+load*.23',SOURCE)
     def test_version_title_and_startup_brand(self):
-        self.assertIn('<title>Paint Lab v0.1.54</title>',SOURCE)
+        self.assertIn('<title>Paint Lab v0.1.55</title>',SOURCE)
         self.assertIn('id="startupBrand"',SOURCE)
         self.assertIn('function showBrandIntro()',SOURCE)
         self.assertIn('pointer-events:none;opacity:0',SOURCE)
@@ -23,7 +23,7 @@ class OilBodyAndStartup(unittest.TestCase):
         self.assertIn("$('artName').value.trim()||'Untitled'",SOURCE)
     def test_metadata(self):
         log=json.loads((ROOT/'changelog.json').read_text())
-        self.assertEqual(log['version'],'0.1.54')
-        self.assertEqual(log['history'][0]['version'],'0.1.53')
+        self.assertEqual(log['version'],'0.1.55')
+        self.assertEqual(log['history'][0]['version'],'0.1.54')
 
 if __name__=='__main__':unittest.main()

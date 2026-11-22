@@ -19,9 +19,9 @@ class LocalGalleryV0143Tests(unittest.TestCase):
 
     def test_gallery_open_and_edit_actions_remain_isolated(self):
         code=HTML[HTML.index('async function renderGallery()'):HTML.index('function validateData(',HTML.index('async function renderGallery()'))]
-        self.assertIn("open.onclick=async()=>",code)
-        self.assertIn('loadProject(item.data,item.id)',code)
-        self.assertIn("hideModal('galleryOverlay')",code)
+        self.assertIn("open.onclick=()=>openSavedGalleryArtwork(item)",code)
+        self.assertIn('openSavedGalleryArtwork(item)',code)
+        self.assertIn("hideModal('galleryOverlay')",HTML)
         self.assertIn('if(edit){',code)
         self.assertIn('rename.onclick=async()=>',code)
         self.assertIn('trash.onclick=async()=>',code)
