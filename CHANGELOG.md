@@ -1,3 +1,29 @@
+# v0.1.35 — Painted-Stroke Image Filters (2026-11-21)
+
+- New stroke stylization transforms the RGBA output of an ordinarily painted brush stroke. The original selected oil, watercolour, chalk or pencil instrument renders first, then its image is transformed into Pixel, Halftone, ASCII, Symbols, Mosaic or another filter.
+- The new filtered stroke can be previewed while drawing and is composited to its target layer at release. Existing pixels and other layers are not passed through the filter.
+- Choosing a filter no longer applies it immediately to an entire existing layer. The old layer-filter actions remain available for imported older-project replay.
+- Store stroke effect and pattern parameters on new stroke actions to retain undo/redo, deterministic replay and editable-project portability.
+- Keep the manifest-based release packaging and existing macOS watcher/Ubuntu rollout safeguards.
+
+# v0.1.34 — Immediate Pixel Filters (2026-11-21)
+
+- Fix the Stylize panel showing Pixel selected while the active layer still had zero filters: tapping a filter now immediately applies it to existing active-layer pixels, and selecting another filter builds a composite stack. None clears the stack.
+- Make the active style highlight reflect the actual applied layer-filter stack, not a previously saved un-applied preset. Show an applied filter count and edit the topmost effect without changing painting tools.
+- Rebuild Pixel as a true image-space block effect with colour and transparency sampled from the already-painted layer, distinct from oil-brush bristle marks. Increase pixel cell size control to 96 pixels and default to 24 pixels for a visible result.
+- Treat filter intensity as a blend between the original layer pixels and the filtered image instead of reducing paint opacity. Update size and intensity immediately during slider drags and commit one undoable action when the slider is released.
+- Keep non-destructive layer filters, composited export, portable editable project support, legacy stroke replay, production watcher, release manifest and SHA-256 checks.
+
+- Separate the new layer-filter selection from painting-engine routing: Pixel, Halftone and Invert no longer divert oil-brush or pencil strokes into the old stamp renderer. Preserve the previous renderer for legacy stylized strokes.
+
+# v0.1.33 — Composite Layer Stylization (2026-11-21)
+
+- Redesign stylization as a **composite layer filter system**. Halftone, ASCII, symbols, pixelate, mosaic and invert now transform the existing painted pixels on the active layer instead of behaving like a spray or stamp brush.
+- Add a **non-destructive active-layer filter stack** with Add, Replace, Remove last and Clear controls, enabling several composite filters to be combined on the same layer.
+- Apply filtered appearance consistently in the live composite, layer thumbnails, export, merge and portable-project import/export paths.
+- Preserve backward compatibility for older projects that saved stamp-style stroke stylization; those legacy strokes still replay through the old renderer, while new work uses the layer-based model.
+- Keep the v0.1.32 oil-contact and packaging safeguards intact.
+
 # v0.1.32 — Production Test Layout Repair (2026-11-21)
 
 - Fix the Ubuntu deployment blocker introduced in v0.1.30: the release-integrity regression no longer assumes the macOS watcher exists beside the installed application. The test validates both the packaged source tree and the actual app-only Ubuntu release layout without masking failures.
