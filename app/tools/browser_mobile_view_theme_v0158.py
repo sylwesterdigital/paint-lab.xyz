@@ -26,7 +26,7 @@ with sync_playwright() as p:
   context=browser.new_context(viewport={'width':width,'height':height},is_mobile=True,has_touch=True,device_scale_factor=1)
   page=context.new_page();page.set_default_timeout(9000);errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
   page.set_content(src,wait_until='domcontentloaded');page.wait_for_function('!!window.__qa158')
-  assert not page.evaluate('__qa158.mobile().rotateCanvas'),page.evaluate('__qa158.mobile()')
+  assert page.evaluate('__qa158.mobile().rotateCanvas'),page.evaluate('__qa158.mobile()')
   # A zero should be an actual zero, not a residual hardcoded border or shadow.
   page.evaluate('__qa158.appearance({border:0,background:96,shadows:true,shadowStrength:0,blur:0})')
   for selector in ['#mobileMaterial','#mobileBrush','#mobileEffects','#mobileStylize','#mobileSwatch','#mobileUndo']:
@@ -50,18 +50,18 @@ with sync_playwright() as p:
   pos=page.evaluate('({p:__qa158.screen(500,400),v:__qa158.view()})')
   xy=page.evaluate('p=>__qa158.point(p.x,p.y)',pos['p'])
   assert abs(xy['x']-500)<1e-4 and abs(xy['y']-400)<1e-4,(pos,xy)
-  # Two-finger rotation must be disabled until intentionally opted in.
+  # Two-finger rotation is enabled by default; no accidental disable.
   initial=page.evaluate('__qa158.view()')
   cdp=context.new_cdp_session(page)
   cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'id':1,'x':width//2-54,'y':height//2-34},{'id':2,'x':width//2+54,'y':height//2+34}]})
   cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'id':1,'x':width//2-45,'y':height//2+80},{'id':2,'x':width//2+52,'y':height//2-82}]})
   after=page.evaluate('__qa158.view()')
-  assert abs(after['angle'])<1e-7,(width,after)
+  assert abs(after['angle'])>.2,(width,after)
   # Simulate switching to another app before contacts are released.
   page.evaluate("window.dispatchEvent(new Event('pagehide'))")
   page.evaluate("window.dispatchEvent(new Event('pageshow'))")
   restored=page.evaluate('__qa158.view()')
-  assert abs(restored['angle'])<1e-7 and abs(restored['zoom']-initial['zoom'])<1e-7,(initial,restored)
+  assert abs(restored['angle']-initial['angle'])<1e-7 and abs(restored['zoom']-initial['zoom'])<1e-7,(initial,restored)
   cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
   # Changing CSS box dimensions before a resize event must preserve coordinates.
   page.evaluate("document.getElementById('preview').style.width='90vw'")

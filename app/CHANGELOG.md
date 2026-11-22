@@ -1,3 +1,9 @@
+# v0.1.60 — Restore Mobile Rotation & Preserve Canvas Aspect (2026-11-22)
+
+- Restore two-finger rotation together with pinch-to-zoom and pan, including for users whose rotation was disabled automatically in v0.1.58. Honour explicit preferences.
+- Keep the current rotation through app resume and mobile layout changes; interrupted gestures still roll back safely.
+- Measure the actual canvas display bounds for the render buffer to avoid aspect-ratio and pointer-position errors when mobile browser chrome changes.
+
 # v0.1.59 — Artwork-First Mobile Discovery (2026-11-22)
 
 - Show four recent publicly published artworks immediately as a compact mobile 2×2 gallery, preserving full images without cropping.

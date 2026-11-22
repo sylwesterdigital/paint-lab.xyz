@@ -1,15 +1,27 @@
 {
   "project": "paint-lab",
-  "version": "0.1.59",
-  "title": "Paint Lab v0.1.59 — Artwork-First Mobile Discovery",
+  "version": "0.1.60",
+  "title": "Paint Lab v0.1.60 — Restore Mobile Rotation & Preserve Canvas Aspect",
   "datetime": "2026-11-22",
   "changes": [
-    "Redesign the mobile public Explore landing page to show the four newest community artworks immediately in a responsive 2×2 preview grid, retaining every image uncropped and original-artwork navigation.",
-    "Collapse search, date presets, ordering, and custom date filters into a single Search art & filters disclosure that opens on demand; make active filter status visible when closed.",
-    "Reduce mobile hero and navigation clutter, place the Rantlist collaboration invitation after recent artwork, and continue displaying older results as the original full-width, aspect-correct masonry feed.",
-    "Preserve server-side anonymous filtering, result pagination, owner-only gallery management, artist pages, published links, and private artwork protections."
+    "Restore two-finger canvas rotation by default alongside pinch zoom and pan; preserve explicit user choices and undo the forced opt-out introduced in v0.1.58.",
+    "Stop mobile layout changes, interrupted contacts and app/tab restoration from automatically straightening the canvas.",
+    "Size the render backing canvas from its actual displayed CSS bounds so browser-chrome and viewport changes cannot stretch the artwork or displace touch painting.",
+    "Retain the earlier gesture rollback and coordinate mapping safeguards, with touch regression tests for zoom, rotation, aspect ratio and resumed drawing."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.59",
+      "title": "Paint Lab v0.1.59 — Artwork-First Mobile Discovery",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Redesign the mobile public Explore landing page to show the four newest community artworks immediately in a responsive 2×2 preview grid, retaining every image uncropped and original-artwork navigation.",
+        "Collapse search, date presets, ordering, and custom date filters into a single Search art & filters disclosure that opens on demand; make active filter status visible when closed.",
+        "Reduce mobile hero and navigation clutter, place the Rantlist collaboration invitation after recent artwork, and continue displaying older results as the original full-width, aspect-correct masonry feed.",
+        "Preserve server-side anonymous filtering, result pagination, owner-only gallery management, artist pages, published links, and private artwork protections."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.58",

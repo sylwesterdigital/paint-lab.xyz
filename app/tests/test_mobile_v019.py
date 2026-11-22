@@ -20,10 +20,10 @@ class Mobile019(unittest.TestCase):
  def test_gestures_and_account(self):
   self.assertIn('const pair=[...touchPointers.keys()].slice(0,2)',HTML)
   self.assertIn('if(d<25)return',HTML)
-  self.assertIn('rotateCanvas:false',HTML)
+  self.assertIn('rotateCanvas:true',HTML)
   self.assertIn('rotationUserSet',HTML)
   self.assertIn('id="mobileAccountEntry"',HTML)
   self.assertIn('data-mobile-action="account"',HTML)
  def test_release(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.59')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.59">',HTML)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.60')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.60">',HTML)
