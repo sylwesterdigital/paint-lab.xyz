@@ -4,7 +4,7 @@ from pathlib import Path
 SRC=(Path(__file__).resolve().parents[1]/'frontend/index.html').read_text()
 class RecoverySafety(unittest.TestCase):
  def test_user_clear_cancels_legacy_restore(self):
-  self.assertIn("function clearCanvasPaint(){\n  cancelDraftRecovery('Canvas clear');",SRC)
+  self.assertIn("function clearCanvasPaint(){\n  if(rendering)return;\n  cancelDraftRecovery('Canvas clear');",SRC)
   self.assertIn("if(epoch!==recoveryEpoch)return false;",SRC)
   self.assertIn("function cancelDraftRecovery(reason",SRC)
  def test_draft_snapshots_match_editable_history(self):

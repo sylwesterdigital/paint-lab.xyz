@@ -1,3 +1,14 @@
+# v0.1.47 — Compact Save & Share (2026-11-22)
+
+- Compress the Save & share interface into a single small panel: artwork name; Save as new, Overwrite, Publish and Device share in one row; PNG with paper, transparent PNG, project ZIP and project JSON in another.
+- Remove giant descriptive action cards, section headings, dividers and the unnecessary Done footer. Keep useful status feedback and copyable publication link only when needed.
+- Retain signed-in publishing, paper inclusion switch, safe overwrite gating, editable IndexedDB saving, all formats and mobile usability.
+
+# v0.1.46 — Responsive History & Fast Undo (2026-11-22)
+
+- Cache recent raster history states for rapid Undo/Redo and reconstruct older states across animation frames to avoid long main-thread freezes.
+- Reduce redundant canvas buffer invalidation, preserve undo correctness and all editable stroke-based filters.
+
 # v0.1.45 — Unified Save & Share (2026-11-22)
 
 - Replace the implicit Overwrite-first save dialog with a single Save & share panel that shows explicit Save as new and Overwrite current actions; never overwrite just because an artwork is already open.

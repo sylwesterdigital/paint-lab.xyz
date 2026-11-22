@@ -13,6 +13,6 @@ class OilTipShapeContract(unittest.TestCase):
         self.assertIn('const custom=customTips.get(t)',HTML)
     def test_restore_never_starts_sync_rebuild(self):
         self.assertIn('resize(false);if(!deferReplay)rebuild()',HTML)
-        self.assertIn('if(!restoringDraft)requestFrame()',HTML)
+        self.assertIn('if(!restoringDraft&&!rendering)requestFrame()',HTML)
         self.assertIn('j<a.points.length',HTML)
 if __name__=='__main__':unittest.main()

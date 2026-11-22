@@ -1,16 +1,42 @@
 {
   "project": "paint-lab",
-  "version": "0.1.45",
-  "title": "Paint Lab v0.1.45 — Unified Save & Share",
+  "version": "0.1.47",
+  "title": "Paint Lab v0.1.47 — Compact Save & Share",
   "datetime": "2026-11-22",
   "changes": [
-    "Replace the implicit Overwrite-first save dialog with a single Save & share panel that shows explicit Save as new and Overwrite current actions; never overwrite just because an artwork is already open.",
-    "Allow public PNG publishing directly from the same panel with paper toggle, account sign-in entry, success/error status, and a copyable publication link; no editable project data is published.",
-    "Expose all practical download/share choices together: PNG with paper, transparent PNG, editable portable ZIP, editable JSON and native device sharing; preserve typed artwork names in export filenames and project manifests.",
-    "Keep Save before clearing safe: only a successful Save as new clears the canvas. Preserve original IndexedDB gallery records, cloud account saves, existing Share/Export tools and project version 4.",
-    "Add responsive, scrollable desktop/mobile save-dialog styling and interaction tests for explicit destination choice, overwrite gating, publish flow and export actions."
+    "Redesign Save & share as a compact, single-view panel approximately half the previous height: one artwork-name field, four equally sized primary actions and four download options.",
+    "Remove repetitive section headers, divider lines, descriptive button subtitles, the extra Done footer and idle status prose; Close at the top-right is the only dismiss control.",
+    "Keep Save as new, guarded Overwrite, Publish and Device share independently actionable; preserve account sign-in, paper option and post-publication copyable link in a compact disclosure.",
+    "Preserve direct PNG (paper/transparent), editable project ZIP and JSON exports, safe Save-before-clear, all legacy projects and private gallery data.",
+    "Retain v0.1.46 accelerated Undo/Redo checkpoints and frame-sliced older-history reconstruction with regression verification."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.46",
+      "title": "Paint Lab v0.1.46 — Responsive History & Fast Undo",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Speed up Undo/Redo and history navigation with bounded raster checkpoints of recent canvas and layer states, avoiding full-stroke replay whenever a matching state is cached.",
+        "Replay older history in short animation-frame batches instead of freezing the entire studio on the browser main thread; repeated Undo/Redo changes cancel stale work safely.",
+        "Remove redundant pixel-buffer reallocations during brush dabs and history replay by marking filtered-layer caches dirty without resizing them until actually needed.",
+        "Preserve editable stroke records, stroke-masked filters, layer properties, canvas clears, vector edits, all saved project formats, and the existing watcher-compatible deployment path.",
+        "Limit recent-history cache memory to 80 MiB, invalidate checkpoints when document pixels or branching history change, and add browser performance and pixel-consistency regression checks."
+      ]
+    },
+    {
+      "project": "paint-lab",
+      "version": "0.1.45",
+      "title": "Paint Lab v0.1.45 — Unified Save & Share",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Replace the implicit Overwrite-first save dialog with a single Save & share panel that shows explicit Save as new and Overwrite current actions; never overwrite just because an artwork is already open.",
+        "Allow public PNG publishing directly from the same panel with paper toggle, account sign-in entry, success/error status, and a copyable publication link; no editable project data is published.",
+        "Expose all practical download/share choices together: PNG with paper, transparent PNG, editable portable ZIP, editable JSON and native device sharing; preserve typed artwork names in export filenames and project manifests.",
+        "Keep Save before clearing safe: only a successful Save as new clears the canvas. Preserve original IndexedDB gallery records, cloud account saves, existing Share/Export tools and project version 4.",
+        "Add responsive, scrollable desktop/mobile save-dialog styling and interaction tests for explicit destination choice, overwrite gating, publish flow and export actions."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.44",
