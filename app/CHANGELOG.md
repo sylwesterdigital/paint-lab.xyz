@@ -1,3 +1,11 @@
+# v0.1.54 — Clear Mobile Tools & Faster History (2026-11-22)
+
+- Restore logical mobile layout: square colour swatch pinned to the bottom-left, with painting tools next and Undo/Redo pinned to the bottom-right in the same row.
+- Restore a usable split brush-tip and size tile above the colour swatch. Tip tapping cycles silhouettes, long-press opens the filtered tip gallery, and the size readout opens the edge-mounted size rail; fix pointer-layer interception that previously blocked tip taps.
+- Always display the actual pigment name (Oil, Pencil, Chalk, or Water) in the mobile paint-mode button instead of an ambiguous generic drawing icon.
+- Cycle through FX and Stylize options including None; remove tinted selected-button backgrounds and display the exact newly chosen mode in the centre of the screen for 850 milliseconds. Long-press resets to None.
+- Speed up recent mobile Undo/Redo by capturing bounded full-resolution checkpoints immediately before new strokes, reduce the wait for idle checkpoint creation, and minimise work per fallback replay frame; defer off-screen layer thumbnail rebuilding until Layers is opened.
+
 # v0.1.53 — Compact Mobile Dock & Clean Mode Controls (2026-11-22)
 
 - Keep all bottom controls on one tight row of square buttons rather than stretching them across the viewport.

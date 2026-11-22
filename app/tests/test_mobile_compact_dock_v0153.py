@@ -9,7 +9,7 @@ class CompactMobileDockV153(unittest.TestCase):
         self.assertNotIn('id="mobileEffectsNone"',PAGE)
         self.assertNotIn('id="mobileStylizeNone"',PAGE)
         self.assertNotIn('.mobile-mode-clear{',PAGE)
-        self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>setMode(0))",PAGE)
+        self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>{setMode(0);announceMobileChoice('FX','None');})",PAGE)
         self.assertIn("initMobileModePress('mobileStylize',mobileCycleStylize,()=>{selectStrokeStyle('none')",PAGE)
         self.assertIn('timer=setTimeout(()=>{timer=null;held=true;reset();},520)',PAGE)
     def test_reset_and_cycle_remain_accessible_in_same_button(self):

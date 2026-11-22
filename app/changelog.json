@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.53",
-  "title": "Paint Lab v0.1.53 — Compact Mobile Dock & Clean Mode Controls",
+  "version": "0.1.54",
+  "title": "Paint Lab v0.1.54 — Clear Mobile Tools & Faster History",
   "datetime": "2026-11-22",
   "changes": [
-    "Prevent the mobile toolbar from stretching to the full available width: use uniformly sized compact square buttons with a centered single-row layout.",
-    "Reduce bottom spacing to just above the device safe area; retain the separate brush-tip/diameter trigger directly above the square colour swatch.",
-    "Adapt the dock to 320–430px screens, including optional Eraser, while keeping all actions visible without scrolling or overlap.",
-    "Keep the mobile diameter rail and filtered tip gallery, but remove the duplicate tip-cycle control from the rail; the brush tile itself is now split into a tip icon (tap to cycle, hold to browse) and a size readout (tap to adjust).",
-    "Remove the redundant floating X badges from mobile FX and Stylize buttons. Tap each square button to cycle modes (including None), or hold the same button to reset directly to None without a second control."
+    "Restore logical mobile layout: square colour swatch pinned to the bottom-left, with painting tools next and Undo/Redo pinned to the bottom-right in the same row.",
+    "Restore a usable split brush-tip and size tile above the colour swatch. Tip tapping cycles silhouettes, long-press opens the filtered tip gallery, and the size readout opens the edge-mounted size rail; fix pointer-layer interception that previously blocked tip taps.",
+    "Always display the actual pigment name (Oil, Pencil, Chalk, or Water) in the mobile paint-mode button instead of an ambiguous generic drawing icon.",
+    "Cycle through FX and Stylize options including None; remove tinted selected-button backgrounds and display the exact newly chosen mode in the centre of the screen for 850 milliseconds. Long-press resets to None.",
+    "Speed up recent mobile Undo/Redo by capturing bounded full-resolution checkpoints immediately before new strokes, reduce the wait for idle checkpoint creation, and minimise work per fallback replay frame; defer off-screen layer thumbnail rebuilding until Layers is opened."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.53",
+      "title": "Paint Lab v0.1.53 — Compact Mobile Dock & Clean Mode Controls",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Prevent the mobile toolbar from stretching to the full available width: use uniformly sized compact square buttons with a centered single-row layout.",
+        "Reduce bottom spacing to just above the device safe area; retain the separate brush-tip/diameter trigger directly above the square colour swatch.",
+        "Adapt the dock to 320–430px screens, including optional Eraser, while keeping all actions visible without scrolling or overlap.",
+        "Keep the mobile diameter rail and filtered tip gallery, but remove the duplicate tip-cycle control from the rail; the brush tile itself is now split into a tip icon (tap to cycle, hold to browse) and a size readout (tap to adjust).",
+        "Remove the redundant floating X badges from mobile FX and Stylize buttons. Tap each square button to cycle modes (including None), or hold the same button to reset directly to None without a second control."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.52",

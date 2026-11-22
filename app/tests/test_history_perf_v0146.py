@@ -9,8 +9,8 @@ HTML=(ROOT/'frontend/index.html').read_text()
 class HistoryPerformanceV146(unittest.TestCase):
     def test_release_and_project_compatibility(self):
         version=json.loads((ROOT/'version.json').read_text())['version']
-        self.assertEqual(version,'0.1.53')
-        self.assertIn('content="0.1.53"',HTML)
+        self.assertEqual(version,'0.1.54')
+        self.assertIn('content="0.1.54"',HTML)
         self.assertIn("format:'paint-lab-webgl'",HTML)
 
     def test_undo_uses_bounded_checkpoints(self):
@@ -22,7 +22,7 @@ class HistoryPerformanceV146(unittest.TestCase):
 
     def test_older_history_yields_between_actions(self):
         self.assertIn('function rebuildHistoryWithoutBlocking()',HTML)
-        self.assertIn('if(performance.now()-start>10)break;',HTML)
+        self.assertIn('if(performance.now()-start>(isMobileWorkspace()?6:10))break;',HTML)
         self.assertIn('requestAnimationFrame(replaySlice);',HTML)
         self.assertIn('const epoch=++historyReplayEpoch,target=head;',HTML)
         self.assertIn('if(epoch!==historyReplayEpoch)return;',HTML)
