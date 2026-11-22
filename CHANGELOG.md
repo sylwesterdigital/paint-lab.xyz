@@ -1,3 +1,26 @@
+# v0.1.38 — Git Worktree Archive Preflight Repair (2026-11-22)
+
+- Prevent safe, untracked `PAINT_LAB_RELEASE_vX.Y.Z.zip` artifacts at the Git repository root from failing the deployment preflight. Only regular files matching the exact versioned archive pattern are ignored; arbitrary untracked files and modified tracked files still block the release.
+- Apply the same exception to the GitHub README/ABOUT/CHANGELOG sync gate, and bump the bundled watcher to v0.1.6.
+- Add tests for benign release artifacts versus unrelated untracked files, modified tracked files and symlinks. Keep Git/SSH/manifest/Ubuntu layout validation intact.
+- Retain the v0.1.37 account save and public share compatibility changes. An existing v0.1.5 watcher still needs the obstructing root ZIP moved under `updates/archive/` before it can deploy the upgraded watcher.
+
+# v0.1.37 — Account Save & Public Share Format Compatibility (2026-11-21)
+
+- Fix the confirmed incompatible API: browser `paint-lab-webgl` document version 4 is now accepted by Flask project create, retrieve and overwrite. Legacy versions 2/3 remain supported. No SQLite migration or loss of existing projects.
+- Add an independently testable backend validator to keep browser project actions, layer filters, reveal strokes and server JSON persistence compatible. Preserve action data verbatim rather than migrating or downgrading it.
+- Keep public links as **PNG-only images**, separate from private editable cloud canvases. Validate PNG chunk structure, CRC checksums and dimensions before writing public files.
+- Automatically reduce public PNG dimensions if highly detailed artworks exceed the server's 7 MB public-image ceiling; local device sharing keeps full resolution. Account saves now give a clear 16 MB editable-history limit error.
+- Verify project JSON round trips through SQLite, v2-v4 compatibility, and malformed publication rejection in mandatory non-Flask tests; the Flask endpoint integration suite runs on the Ubuntu server.
+
+# v0.1.36 — Existing-Image Mask Reveal Filters (2026-11-21)
+
+- Stylization is now a **reveal brush for existing artwork**. The brush provides an alpha mask; the pixels beneath it are sampled and converted to Pixel, Halftone, ASCII, Mosaic, Symbols or another composite effect. No new pigment is applied.
+- The brush uses a snapshot of the visible canvas (including underlying layers) at stroke start. Blank canvas generates no new marks.
+- Filter cells are anchored to document coordinates, and results are clipped by both existing image transparency and the pressure-sensitive stroke mask.
+- Preserve live reveal preview, deterministic undo/redo and saved-project replay. The earlier stroke-fx-v2 and legacy layer-filter behaviours remain available for existing saved histories.
+- Ship with a manifest, SHA-256 checksums and app-only Ubuntu installation preflight; production is not deployed by the build.
+
 # v0.1.35 — Painted-Stroke Image Filters (2026-11-21)
 
 - New stroke stylization transforms the RGBA output of an ordinarily painted brush stroke. The original selected oil, watercolour, chalk or pencil instrument renders first, then its image is transformed into Pixel, Halftone, ASCII, Symbols, Mosaic or another filter.

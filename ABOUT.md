@@ -54,6 +54,10 @@ Painting layers can be moved, rotated or scaled using **G/R/S** on desktop. Mobi
 
 Paint Lab models four distinct digital mark-making behaviours: graphite grain, pastel/chalk deposits, pigment washes and opaque bristle-structured oil paint. These are procedural screen-space approximations rather than physically accurate wet-media fluid or three-dimensional impasto simulations.
 
+### Stroke-masked image reveal filters (v0.1.36)
+
+In Brush & Paint → **Stylize**, choose Pixel, Halftone, ASCII, Symbols, Mosaic, Invert or another conversion filter, then brush over **already-existing artwork**. The brush pressure and tip determine a reveal mask; the filter reads the *existing visible image* under the mask, not newly deposited pigment. A transparent empty area stays empty. New stroke actions record `existing-image-fx-v3` for replay and undo/redo, while pre-0.1.36 saved stylization actions retain their historical appearance. Filter patterns stay aligned to document coordinates. The brush engine remains a 2D raster approximation, not a GPU pigment solver.
+
 ### Stroke stylization (v0.1.14)
 
 Brush & Paint → **Stylize** offers halftone, ASCII, inverted-colour, pixel, mosaic and symbol strokes. The stroke effect is separate from Pencil/Chalk/Watercolour/Oil and the artistic tip. Pattern size and strength are configurable and saved with each stroke. Oil freehand now uses a persistent bristle-load contact model: bristles pick up underlying colour, deposit mixed pigment and draw thickness-dependent ridges. The 24 Brush Tips thumbnails share a single cached atlas, rather than using 24 canvases. This is a bounded wet-media 2D approximation, not the full GPU fluid solver. References: [David Li Fluid Paint](https://github.com/dli/paint) (MIT), [Patch Oil Paint](https://patch.gg/blendi/oil-paint) (MIT/CC0).
