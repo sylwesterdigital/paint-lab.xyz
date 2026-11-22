@@ -17,12 +17,19 @@ nav{display:flex;align-items:center;gap:18px;min-height:54px;padding:11px max(18
 nav a{font-weight:700}nav span{color:#a1aba8;font-size:13px}
 main{max-width:1120px;margin:26px auto;padding:0 20px 32px}
 main h1{font-size:clamp(20px,3vw,29px);line-height:1.25;overflow-wrap:anywhere}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:18px}
+/* A fluid, column-based masonry wall: real PNG proportions determine each tile's height.
+   Unlike fixed thumbnail boxes, no artwork is cropped, stretched, or letterboxed. */
+.gallery-page main{max-width:none;width:100%;margin:0 auto;padding:clamp(20px,2.6vw,42px) clamp(12px,2.1vw,38px) 56px}
+.gallery-page main h1{font-size:clamp(24px,2.8vw,38px);margin:0 0 clamp(18px,2.2vw,30px)}
+.gallery{columns:280px;column-gap:clamp(12px,1.3vw,20px)}
+.gallery .card{display:inline-block;vertical-align:top;width:100%;margin:0 0 clamp(12px,1.3vw,20px);break-inside:avoid;page-break-inside:avoid}
 .card{min-width:0;border:1px solid #33403f;background:#222b2b;border-radius:13px;overflow:hidden}
 .card a{display:block;color:#f1f3ef}
-.card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#303939}
-.card h2{font-size:14px;font-weight:620;margin:12px 13px 14px;overflow-wrap:anywhere}
+.card img{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:auto;object-fit:contain;background:#303939}
+.card h2{font-size:14px;font-weight:620;margin:11px 13px 13px;overflow-wrap:anywhere}
+.card:hover{border-color:#698880}
 .gallery-lead{color:#b9c4bf;margin-bottom:22px}
+@media(max-width:480px){.gallery{columns:1}.gallery-page main{padding:18px 12px 40px}.gallery-page main h1{margin-bottom:16px}.gallery .card{margin-bottom:14px}}
 '''
 
 VIEWER_CSS = '''
@@ -128,6 +135,27 @@ VIEWER_JS = r'''(() => {
   }, {passive: true});
   show(index, false);
 })();'''
+
+
+
+def gallery_markup(items: list[dict], username: str) -> str:
+    """An uncropped public gallery: original PNG dimensions determine tile height.
+
+    Only public URLs and titles are exposed; escaped attributes and text prevent
+    stored artwork titles and account names from becoming HTML.
+    """
+    escape = lambda val: html.escape(str(val), quote=True)
+    heading = f'<h1>{escape(username)} · Public artworks</h1>'
+    if not items:
+        return '<main class="gallery-main" id="publicGallery">' + heading + '<p>No artworks have been published yet.</p></main>'
+    cards = ''.join(
+        '<article class="card"><a href="' + escape(item['url']) + '">'
+        '<img loading="lazy" decoding="async" src="' + escape(item['image']) +
+        '" alt="' + escape(item['title']) + '">'
+        '<h2>' + escape(item['title']) + '</h2></a></article>'
+        for item in items
+    )
+    return '<main class="gallery-main" id="publicGallery">' + heading + '<div class="gallery">' + cards + '</div></main>'
 
 
 def viewer_markup(slides: list[dict], active: int, username: str, space_path: str) -> str:

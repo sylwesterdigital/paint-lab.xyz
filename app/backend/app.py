@@ -349,13 +349,13 @@ def publication_image(token):
     response.headers['X-Content-Type-Options']='nosniff'
     return response
 
-def public_page(body,title_text,*,viewer=False):
+def public_page(body,title_text,*,viewer=False,gallery=False):
     # User-controlled titles and artwork data remain escaped. Only the fixed
     # viewer script may run, under a per-response CSP nonce.
     nonce=secrets.token_urlsafe(20) if viewer else None
     css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')
     script=f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else ''
-    body_class=' class="viewer-page"' if viewer else ''
+    body_class=' class="viewer-page"' if viewer else (' class="gallery-page"' if gallery else '')
     document=('<!doctype html><html lang="en"><head><meta charset="utf-8">'
               '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
               '<title>'+html.escape(title_text)+'</title><style>'+css+'</style></head>'
@@ -390,9 +390,11 @@ def public_user_space(username):
     row=con().execute('SELECT id,username FROM users WHERE username=?',(username,)).fetchone()
     if not row:abort(404)
     images=con().execute('SELECT token,title FROM publications WHERE owner_id=? ORDER BY created_at DESC LIMIT 100',(row['id'],)).fetchall()
-    cards=''.join('<article class="card"><a href="'+html.escape(url_for('view_publication',token=item['token']),quote=True)+'"><img loading="lazy" src="'+html.escape(url_for('publication_image',token=item['token']),quote=True)+'" alt="'+html.escape(item['title'],quote=True)+'"><h2>'+html.escape(item['title'])+'</h2></a></article>' for item in images)
-    heading=html.escape(row['username']);content=f'<h1>{heading} · Public artworks</h1>'+(f'<div class="gallery">{cards}</div>' if images else '<p>No artworks have been published yet.</p>')
-    return public_page(content,row['username']+' · Paint Lab')
+    items=[{'url':url_for('view_publication',token=item['token']),
+            'image':url_for('publication_image',token=item['token']),
+            'title':item['title']} for item in images]
+    content=public_viewer.gallery_markup(items,row['username'])
+    return public_page(content,row['username']+' · Paint Lab',gallery=True)
 
 @app.get('/api/providers')
 @auth

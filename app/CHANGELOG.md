@@ -1,3 +1,10 @@
+# v0.1.42 — Uncropped Masonry Public Gallery (2026-11-22)
+
+- Replace uniform fixed-crop gallery thumbnails with a fluid CSS column masonry wall: tall, landscape and square published images keep their native aspect ratios.
+- Expand the gallery across the available desktop width, automatically reduce column count as the window narrows, and show one column on phones.
+- Preserve captions, links to individual publication viewers, published PNG files, and public gallery URLs. No database migration or re-publication required.
+- Keep the v0.1.41 full-height artwork viewer, mobile swipe, keyboard navigation, and watcher/nginx checks unchanged.
+
 # v0.1.41 — Full-Height Published Artwork Viewer (2026-11-22)
 
 - Published art now opens in a full-height, screen-fitted viewer; artwork is never cropped, and portrait/landscape images use the available viewport height.

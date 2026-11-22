@@ -1,20 +1,32 @@
 {
   "project": "paint-lab",
-  "version": "0.1.41",
-  "title": "Paint Lab v0.1.41 \u2014 Full-Height Published Artwork Viewer",
+  "version": "0.1.42",
+  "title": "Paint Lab v0.1.42 — Uncropped Masonry Public Gallery",
   "datetime": "2026-11-22",
   "changes": [
-    "Replace the published-artwork page with an edge-to-edge, viewport-height image viewer. Fit every image inside the available window height and width using contain, with no cropping or stretching on desktop or mobile.",
-    "Add previous/next navigation arrows, accessible keyboard Left/Right controls, visible artwork count, and native horizontal swipe recognition on iPhone, iPad and Android touch screens.",
-    "Browse the same artist\u2019s public paintings without returning to the gallery. Update the current artwork title, PNG download link and shareable /p/<token> URL as the viewer advances, with browser Back/Forward history and adjacent-image preloading.",
-    "Keep galleries linked to individual public painting URLs and enforce a per-response Content Security Policy nonce for the static viewer script. Escape public titles and account names, and never expose private SQLite project data in the viewer.",
-    "Retain the v0.1.40 public-route deployment checks, v0.1.6 watcher, existing published PNG files and links, and SHA-256 verified Ubuntu release packaging without database migrations."
+    "Redesign public artist galleries as a responsive masonry wall with fluid column counts: artwork tiles stack naturally at different heights instead of being forced into a uniform grid.",
+    "Display each published PNG at its true aspect ratio with width:100%, height:auto, contain fitting and no forced 4:3 image crop; tall, wide and square paintings remain fully visible.",
+    "Use nearly the full desktop viewport for galleries while adapting from multiple columns to a single readable column on narrow phones, with preserved title captions and full-artwork links.",
+    "Keep existing full-height publication viewer, swipe navigation, public URLs, SQLite publication records, PNG files, CSP security, and watcher deployment checks unchanged; no database migration."
   ],
   "history": [
     {
       "project": "paint-lab",
+      "version": "0.1.41",
+      "title": "Paint Lab v0.1.41 — Full-Height Published Artwork Viewer",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Replace the published-artwork page with an edge-to-edge, viewport-height image viewer. Fit every image inside the available window height and width using contain, with no cropping or stretching on desktop or mobile.",
+        "Add previous/next navigation arrows, accessible keyboard Left/Right controls, visible artwork count, and native horizontal swipe recognition on iPhone, iPad and Android touch screens.",
+        "Browse the same artist’s public paintings without returning to the gallery. Update the current artwork title, PNG download link and shareable /p/<token> URL as the viewer advances, with browser Back/Forward history and adjacent-image preloading.",
+        "Keep galleries linked to individual public painting URLs and enforce a per-response Content Security Policy nonce for the static viewer script. Escape public titles and account names, and never expose private SQLite project data in the viewer.",
+        "Retain the v0.1.40 public-route deployment checks, v0.1.6 watcher, existing published PNG files and links, and SHA-256 verified Ubuntu release packaging without database migrations."
+      ]
+    },
+    {
+      "project": "paint-lab",
       "version": "0.1.40",
-      "title": "Paint Lab v0.1.40 \u2014 Reliable Public-Link Routing Gate",
+      "title": "Paint Lab v0.1.40 — Reliable Public-Link Routing Gate",
       "datetime": "2026-11-22",
       "changes": [
         "Fix the v0.1.39 production deployment rollback triggered by a premature public-share route probe. nginx reload is graceful and can briefly leave old workers serving the previous SPA fallback; the installer now waits and retries HTTPS publication, PNG, and gallery routes before declaring failure.",
@@ -26,7 +38,7 @@
     },
     {
       "version": "0.1.39",
-      "title": "Paint Lab v0.1.39 \u2014 Published Artwork Link Routing",
+      "title": "Paint Lab v0.1.39 — Published Artwork Link Routing",
       "datetime": "2026-11-22",
       "changes": [
         "Fix the confirmed public-share routing issue: nginx now forwards published artwork pages (/p/<token>), their PNG image URLs (/p/<token>/image.png), and public artist galleries (/u/<username>) to the Flask application instead of serving the editor index.html.",
@@ -38,7 +50,7 @@
     },
     {
       "version": "0.1.38",
-      "title": "Paint Lab v0.1.38 \u2014 Git Worktree Archive Preflight Repair",
+      "title": "Paint Lab v0.1.38 — Git Worktree Archive Preflight Repair",
       "datetime": "2026-11-22",
       "changes": [
         "Repair deployment preflight failures caused by standalone, untracked PAINT_LAB_RELEASE_vX.Y.Z.zip files left in the Git repository root. The release watcher now classifies only exact-versioned, regular root-level release ZIPs as ignorable deployment artifacts.",
@@ -50,7 +62,7 @@
     },
     {
       "version": "0.1.37",
-      "title": "Paint Lab v0.1.37 \u2014 Account Save & Public Share Format Compatibility",
+      "title": "Paint Lab v0.1.37 — Account Save & Public Share Format Compatibility",
       "datetime": "2026-11-21",
       "changes": [
         "Fix a confirmed browser/server format mismatch: frontend projects use paint-lab-webgl document version 4, but the Flask SQLite API rejected all versions newer than 3. Accept editable document versions 2, 3 and 4 on cloud create and overwrite, retaining layer-filter and existing-image-fx-v3 actions without downgrading or discarding them.",
@@ -62,7 +74,7 @@
     },
     {
       "version": "0.1.36",
-      "title": "Paint Lab v0.1.36 \u2014 Existing-Image Mask Reveal Filters",
+      "title": "Paint Lab v0.1.36 — Existing-Image Mask Reveal Filters",
       "datetime": "2026-11-21",
       "changes": [
         "Correct Stylize to paint a reveal MASK over existing visible artwork. Pixel, Halftone, ASCII, Symbols, Mosaic and tonal filters now sample the canvas as it looked when the brush touched down, transform that source image, and reveal the result only through the stroke-contact mask; they never manufacture new paint pixels.",
@@ -74,7 +86,7 @@
     },
     {
       "version": "0.1.35",
-      "title": "Paint Lab v0.1.35 \u2014 Painted-Stroke Image Filters",
+      "title": "Paint Lab v0.1.35 — Painted-Stroke Image Filters",
       "datetime": "2026-11-21",
       "changes": [
         "Correct the stylization model: Pixel, Halftone, ASCII, Symbols, Mosaic, Invert and other styles now process the RGBA pixels produced by a newly painted stroke, not the whole layer and not existing paint beneath a stroke-shaped mask.",
@@ -86,7 +98,7 @@
     },
     {
       "version": "0.1.34",
-      "title": "Paint Lab v0.1.34 \u2014 Immediate Pixel Filters",
+      "title": "Paint Lab v0.1.34 — Immediate Pixel Filters",
       "datetime": "2026-11-21",
       "changes": [
         "Fix the Stylize panel showing Pixel selected while the active layer still had zero filters: tapping a filter now immediately applies it to existing active-layer pixels, and selecting another filter builds a composite stack. None clears the stack.",
@@ -99,7 +111,7 @@
     },
     {
       "version": "0.1.33",
-      "title": "Paint Lab v0.1.33 \u2014 Composite Layer Stylization",
+      "title": "Paint Lab v0.1.33 — Composite Layer Stylization",
       "datetime": "2026-11-21",
       "changes": [
         "Redesign stylization as a composite layer filter system: halftone, ASCII, symbols, pixelate, mosaic, invert and additional monochrome, desaturate, solarize and edge effects now read the existing painted pixels on the active layer instead of spraying replacement marks from the brush tip.",
@@ -111,7 +123,7 @@
     },
     {
       "version": "0.1.32",
-      "title": "Paint Lab v0.1.32 \u2014 Live Oil Contact Repair",
+      "title": "Paint Lab v0.1.32 — Live Oil Contact Repair",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the delayed oil-brush start/end sculpting for newly recorded strokes with a live contact model. New v0.1.32 oil strokes are shaped while you draw them, so the stroke no longer appears one way and then visibly rewrites its beginning and ending a moment later.",
@@ -123,7 +135,7 @@
     },
     {
       "version": "0.1.31",
-      "title": "Paint Lab v0.1.31 \u2014 Production Test Layout Repair",
+      "title": "Paint Lab v0.1.31 — Production Test Layout Repair",
       "datetime": "2026-11-21",
       "changes": [
         "Fix the Ubuntu deployment blocker introduced in v0.1.30: the release-integrity regression no longer assumes the macOS watcher exists beside the installed application. The test validates both the packaged source tree and the actual app-only Ubuntu release layout without masking failures.",
@@ -135,22 +147,22 @@
     },
     {
       "version": "0.1.30",
-      "title": "Paint Lab v0.1.30 \u2014 Release Log Integrity & UI Reliability",
+      "title": "Paint Lab v0.1.30 — Release Log Integrity & UI Reliability",
       "datetime": "2026-11-21",
       "changes": [
-        "Correct the v0.1.26 What\u2019s New dialog in later releases by embedding the complete current changelog from one canonical source; display v0.1.30 instantly while preserving previous releases for offline viewing.",
+        "Correct the v0.1.26 What’s New dialog in later releases by embedding the complete current changelog from one canonical source; display v0.1.30 instantly while preserving previous releases for offline viewing.",
         "Fetch release notes only for the running app version; validate project, version, title and history, preserve the selected tab, and stop stale asynchronous results from replacing newer dialogs.",
         "Add deterministic history generation plus strict validation in the ZIP builder and watcher v0.1.4; reject packages whose embedded, canonical and public release logs disagree before production deployment.",
         "Repair oil-paint continuity after sparse stylus samples and large pointer jumps: adaptively subdivide travel with interpolated pressure and timestamps rather than dropping oversized patches or spacing 120 dabs too far apart.",
-        "Shape larger high-DPI oil touchdown/lift-off footprints using bounded 256\u00d7256 pixel tiles rather than silently skipping the entire endpoint when its bounding rectangle exceeds the old 850,000-pixel limit.",
+        "Shape larger high-DPI oil touchdown/lift-off footprints using bounded 256×256 pixel tiles rather than silently skipping the entire endpoint when its bounding rectangle exceeds the old 850,000-pixel limit.",
         "Version the adaptive oil-sampling engine per new stroke so already-saved projects retain the legacy replay path. Keep painting, layer and project formats compatible.",
-        "Add Chromium pixel regressions for round, flat and rigger sparse oil strokes at 1\u00d7 and 1.5\u00d7 DPR, plus versioned-log dialog tests covering offline, stale network data, reopen and once-per-release behaviour.",
+        "Add Chromium pixel regressions for round, flat and rigger sparse oil strokes at 1× and 1.5× DPR, plus versioned-log dialog tests covering offline, stale network data, reopen and once-per-release behaviour.",
         "Continue to distinguish the 2D raster oil approximation from the future GPU pigment, wetness and paint-height architecture. No GPU fluid or height-field solver is claimed in this release."
       ]
     },
     {
       "version": "0.1.29",
-      "title": "Paint Lab v0.1.29 \u2014 Oil Brush Touchdown and Lift-off",
+      "title": "Paint Lab v0.1.29 — Oil Brush Touchdown and Lift-off",
       "datetime": "2026-11-21",
       "changes": [
         "Correct oil brush touchdown and lift-off together with tip-family-specific contact envelopes: strokes expand from a narrow initial contact and narrow again without separated disc caps or rectangular cutoffs.",
@@ -163,7 +175,7 @@
     },
     {
       "version": "0.1.28",
-      "title": "Paint Lab v0.1.28 \u2014 Continuous Pencil Rendering",
+      "title": "Paint Lab v0.1.28 — Continuous Pencil Rendering",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the normal Pencil dab-stamp path with a dedicated continuous quadratic-curve graphite stroke; remove periodic gaps and circular translucent footprints, including at large canvas zoom.",
@@ -175,7 +187,7 @@
     },
     {
       "version": "0.1.27",
-      "title": "Paint Lab v0.1.27 \u2014 Velocity-Sensitive Oil Brush Lift",
+      "title": "Paint Lab v0.1.27 — Velocity-Sensitive Oil Brush Lift",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the separate artificial round endpoint and simple tangent-based cutoff with a path-aware final contact model using actual stroke motion and original paint underlay.",
@@ -187,7 +199,7 @@
     },
     {
       "version": "0.1.26",
-      "title": "Paint Lab v0.1.26 \u2014 Reliable Mobile Touch & Oil Brush Ends",
+      "title": "Paint Lab v0.1.26 — Reliable Mobile Touch & Oil Brush Ends",
       "datetime": "2026-11-21",
       "changes": [
         "Prevent mobile canvas gestures from retaining stale touch IDs after pointer cancellation, lost capture, backgrounding, or window blur; require two live contacts for pinch and rotation.",
@@ -201,7 +213,7 @@
     },
     {
       "version": "0.1.25",
-      "title": "Paint Lab v0.1.25 \u2014 Functional Smear, Smudge & Blend",
+      "title": "Paint Lab v0.1.25 — Functional Smear, Smudge & Blend",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the old retouch implementation that re-stamped copied pixels with movement-driven Smear, colour-mixing Smudge and position-preserving Blend operations. These tools sample visible painted layers, not the currently selected pigment.",
@@ -215,7 +227,7 @@
     },
     {
       "version": "0.1.24",
-      "title": "Paint Lab v0.1.24 \u2014 Server Test Dependency Fix",
+      "title": "Paint Lab v0.1.24 — Server Test Dependency Fix",
       "datetime": "2026-11-21",
       "changes": [
         "Remove the undeclared Pillow/PIL dependency from the public-sharing server integration test: generate a valid RGBA PNG fixture with Python standard-library struct and zlib.",
@@ -226,7 +238,7 @@
     },
     {
       "version": "0.1.23",
-      "title": "Paint Lab v0.1.23 \u2014 Portable Artworks, Canvas Presets & Sharing",
+      "title": "Paint Lab v0.1.23 — Portable Artworks, Canvas Presets & Sharing",
       "datetime": "2026-11-21",
       "changes": [
         "Add a New Canvas dialog with Window size, 1:1, 3:2, 2:3, 16:9, 3:4, 4:3 and 2:1 aspect ratios, plus explicit custom dimensions up to 8192px per side and a 16MP memory safeguard.",
@@ -242,7 +254,7 @@
     },
     {
       "version": "0.1.22",
-      "title": "Paint Lab v0.1.22 \u2014 Pointer-anchored Desktop Transforms & Verified Release Packaging",
+      "title": "Paint Lab v0.1.22 — Pointer-anchored Desktop Transforms & Verified Release Packaging",
       "datetime": "2026-11-21",
       "changes": [
         "Make desktop G, R, S, and Shift+D transforms confirm with a single left click (Enter also confirms), and cancel with right-click or Escape without a click-and-drag.",
@@ -254,7 +266,7 @@
     },
     {
       "version": "0.1.21",
-      "title": "Paint Lab v0.1.21 \u2014 Live Chrome Preview, Truer Pencil & Character Brush",
+      "title": "Paint Lab v0.1.21 — Live Chrome Preview, Truer Pencil & Character Brush",
       "datetime": "2026-11-21",
       "changes": [
         "Keep the workspace readable while adjusting window appearance: the settings shade no longer blurs the whole studio, so border, opacity and blur changes are visible live.",
@@ -267,7 +279,7 @@
     },
     {
       "version": "0.1.20",
-      "title": "Paint Lab v0.1.20 \u2014 Clean Canvas Reset & Oil Colour Integrity",
+      "title": "Paint Lab v0.1.20 — Clean Canvas Reset & Oil Colour Integrity",
       "datetime": "2026-11-21",
       "changes": [
         "Clear Canvas now removes the old layer stack and starts with exactly one transparent Background paint layer; Undo restores the complete previous multi-layer composition and Redo clears again.",
@@ -280,7 +292,7 @@
     },
     {
       "version": "0.1.19",
-      "title": "Paint Lab v0.1.19 \u2014 Recovery Safety & Fast Resume",
+      "title": "Paint Lab v0.1.19 — Recovery Safety & Fast Resume",
       "datetime": "2026-11-21",
       "changes": [
         "Fix stale recovery replay painting over a cleared or replaced canvas. Clear, New, Undo and project switching invalidate in-flight restoration before pixels can be applied.",
@@ -292,7 +304,7 @@
     },
     {
       "version": "0.1.18",
-      "title": "Paint Lab v0.1.18 \u2014 Denser Oil Pigment & Startup Polish",
+      "title": "Paint Lab v0.1.18 — Denser Oil Pigment & Startup Polish",
       "datetime": "2026-11-21",
       "changes": [
         "Make loaded oil brushes lay down a contiguous, substantially more opaque paint body rather than evenly spaced semi-transparent strands; preserve intentionally separated rake, comb and stipple tips.",
@@ -304,7 +316,7 @@
     },
     {
       "version": "0.1.17",
-      "title": "Paint Lab v0.1.17 \u2014 Multi-select & Merge Layers",
+      "title": "Paint Lab v0.1.17 — Multi-select & Merge Layers",
       "datetime": "2026-11-21",
       "changes": [
         "Select layers like Finder: Shift-click for a continuous range and Command/Ctrl-click for non-adjacent layers; thumbnails also support modified selection without losing drag-to-reorder.",
@@ -316,7 +328,7 @@
     },
     {
       "version": "0.1.16",
-      "title": "Paint Lab v0.1.16 \u2014 Reliable Brush Tips & Server Diagnostics",
+      "title": "Paint Lab v0.1.16 — Reliable Brush Tips & Server Diagnostics",
       "datetime": "2026-11-21",
       "changes": [
         "Fix oil brush-tip fidelity: round, liner, flat, fan, rake, mop, sword and imported brush shapes now drive actual bristle contacts and stroke widths instead of identical uniform oil ribbons.",
@@ -328,30 +340,30 @@
     },
     {
       "version": "0.1.15",
-      "title": "Paint Lab v0.1.15 \u2014 Adjustable Window Chrome & Natural Stroke Widening",
+      "title": "Paint Lab v0.1.15 — Adjustable Window Chrome & Natural Stroke Widening",
       "datetime": "2026-11-21",
       "changes": [
         "Add window-border visibility, panel background transparency, shadow enable/strength and backdrop blur controls in Appearance; settings persist in named presets.",
-        "Add a natural stroke width toggle, initial brush-tip contact, widening distance, and velocity response in Brush & Paint \u2192 Dynamics.",
+        "Add a natural stroke width toggle, initial brush-tip contact, widening distance, and velocity response in Brush & Paint → Dynamics.",
         "Apply reproducible distance-based widening to the oil contact engine and all other painted stroke materials while retaining pressure sensitivity and existing project compatibility.",
         "Preserve independent brush-tip shape response and stored brush settings in each history action."
       ]
     },
     {
       "version": "0.1.14",
-      "title": "Paint Lab v0.1.14 \u2014 Stylized Strokes & Wet Oil Brush",
+      "title": "Paint Lab v0.1.14 — Stylized Strokes & Wet Oil Brush",
       "datetime": "2026-11-21",
       "changes": [
         "Add six independent stylized painting modes: Halftone, ASCII, Invert, Pixelate, Mosaic and Symbols; each stroke remembers its selected style.",
         "Introduce an oil brush contact model with independent pigment reservoirs across bristles, pickup of wet underlying colour, pressure- and viscosity-controlled deposition, and directional ridge shading.",
         "Replace 24 individual Canvas2D preview renderers in Brush Tips with one cached shared thumbnail atlas; category switches reuse the atlas and custom brush imports rebuild it once.",
         "Reuse one inversion mask canvas across stylized dabs instead of allocating new 2D canvases during painting.",
-        "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier\u2013Stokes fluid solver."
+        "Retain imported brush tips, layer history, undo/redo, project JSON and mobile controls; this is a local wet-pigment approximation, not a Navier–Stokes fluid solver."
       ]
     },
     {
       "version": "0.1.13",
-      "title": "Paint Lab v0.1.13 \u2014 Distinct Pigment Brush Engines",
+      "title": "Paint Lab v0.1.13 — Distinct Pigment Brush Engines",
       "datetime": "2026-11-21",
       "changes": [
         "Replace the shared pencil/chalk/watercolour/oil tip-fill algorithm with four distinct procedural pigment textures: narrow grainy graphite, broken powdery chalk, translucent pooled watercolour, and opaque directional oil bristle relief.",
@@ -362,7 +374,7 @@
     },
     {
       "version": "0.1.12",
-      "title": "Paint Lab v0.1.12 \u2014 Immediate Desktop Transforms & Shift+D",
+      "title": "Paint Lab v0.1.12 — Immediate Desktop Transforms & Shift+D",
       "datetime": "2026-11-21",
       "changes": [
         "Desktop G, R, and S now move, rotate, and scale the selected shape or active layer immediately with mouse movement; no click-and-drag is required.",
@@ -373,7 +385,7 @@
     },
     {
       "version": "0.1.11",
-      "title": "Paint Lab v0.1.11 \u2014 Mobile Gesture Performance & Contextual Transforms",
+      "title": "Paint Lab v0.1.11 — Mobile Gesture Performance & Contextual Transforms",
       "datetime": "2026-11-20",
       "changes": [
         "Fix mobile pinch/pan/rotation freezing by separating the static document paint texture from viewport transforms; gestures no longer recompose every layer or reupload the painted texture.",
@@ -385,7 +397,7 @@
     },
     {
       "version": "0.1.10",
-      "title": "Paint Lab v0.1.10 \u2014 View-Safe Layer Transforms & Mobile Canvas Rotation",
+      "title": "Paint Lab v0.1.10 — View-Safe Layer Transforms & Mobile Canvas Rotation",
       "datetime": "2026-11-20",
       "changes": [
         "Fix layer duplication scaling at zoom levels other than 100% and on high-DPI displays by copying the native pixel buffer without an inherited DPR transform.",
@@ -398,7 +410,7 @@
     },
     {
       "version": "0.1.9",
-      "title": "Paint Lab v0.1.9 \u2014 Mobile Brush Controls & Stable Gestures",
+      "title": "Paint Lab v0.1.9 — Mobile Brush Controls & Stable Gestures",
       "datetime": "2026-11-20",
       "changes": [
         "Place Undo and Redo together at the bottom right of the mobile canvas, visible by default with history-aware disabled states and a workspace toggle.",
@@ -411,11 +423,11 @@
     },
     {
       "version": "0.1.8",
-      "title": "Paint Lab v0.1.8 \u2014 Safe Canvas Clearing",
+      "title": "Paint Lab v0.1.8 — Safe Canvas Clearing",
       "datetime": "2026-11-20",
       "changes": [
         "Add a trash-can action to the desktop toolbar, mobile painting controls and History panel.",
-        "Use a custom three-choice dialog: No, Yes\u2014clear, or Save before clearing; never a browser-native confirmation.",
+        "Use a custom three-choice dialog: No, Yes—clear, or Save before clearing; never a browser-native confirmation.",
         "Save before clearing creates a named copy in the local gallery and clears only after its IndexedDB write succeeds; cancellation or failure leaves the artwork intact.",
         "Clear paint from every layer while keeping layer structure, paper and canvas dimensions; Undo and Redo restore the operation.",
         "Make Clear canvas optionally visible on the mobile toolbar, enabled by default, while retaining the paint-only focus mode."
@@ -423,7 +435,7 @@
     },
     {
       "version": "0.1.7",
-      "title": "Paint Lab v0.1.7 \u2014 Mobile Canvas-First Studio",
+      "title": "Paint Lab v0.1.7 — Mobile Canvas-First Studio",
       "datetime": "2026-11-20",
       "changes": [
         "Introduce a dedicated mobile painting workspace with an edge-to-edge canvas and one-tap focus mode that hides every control except the upper-left toggle.",
@@ -435,7 +447,7 @@
     },
     {
       "version": "0.1.6",
-      "title": "Paint Lab v0.1.6 \u2014 Document View & Compact Brush Workspace",
+      "title": "Paint Lab v0.1.6 — Document View & Compact Brush Workspace",
       "datetime": "2026-11-20",
       "changes": [
         "Canvas zoom, pan and rotation now redraw painted layers immediately rather than waiting for the next brush stroke.",
@@ -447,7 +459,7 @@
     },
     {
       "version": "0.1.5",
-      "title": "Paint Lab v0.1.5 \u2014 Adaptive Palette & Colour Transformations",
+      "title": "Paint Lab v0.1.5 — Adaptive Palette & Colour Transformations",
       "datetime": "2026-11-20",
       "changes": [
         "Replace the redundant 25th palette tile with the native colour picker as the first of 24 swatches, eliminating the orphan final row.",
@@ -459,10 +471,10 @@
     },
     {
       "version": "0.1.4",
-      "title": "Paint Lab v0.1.4 \u2014 What\u2019s New & Development Log",
+      "title": "Paint Lab v0.1.4 — What’s New & Development Log",
       "datetime": "2026-11-20",
       "changes": [
-        "Add a What\u2019s New overlay after each new release, with a Latest tab and searchable-by-version history list.",
+        "Add a What’s New overlay after each new release, with a Latest tab and searchable-by-version history list.",
         "Remember which release notes were dismissed on each browser, and reopen them any time from the toolbar.",
         "Publish the same release history to the public application and the GitHub repository.",
         "Add project README, ABOUT and CHANGELOG documents with development, deployment, API and future roadmap context.",
@@ -494,7 +506,7 @@
       "datetime": "2026-11-20",
       "changes": [
         "Improve watcher output with distinct coloured deployment start, success, warning and failure banners.",
-        "Reuse existing Let\u2019s Encrypt Certbot accounts where available when issuing the Paint Lab certificate."
+        "Reuse existing Let’s Encrypt Certbot accounts where available when issuing the Paint Lab certificate."
       ]
     },
     {
