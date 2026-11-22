@@ -1,4 +1,4 @@
-"""v0.1.52 mobile edge brush rail and category tip-picker contracts."""
+"""v0.1.53 mobile edge brush rail and category tip-picker contracts."""
 import unittest
 from pathlib import Path
 
@@ -21,12 +21,15 @@ class MobileBrushV152(unittest.TestCase):
         self.assertNotIn('markPaint(',body)
         self.assertNotIn('addAction(',body)
     def test_tip_icon_replaces_next_tip_caption(self):
-        self.assertIn('id="mobileBrushNextImage"',HTML)
+        self.assertIn('id="mobileBrushImage"',HTML)
         self.assertNotIn('<span>Next tip</span>',HTML)
-        self.assertIn('aria-label="Next brush tip; long press to browse brush library"',HTML)
+        self.assertIn('id="mobileTipCycle"',HTML)
+        self.assertNotIn('id="mobileBrushNext"',HTML)
+        self.assertIn('aria-label="Adjust brush diameter"',HTML)
     def test_long_hold_deferred_until_synthetic_touch_click_ends(self):
         self.assertIn('holdTimer=setTimeout(()=>{holdTimer=null;held=true;},500)',HTML)
         self.assertIn('setTimeout(()=>openMobileTipGallery(),130)',HTML)
+        self.assertIn("const button=$('mobileTipCycle')",HTML)
         self.assertIn("if(held||skipTouchClick){e.preventDefault();held=false;skipTouchClick=false;return;}mobileNextTip()",HTML)
     def test_filtered_tip_gallery(self):
         for id in ['mobileTipGallery','mobileTipGalleryCategories','mobileTipGalleryGrid','mobileTipGalleryClose']:

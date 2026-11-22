@@ -28,8 +28,10 @@ class MobileSingleRowV150(unittest.TestCase):
   self.assertIn('.mobile-workspace.mobile-sheet-open .surface{z-index:103}',PAGE)
   self.assertIn("document.documentElement.classList.toggle('mobile-sheet-open',!!mobileSheetId)",PAGE)
  def test_stylize_and_effects_remain_resettable(self):
-  self.assertIn("$('mobileEffectsNone').onclick=()=>setMode(0)",PAGE)
-  self.assertIn("$('mobileStylizeNone').onclick=()=>{selectStrokeStyle('none')",PAGE)
+  self.assertNotIn('id="mobileEffectsNone"',PAGE)
+  self.assertNotIn('id="mobileStylizeNone"',PAGE)
+  self.assertIn("initMobileModePress('mobileEffects',mobileCycleEffects,()=>setMode(0))",PAGE)
+  self.assertIn("initMobileModePress('mobileStylize',mobileCycleStylize,()=>{selectStrokeStyle('none')",PAGE)
   self.assertIn("$('mobileEffects').innerHTML=labelStyle==='icon'?plIcon('smart')",PAGE)
   self.assertIn("$('mobileStylize').innerHTML=labelStyle==='icon'?plIcon('scribble-bucket')",PAGE)
 

@@ -1,3 +1,11 @@
+# v0.1.53 — Compact Mobile Dock & Clean Mode Controls (2026-11-22)
+
+- Keep all bottom controls on one tight row of square buttons rather than stretching them across the viewport.
+- Place the colour swatch level with the other icons and keep the combined brush/size trigger directly above it.
+- Anchor the dock just above the phone safe area while retaining the colour picker, brush rail, tip gallery and full-height Layers view.
+- Verify mobile widths from 320px to 430px and the optional eraser without horizontal overflow.
+- Remove the floating reset X badges from FX and Stylize: tap each compact square mode button to cycle including None, or hold it to return directly to None.
+
 # v0.1.52 — Mobile Layer & Brush Control Redesign (2026-11-22)
 
 - Honor Icon only preferences in mobile pigment, effects, and stylization controls with accessible names and explicit selected states.

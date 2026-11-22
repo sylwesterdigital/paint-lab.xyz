@@ -1,20 +1,33 @@
 {
   "project": "paint-lab",
-  "version": "0.1.52",
-  "title": "Paint Lab v0.1.52 — Mobile Layer & Brush Control Redesign",
+  "version": "0.1.53",
+  "title": "Paint Lab v0.1.53 — Compact Mobile Dock & Clean Mode Controls",
   "datetime": "2026-11-22",
   "changes": [
-    "Honor Icon only preferences in mobile pigment, effects, and stylization controls with accessible names and explicit selected states.",
-    "Position the combined brush tip/size button above the square colour palette swatch without adding another full-width toolbar row.",
-    "Open Layers from the very top of the mobile viewport as a full-height sheet, with sticky layer creation, merge, visibility, and transformation actions while only the layer list scrolls.",
-    "Enlarge mobile layer thumbnails by roughly 50%, reorganise each row with larger visibility/edit/reorder controls and a compact layer-name line.",
-    "Replace repeated inline layer opacity sliders with one wide, accessible slider that opens when the layer opacity control is tapped; preserve undoable opacity edits.",
-    "Center all mobile layer-sheet close controls and make the sheet close action visually unambiguous.",
-    "Replace the mobile brush-size popup with a slim left-edge vertical rail, using the currently selected pigment colour for its draggable handle and fill.",
-    "Show a live, actual-tip brush-size silhouette in the centre of the canvas while adjusting diameter, scaled to the visible canvas zoom without painting pixels.",
-    "Replace the redundant Next tip label with a single coloured tip icon; tap to cycle or long-press to open a scrolling grid of brush tips and saved recipes with filter-category pills."
+    "Prevent the mobile toolbar from stretching to the full available width: use uniformly sized compact square buttons with a centered single-row layout.",
+    "Reduce bottom spacing to just above the device safe area; retain the separate brush-tip/diameter trigger directly above the square colour swatch.",
+    "Adapt the dock to 320–430px screens, including optional Eraser, while keeping all actions visible without scrolling or overlap.",
+    "Keep the mobile diameter rail and filtered tip gallery, but remove the duplicate tip-cycle control from the rail; the brush tile itself is now split into a tip icon (tap to cycle, hold to browse) and a size readout (tap to adjust).",
+    "Remove the redundant floating X badges from mobile FX and Stylize buttons. Tap each square button to cycle modes (including None), or hold the same button to reset directly to None without a second control."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.52",
+      "title": "Paint Lab v0.1.52 — Mobile Layer & Brush Control Redesign",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Honor Icon only preferences in mobile pigment, effects, and stylization controls with accessible names and explicit selected states.",
+        "Position the combined brush tip/size button above the square colour palette swatch without adding another full-width toolbar row.",
+        "Open Layers from the very top of the mobile viewport as a full-height sheet, with sticky layer creation, merge, visibility, and transformation actions while only the layer list scrolls.",
+        "Enlarge mobile layer thumbnails by roughly 50%, reorganise each row with larger visibility/edit/reorder controls and a compact layer-name line.",
+        "Replace repeated inline layer opacity sliders with one wide, accessible slider that opens when the layer opacity control is tapped; preserve undoable opacity edits.",
+        "Center all mobile layer-sheet close controls and make the sheet close action visually unambiguous.",
+        "Replace the mobile brush-size popup with a slim left-edge vertical rail, using the currently selected pigment colour for its draggable handle and fill.",
+        "Show a live, actual-tip brush-size silhouette in the centre of the canvas while adjusting diameter, scaled to the visible canvas zoom without painting pixels.",
+        "Replace the redundant Next tip label with a single coloured tip icon; tap to cycle or long-press to open a scrolling grid of brush tips and saved recipes with filter-category pills."
+      ]
+    },
     {
       "version": "0.1.51",
       "title": "Paint Lab v0.1.51 — Native-Aspect Local Masonry Gallery",
