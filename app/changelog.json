@@ -1,15 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.42",
-  "title": "Paint Lab v0.1.42 — Uncropped Masonry Public Gallery",
+  "version": "0.1.43",
+  "title": "Paint Lab v0.1.43 — Image-First Local Gallery",
   "datetime": "2026-11-22",
   "changes": [
-    "Redesign public artist galleries as a responsive masonry wall with fluid column counts: artwork tiles stack naturally at different heights instead of being forced into a uniform grid.",
-    "Display each published PNG at its true aspect ratio with width:100%, height:auto, contain fitting and no forced 4:3 image crop; tall, wide and square paintings remain fully visible.",
-    "Use nearly the full desktop viewport for galleries while adapting from multiple columns to a single readable column on narrow phones, with preserved title captions and full-artwork links.",
-    "Keep existing full-height publication viewer, swipe navigation, public URLs, SQLite publication records, PNG files, CSP security, and watcher deployment checks unchanged; no database migration."
+    "Redesign the browser-local IndexedDB My gallery cards as edge-to-edge image thumbnails with a subtle gradient and artwork title overlaid in the bottom-left corner, removing the redundant white details area and Open button.",
+    "Make the full artwork card one accessible, keyboard-focusable Open action; preserve the unsaved-changes confirmation, editable project loading, and original IndexedDB project contents.",
+    "Keep the Edit gallery checkbox as a separate mode, showing compact top-right Rename and Delete actions that do not trigger artwork opening. Retain existing rename and delete confirmation safeguards.",
+    "Keep gallery artwork previews uncropped with contain fitting and fluid responsive columns, improve hover/focus and mobile tap targets, and preserve the v0.1.42 public masonry gallery and viewer unchanged.",
+    "No changes to project data, SQLite, published URLs, gallery records, watcher or Ubuntu deployment schema."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.42",
+      "title": "Paint Lab v0.1.42 — Uncropped Masonry Public Gallery",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Redesign public artist galleries as a responsive masonry wall with fluid column counts: artwork tiles stack naturally at different heights instead of being forced into a uniform grid.",
+        "Display each published PNG at its true aspect ratio with width:100%, height:auto, contain fitting and no forced 4:3 image crop; tall, wide and square paintings remain fully visible.",
+        "Use nearly the full desktop viewport for galleries while adapting from multiple columns to a single readable column on narrow phones, with preserved title captions and full-artwork links.",
+        "Keep existing full-height publication viewer, swipe navigation, public URLs, SQLite publication records, PNG files, CSP security, and watcher deployment checks unchanged; no database migration."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.41",

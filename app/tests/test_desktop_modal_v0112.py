@@ -20,5 +20,5 @@ class DesktopModalV0112(unittest.TestCase):
  def test_keyboard_help_and_release_metadata(self):
   self.assertIn('Shift</kbd> + <kbd>D',HTML)
   self.assertIn('No click-and-drag is needed', (APP/'README.md').read_text())
-  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.42')
+  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.43')
 if __name__=='__main__':unittest.main()

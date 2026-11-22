@@ -1,3 +1,10 @@
+# v0.1.43 — Image-First Local Gallery (2026-11-22)
+
+- Make each local IndexedDB gallery tile fully clickable to open its editable painting, subject to the existing unsaved-work confirmation.
+- Remove the separate Open button, white caption footer, and date line; show the artwork name over a subtle bottom-left image gradient.
+- Retain Edit gallery with isolated top-right Rename and Delete controls, keyboard access, and confirmation before deletion.
+- Keep thumbnails contained instead of cropped, adapt tile columns to screen width, and preserve public masonry galleries, project format, cloud saving and deployments.
+
 # v0.1.42 — Uncropped Masonry Public Gallery (2026-11-22)
 
 - Replace uniform fixed-crop gallery thumbnails with a fluid CSS column masonry wall: tall, landscape and square published images keep their native aspect ratios.
