@@ -105,7 +105,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn('type="date"',markup)
         self.assertIn('https://rantlist.me/',markup)
         self.assertTrue(any(a.get('href')=='https://rantlist.me/' and 'noopener' in a.get('rel','') for a in parser.links))
-        self.assertEqual(parser.forms,[{'class':'discovery-form','action':'/explore','method':'get'}])
+        self.assertEqual(parser.forms,[{'class':'discovery-form','action':'/explore','method':'get'}]*2)
         self.assertIn('.discovery-wall{columns:270px',public_viewer.DISCOVER_CSS)
         self.assertIn('height:auto;object-fit:contain',public_viewer.DISCOVER_CSS)
 

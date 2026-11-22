@@ -1,3 +1,16 @@
+# v0.1.59 — Artwork-First Mobile Discovery (2026-11-22)
+
+- Show four recent publicly published artworks immediately as a compact mobile 2×2 gallery, preserving full images without cropping.
+- Put date ranges, text search, sorting and advanced filters behind a single expandable Search art & filters control, with active filters indicated in the collapsed state.
+- Move the Rantlist collaboration invitation below those four artworks and continue into the existing full-aspect masonry feed.
+- Preserve owner galleries, share links, SQLite privacy, and server-rendered search and pagination.
+
+# v0.1.58 — Mobile View Integrity & Theme Controls (2026-11-22)
+
+- Apply border and shadow settings to mobile controls down to true zero.
+- Add a discoverable sparkles icon for generating alternative UI themes.
+- Protect mobile canvas transforms and touch alignment when gestures are interrupted or the viewport changes.
+
 # v0.1.57 — One Mobile Brush Button (2026-11-22)
 
 - One compact brush silhouette button above the colour swatch: tap once to open size, tap the same button again to cycle brush tips.

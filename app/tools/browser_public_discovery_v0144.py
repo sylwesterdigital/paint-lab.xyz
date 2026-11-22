@@ -56,8 +56,8 @@ with tempfile.TemporaryDirectory(prefix='paintlab-discovery-browser-') as tmp:
 
     with sync_playwright() as browser_system:
         browser=browser_system.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox'])
-        for name,width,height in [('desktop',1440,900),('tablet',880,920),('mobile',390,844)]:
-            context=browser.new_context(viewport={'width':width,'height':height},is_mobile=name=='mobile',has_touch=name=='mobile')
+        for name,width,height in [('desktop',1440,900),('tablet',880,920),('mobile320',320,720),('mobile',390,844),('mobile430',430,880)]:
+            context=browser.new_context(viewport={'width':width,'height':height},is_mobile=name.startswith('mobile'),has_touch=name.startswith('mobile'))
             page=context.new_page();errors=[]
             page.on('pageerror',lambda err:errors.append(str(err)))
             page.set_content(make_page('http://local.test/explore'),wait_until='load')
@@ -67,30 +67,52 @@ with tempfile.TemporaryDirectory(prefix='paintlab-discovery-browser-') as tmp:
                const images=[...document.querySelectorAll('.discovery-tile img')];
                return {width:innerWidth,documentWidth:document.documentElement.scrollWidth,
                  columns:new Set(images.map(img=>Math.round(img.getBoundingClientRect().left))).size,
-                 ratios:images.map(img=>{const b=img.getBoundingClientRect();return {original:img.naturalWidth/img.naturalHeight,display:b.width/b.height}}),
+                 ratios:images.map(img=>{const b=img.getBoundingClientRect();return {original:img.naturalWidth/img.naturalHeight,display:b.width/b.height,fit:getComputedStyle(img).objectFit}}),
+                 tiles:[...document.querySelectorAll('.discovery-tile')].slice(0,5).map(el=>el.getBoundingClientRect().toJSON()),
+                 form:document.querySelector('.discovery-desktop-controls .discovery-form').getBoundingClientRect().toJSON(),
                  count:images.length,heading:document.querySelector('h1').textContent};
             }''')
             assert result['count']==48,result
             assert result['width']+2>=result['documentWidth'],result
-            assert all(abs(x['original']-x['display'])<.015 for x in result['ratios']),result
-            assert result['columns']>=2 if name!='mobile' else result['columns']==1,result
+            if name.startswith('mobile'):
+                assert all(x['fit']=='contain' for x in result['ratios'][:4]),result
+                assert all(abs(x['original']-x['display'])<.015 for x in result['ratios'][4:]),result
+                assert result['tiles'][0]['left'] < result['tiles'][1]['left'],result
+                assert abs(result['tiles'][0]['top']-result['tiles'][1]['top']) < 2,result
+                assert result['tiles'][2]['top'] < result['tiles'][4]['top'],result
+                assert page.locator('.discovery-mobile-controls summary').is_visible()
+                assert not page.locator('#discoverQueryMobile').is_visible()
+                if name=='mobile':
+                    page.screenshot(path='/mnt/data/paintlab_explore_v0159_mobile.png',full_page=False)
+            else:
+                assert all(abs(x['original']-x['display'])<.015 for x in result['ratios']),result
+                assert result['columns']>=2,result
+                assert result['form']['bottom']+10 < result['tiles'][0]['top'],result
+                assert page.locator('#discoverQuery').is_visible()
+                if name=='desktop':page.screenshot(path='/mnt/data/paintlab_explore_v0159_desktop.png',full_page=False)
             assert result['heading']=='Art from everyone.',result
-            page.screenshot(path='/tmp/paintlab_discover_v0144_'+name+'.png',full_page=True)
+            if name.startswith('mobile'):
+                page.locator('.discovery-mobile-controls summary').click()
+                assert page.locator('#discoverQueryMobile').is_visible()
+                if name=='mobile':page.screenshot(path='/mnt/data/paintlab_explore_v0159_mobile_filters.png',full_page=False)
             # Forms and search are server-rendered; simulate the GET responses
             # without navigating to external networking in the sandbox browser.
             assert page.get_by_role('link',name='Today').get_attribute('href').endswith('period=today') or 'period=today' in page.get_by_role('link',name='Today').get_attribute('href')
             page.set_content(make_page('http://local.test/explore?period=today'),wait_until='load')
             assert page.locator('.discovery-tile').count()==13,page.locator('.discovery-tile').count()
-            page.locator('#discoverQuery').fill('Blue study')
-            page.locator('#discoverSort').select_option('az')
-            assert page.locator('#discoverQuery').input_value()=='Blue study'
-            assert page.locator('#discoverSort').input_value()=='az'
+            if name.startswith('mobile'):page.locator('.discovery-mobile-controls summary').click()
+            q='#discoverQueryMobile' if name.startswith('mobile') else '#discoverQuery'
+            sort='#discoverSortMobile' if name.startswith('mobile') else '#discoverSort'
+            page.locator(q).fill('Blue study')
+            page.locator(sort).select_option('az')
+            assert page.locator(q).input_value()=='Blue study'
+            assert page.locator(sort).input_value()=='az'
             page.set_content(make_page('http://local.test/explore?period=today&q=Blue+study&sort=az'),wait_until='load')
             assert page.locator('.discovery-tile').count()==6,page.locator('.discovery-tile').count()
             assert page.locator('.discovery-tile').first.locator('.discovery-caption').inner_text().startswith('Blue study')
             page.set_content(make_page('http://local.test/explore?page=2'),wait_until='load')
             assert page.locator('.discovery-tile').count()==17,page.locator('.discovery-tile').count()
-            assert page.locator('a[href="https://rantlist.me/"]').count()==1
+            assert page.locator('a[href="https://rantlist.me/"]:visible').count()==1
             # Same feed can be opened as the existing full-height, cross-artist viewer.
             slides=[{'title':'Alice painting','url':'/p/'+'a'*24+'?browse=explore',
                      'image':images[0],'username':'ArtistOne','artist_url':'/u/ArtistOne'},
@@ -111,7 +133,7 @@ with tempfile.TemporaryDirectory(prefix='paintlab-discovery-browser-') as tmp:
             page.get_by_role('button',name='Previous artwork').click()
             assert page.locator('#artCreator').inner_text()=='ArtistOne'
             assert not errors,errors
-            print('PASS',name,{'columns':result['columns'],'cards':result['count'],'no_horizontal_overflow':True,'ratio_preserved':True,'filters':True,'pagination':True})
+            print('PASS',name,{'cards':result['count'],'no_horizontal_overflow':True,'uncropped_art':True,'mobile_2x2_featured':name.startswith('mobile'),'filters':True,'pagination':True})
             context.close()
         browser.close()
     con.close()

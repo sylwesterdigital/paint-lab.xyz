@@ -67,8 +67,52 @@ DISCOVER_CSS = r'''
 .discovery-empty{text-align:center;margin:7vh auto;padding:34px;max-width:460px;border:1px solid #39473e;border-radius:16px;color:#b8c7ba}
 .discovery-pager{display:flex;justify-content:center;align-items:center;gap:15px;margin:24px auto}
 .discovery-pager a{padding:10px 17px;border:1px solid #52645a;border-radius:11px}
+/* Desktop keeps every filter visible. Mobile has one intentional reveal control. */
+.discovery-mobile-controls{display:none}
+.discovery-desktop-controls{display:block}
+.discovery-mobile-invite,.discovery-more-label{display:none}
+.discovery-mobile-invite{border:1px solid #40584b;border-radius:12px;background:#24352d;padding:12px 14px;align-items:center;justify-content:space-between;gap:10px}
+.discovery-mobile-invite span{font-size:12px;color:#bbcec0}
+.discovery-mobile-invite a{font-size:12px;font-weight:750;color:#bce1b5;white-space:nowrap}
 @media(max-width:850px){.discovery-form{grid-template-columns:repeat(2,minmax(0,1fr))}.discovery-form .discovery-search{grid-column:1/-1}}
-@media(max-width:500px){.discovery-form{grid-template-columns:repeat(2,minmax(0,1fr))}.discovery-form button{grid-column:1/-1}.discovery-wall{columns:1}.community-invite{width:100%;max-width:none}.discovery-hero{gap:18px}}
+@media(max-width:500px){
+ .discover-page nav{min-height:48px;gap:12px;padding:8px 14px}.discover-page nav span{display:none}
+ .discover-page main.discover-main{padding:11px 10px 32px}
+ .discover-page .discovery-hero{margin:0 0 11px;gap:0}
+ .discover-page .discovery-kicker,.discover-page .discovery-subtitle,.discover-page .discovery-hero .community-invite{display:none}
+ .discover-page main.discover-main h1{font-size:clamp(23px,7vw,28px);letter-spacing:-.035em;margin:0;line-height:1.18}
+ .discover-page .discovery-filters{border:0;background:transparent;padding:0;margin:0 0 8px}
+ .discover-page .discovery-desktop-controls{display:none}
+ .discover-page .discovery-mobile-controls{display:block;margin:0}
+ .discover-page .discovery-mobile-controls>summary{display:flex;align-items:center;gap:9px;min-height:44px;padding:9px 13px;background:#242f2b;border:1px solid #4c6155;border-radius:12px;color:#e2f0e7;font-weight:680;font-size:13px;cursor:pointer;list-style:none;user-select:none}
+ .discover-page .discovery-mobile-controls>summary::-webkit-details-marker{display:none}
+ .discover-page .discovery-mobile-controls>summary svg{flex:none;width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ .discover-page .discovery-mobile-controls>summary .discovery-filter-arrow{margin-left:auto;transition:transform .18s}
+ .discover-page .discovery-mobile-controls[open]>summary .discovery-filter-arrow{transform:rotate(180deg)}
+ .discover-page .discovery-mobile-controls:not([open])>.discovery-search-body{display:none}
+ .discover-page .discovery-search-body{padding:12px 2px 3px}
+ .discover-page .discovery-quick{flex-wrap:nowrap;overflow-x:auto;padding-bottom:5px;margin-bottom:11px;scrollbar-width:thin}
+ .discover-page .discovery-chip{white-space:nowrap;flex:none;padding:6px 12px;font-size:12px}
+ .discover-page .discovery-form{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .discover-page .discovery-form button{grid-column:1/-1}
+ .discover-page .discovery-meta{font-size:12px;margin:9px 2px 12px;gap:6px}
+ .discover-page .discovery-meta .discovery-page-number{display:none}
+ .discover-page .discovery-wall{columns:1}
+ .discover-page .discovery-wall.discovery-featured-mode{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start}
+ .discover-page .discovery-featured-mode>.discovery-tile{margin:0;display:block}
+ .discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(-n+4) img{aspect-ratio:1/1;object-fit:contain;max-height:none}
+ .discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(-n+4) .artwork-link{position:relative}
+ .discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(-n+4) .discovery-caption{position:absolute;bottom:0;left:0;right:0;padding:26px 9px 8px;color:white;background:linear-gradient(transparent,#121b17dc);font-size:12px;line-height:1.2;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+ .discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(-n+4) .discovery-artist{padding:5px 9px 7px;font-size:11px}
+ .discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(-n+4) time{display:none}
+ .discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(n+5){grid-column:1/-1}
+ .discover-page .discovery-featured-mode>.discovery-more-label{grid-column:1/-1;display:block;margin:8px 0 0;color:#d6e4d9;font-weight:750;font-size:17px}
+ .discover-page .discovery-wall>.discovery-mobile-invite{display:flex}
+ .discover-page .discovery-featured-mode>.discovery-mobile-invite{grid-column:1/-1}
+ .discover-page .discovery-wall:not(.discovery-featured-mode)>.discovery-tile{margin-bottom:11px}
+}
+@media(max-width:360px){.discover-page .discovery-featured-mode>.discovery-tile:nth-of-type(-n+4) .discovery-artist{padding:4px 6px 6px}}
+
 @media(prefers-reduced-motion:reduce){.discovery-tile:hover{transform:none}}
 '''
 
@@ -82,11 +126,13 @@ def discover_markup(items, filters, total, page, urls, *, artist=None, edit=Fals
     sorts=[('recent','Newest first'),('oldest','Oldest first'),('az','Title A–Z'),
            ('za','Title Z–A'),('artist','Artist A–Z')]
     options=''.join('<option value="'+key+'"'+(' selected' if filters.sort==key else '')+'>'+escape(label)+'</option>' for key,label in sorts)
-    def card(item):
+    featured=(not artist and page==1 and filters.sort=='recent' and filters.period=='all' and not filters.q and not filters.date_from and not filters.date_to)
+    def card(item,index):
         visible=item.get('visible',True)
         token=escape(item.get('token',''))
         title=escape(item['title'])
-        img='<img src="'+escape(item['image'])+'" loading="lazy" decoding="async" alt="'+title+'">'
+        priority=' loading="eager" fetchpriority="high"' if featured and index<4 else ' loading="lazy"'
+        img='<img src="'+escape(item['image'])+'"'+priority+' decoding="async" alt="'+title+'">'
         main=('<a class="artwork-link" href="'+escape(item['url'])+'">'+img+
               '<span class="discovery-caption">'+title+'</span></a>') if visible else (
               '<div class="artwork-link">'+img+'<span class="discovery-caption">'+title+'</span></div>')
@@ -99,7 +145,16 @@ def discover_markup(items, filters, total, page, urls, *, artist=None, edit=Fals
             +main+'<div class="discovery-artist"><a href="'+escape(item['artist_url'])+'">@'+escape(item['username'])+'</a>'
             '<time datetime="'+escape(str(item['created_at'])[:10])+'">'+escape(str(item['created_at'])[:10])+'</time></div>'
             +controls+'</article>')
-    cards=''.join(card(item) for item in items)
+    cards=''
+    for i,item in enumerate(items):
+        if featured and i==4:
+            cards+=('<aside class="discovery-mobile-invite"><span>Make art together</span>'
+                    '<a href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Discuss & collaborate ↗</a></aside>'
+                    '<h2 class="discovery-more-label">More artwork</h2>')
+        cards+=card(item,i)
+    if not artist and (not featured or len(items)<=4):
+        cards+=('<aside class="discovery-mobile-invite"><span>Make art together</span>'
+                '<a href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Discuss & collaborate ↗</a></aside>')
     pager = ''
     if total > 48:
         pager = '<div class="discovery-pager" aria-label="Art page navigation">'
@@ -119,19 +174,40 @@ def discover_markup(items, filters, total, page, urls, *, artist=None, edit=Fals
         '<a href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Join the conversation</a></aside>')
     action='/u/'+escape(artist) if artist else '/explore'
     edit_field='<input type="hidden" name="edit" value="1">' if edit else ''
-    return ('<main class="discover-main" id="publicDiscovery"'+(' data-csrf="'+escape(csrf)+'"' if edit else '')+'>' +
-      '<header class="discovery-hero"><div>'+heading+owner_link+'</div>'+invite+'</header>'
-      '<section class="discovery-filters" aria-label="Find public artworks"><div class="discovery-quick">'+chips+'</div>'
+    filters_body=('<div class="discovery-search-body"><div class="discovery-quick">'+chips+'</div>'
       '<form class="discovery-form" action="'+action+'" method="get">'+edit_field+
       '<input type="hidden" name="period" value="'+escape(filters.period)+'">'
       '<label class="discovery-search" for="discoverQuery">Search title or artist<input id="discoverQuery" type="search" name="q" maxlength="100" placeholder="Search art or artist…" value="'+escape(filters.q)+'"></label>'
       '<label for="discoverSort">Sort by<select id="discoverSort" name="sort">'+options+'</select></label>'
       '<label for="discoverFrom">From date<input id="discoverFrom" type="date" name="from" value="'+escape(filters.date_from)+'"></label>'
       '<label for="discoverTo">To date<input id="discoverTo" type="date" name="to" value="'+escape(filters.date_to)+'"></label>'
-      '<button type="submit">Show artworks</button></form></section>'
-      '<div class="discovery-meta"><span><strong>'+str(total)+'</strong> '+('artworks including hidden' if edit else 'published '+('artwork' if total==1 else 'artworks'))+' · Page '+str(page)+'</span>'
-      '<a href="'+action+('?edit=1' if edit else '')+'">Clear filters</a></div>'
-      +('<div class="discovery-wall">'+cards+'</div>' if items else '<div class="discovery-empty"><strong>No matching artwork yet.</strong><p>Try a different search or date range, or create something new.</p><a href="/">Open Paint Lab</a></div>')+
+      '<button type="submit">Show artworks</button></form></div>')
+    active_filters=bool(filters.q or filters.period!='all' or filters.sort!='recent' or filters.date_from or filters.date_to)
+    filter_title=('Search & filters · Active' if active_filters else 'Search art & filters')
+    filter_summary=('<summary aria-label="Search and filter artworks">'
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg>'
+      '<span>'+filter_title+'</span>'
+      '<svg class="discovery-filter-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
+      '</summary>')
+    # Two *presentation-only* responsive forms preserve a no-JavaScript mobile disclosure
+    # without collapsing desktop layout or hiding owner-gallery editing controls.
+    # Both forms submit the same validated GET arguments to the same public endpoint.
+    def mobile_ids(fragment):
+        for base in ('discoverQuery','discoverSort','discoverFrom','discoverTo'):
+            fragment=fragment.replace('id="'+base+'"','id="'+base+'Mobile"')
+            fragment=fragment.replace('for="'+base+'"','for="'+base+'Mobile"')
+        return fragment
+    filters_panel=(('<div class="discovery-desktop-controls">'+filters_body+'</div>'
+         '<details class="discovery-mobile-controls">'+filter_summary+mobile_ids(filters_body)+'</details>')
+        if not artist else filters_body)
+    meta=('<div class="discovery-meta"><span><strong>'+str(total)+'</strong> '+
+      ('artworks including hidden' if edit else 'published '+('artwork' if total==1 else 'artworks'))+
+      ' <span class="discovery-page-number">· Page '+str(page)+'</span></span>'+
+      ('<a href="'+action+('?edit=1' if edit else '')+'">Clear filters</a>' if active_filters or page>1 else '')+'</div>')
+    return ('<main class="discover-main" id="publicDiscovery"'+(' data-csrf="'+escape(csrf)+'"' if edit else '')+'>' +
+      '<header class="discovery-hero"><div>'+heading+owner_link+'</div>'+invite+'</header>'
+      '<section class="discovery-filters" aria-label="Find public artworks">'+filters_panel+'</section>'+meta+
+      ('<div class="discovery-wall'+(' discovery-featured-mode' if featured else '')+'">'+cards+'</div>' if items else '<div class="discovery-empty"><strong>No matching artwork yet.</strong><p>Try a different search or date range, or create something new.</p><a href="/">Open Paint Lab</a></div>')+
       pager+'</main>')
 
 VIEWER_CSS = '''
