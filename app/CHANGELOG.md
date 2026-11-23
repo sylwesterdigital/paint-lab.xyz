@@ -1,3 +1,10 @@
+# v0.1.68 — Visible Brush Tips, Plain Links & Movable Minimized Windows (2026-11-23)
+
+- The Brush Tips panel opens on actual, scrollable brush silhouettes instead of an overwhelming settings form. Both advanced brush editing and text stamping are closed until requested, while the same controls and imported brushes remain available.
+- Collapsed desktop windows can be dragged to the top 6 px of the viewport; expanded windows continue to observe the startup header clearance. When deliberately dragged to the header, panels render above the identity and toolbar.
+- The GitHub and Donate labels and the small version indicator use plain black text without any text shadows, including on mobile and dark themes. The pastel Paint-lab wordmark is unchanged.
+- Maintain free public PNG downloads and the existing optional Stripe donation flows, workspace presets, v0.1.67 toolbar refinements and watcher v0.1.6 release safeguards.
+
 # v0.1.67 — Desktop Toolbar, Brand Layout & Save Shortcut (2026-11-23)
 
 - Enlarge the pastel-gradient Paint-lab wordmark by approximately 25%, place it 10px from both top and left edges, and keep its GitHub/Donate links legible over the checkerboard with text-only high contrast.

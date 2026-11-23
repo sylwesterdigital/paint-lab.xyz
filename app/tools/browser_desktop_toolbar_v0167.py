@@ -26,7 +26,9 @@ def test_desktop(browser,width=1180):
  page.wait_for_timeout(200)
  for id in ('toolRail','tipPanel','shapePanel'):
   r=page.locator('#'+id).bounding_box()
-  assert not r or r['y']>=brand['y']+brand['height']+7,(id,r,brand)
+  if r:
+   collapsed=page.locator('#'+id).evaluate('(e)=>e.classList.contains("collapsed")')
+   assert r['y']>=(6 if collapsed else brand['y']+brand['height']+7)-1,(id,r,brand,collapsed)
  # menu button actions are original IDs and retain handlers
  page.locator('#desktopMore').click()
  assert page.locator('#desktopOverflowMenu').is_visible()

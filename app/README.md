@@ -229,3 +229,7 @@ No secret key or webhook secret is included in the release; only Stripe’s clie
 ## v0.1.67 — Desktop workspace controls
 
 The desktop app bar now shows a three-dot overflow and Settings cog with Clear, Save, Undo and Redo pinned by default. Settings → Desktop toolbar quick actions lets you choose any toolbar action to keep visible; this choice is saved with workspace settings and named presets. The canvas HUD shows current zoom and a Fit control; **Shift+S** opens Save & share. Floating desktop windows stay below the Paint-lab wordmark and header actions. Existing free downloads and optional project donations are unchanged.
+
+## v0.1.68 — Brush selection and panel positioning
+
+The desktop Brush Tips window prioritizes visible, scrollable silhouettes. Advanced brush editing and text/character stamping are expandable sections, closed by default. Collapsed draggable windows can be positioned 6 px from the viewport's top edge, independently of the expanded-panel header allowance. GitHub and Donate use plain black, shadow-free text. No painting data or payment behaviour changes.

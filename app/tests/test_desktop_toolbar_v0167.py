@@ -1,4 +1,4 @@
-"""v0.1.67 desktop toolbar, wordmark placement and zoom-HUD contracts."""
+"""v0.1.68 desktop toolbar, wordmark placement and zoom-HUD contracts."""
 import json
 import re
 import unittest
@@ -11,20 +11,22 @@ FRONT = (ROOT / 'frontend/index.html').read_text(encoding='utf-8')
 class DesktopToolbar167(unittest.TestCase):
     def test_release_markers_and_history(self):
         for file in ('version.json', 'frontend/version.json', 'changelog.json', 'frontend/changelog.json'):
-            self.assertEqual(json.loads((ROOT / file).read_text())['version'], '0.1.67')
-        self.assertIn('<meta name="paint-lab-version" content="0.1.67">', FRONT)
+            self.assertEqual(json.loads((ROOT / file).read_text())['version'], '0.1.68')
+        self.assertIn('<meta name="paint-lab-version" content="0.1.68">', FRONT)
         changelog = json.loads((ROOT / 'changelog.json').read_text())
-        self.assertEqual(changelog['history'][0]['version'], '0.1.66')
+        self.assertEqual(changelog['history'][0]['version'], '0.1.67')
 
     def test_brand_is_unboxed_and_header_reserves_panel_space(self):
         self.assertIn('id="paintLabBrand"', FRONT)
         self.assertIn('font-size:28px;font-weight:850', FRONT)
-        self.assertIn('z-index:94;top:10px;left:10px', FRONT)
+        self.assertIn('z-index:9;top:10px;left:10px', FRONT)
         self.assertIn('.paint-lab-brand-link{border:0;background:transparent', FRONT)
-        self.assertIn('text-shadow:0 1px 3px #fff', FRONT)
+        self.assertIn('.paint-lab-brand-link{border:0;background:transparent', FRONT)
+        self.assertIn('color:#000;text-decoration:none', FRONT)
+        self.assertIn('text-shadow:none', FRONT)
         self.assertIn('function desktopHeaderFloor()', FRONT)
-        self.assertIn('headerFloor=desktopHeaderFloor()', FRONT)
-        self.assertIn('clamp(e.clientY-drag.dy,desktopHeaderFloor()', FRONT)
+        self.assertIn('headerFloor=panelTopFloor(panel)', FRONT)
+        self.assertIn('clamp(e.clientY-drag.dy,panelTopFloor(panel)', FRONT)
 
     def test_desktop_toolbar_preserves_single_original_button_per_action(self):
         self.assertIn('id="desktopMore"', FRONT)
