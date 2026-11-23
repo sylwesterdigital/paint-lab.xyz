@@ -1,3 +1,11 @@
+# v0.1.66 — Live Stripe Donations & Paint-lab Wordmark (2026-11-23)
+
+- Add the supplied live Stripe Buy Button to the public artwork **Download & Support** dialog; original PNG downloads remain free, with no donation requirement.
+- Add a borderless pastel-gradient **Paint-lab** logo, small v0.1.66 label, **GitHub** link and **Donate** action to the painting studio, including touch layouts. Mobile focus mode still hides nonessential UI.
+- Both donation panels show Stripe’s official embedded button and a direct Stripe Payment Link fallback, and load Stripe’s script only after the visitor opens the panel. Stripe may navigate to a separate secure checkout page.
+- Keep the prior optional Stripe secret-key Checkout API and signed webhooks intact. Payment Link receipts live in Stripe and are not automatically added to the application’s publication-specific SQLite receipt table; server-side webhook credentials are not needed for the new button.
+- Preserve Umami view tracking, WebP public gallery previews, viewport-based loading, publication permissions, watcher v0.1.6 and SHA-256 release validation.
+
 # v0.1.65 — Gallery Performance, Artwork Views & Optional Stripe Support (2026-11-23)
 
 - View individual-publication analytics through Umami `artwork_view` events when a publication opens or navigation changes; no private layer data is transmitted.

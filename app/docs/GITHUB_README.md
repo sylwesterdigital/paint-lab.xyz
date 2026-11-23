@@ -105,3 +105,9 @@ Multi-touch gestures exclusively pan, pinch, and rotate the canvas while two fin
 ## v0.1.30 release integrity
 
 The development-log UI must match the running release version, even when offline. The deterministic release builder and watcher v0.1.4 reject embedded/history mismatches, and the browser smoke test opens the actual dialog. New oil strokes also interpolate sparse pointer samples and use bounded endpoint tiles on high-resolution canvases; legacy stroke actions are replayed unchanged. The painting engine remains a raster approximation; independent GPU pigment and height buffers are still research.
+
+### Live project donations (v0.1.66)
+
+The painting studio’s top-left **Paint-lab v0.1.66** text identity includes [GitHub](https://github.com/sylwesterdigital/paint-lab.xyz) and **Donate**. The public artwork viewer’s **Download & Support** panel keeps the original PNG download free and offers the same optional donation route. The support dialogs contain the official Stripe Buy Button supplied by the project operator and an [independent Stripe-hosted Payment Link](https://donate.stripe.com/4gM6oGbw61Wf5nJa1wcZa0c) in case embeds or scripts are blocked. The button activates only when someone opens a support dialog; payment and any subsequent checkout redirects are handled by Stripe.
+
+No secret key or webhook secret is included in the release; only Stripe’s client-safe `pk_live_…` identifier and public buy-button ID are exposed. The older `POST /api/support/checkout` and `/api/stripe/webhook` routes remain separate, optional server-side integrations: they still require secret configuration. **Payments made through the new Payment Link do not automatically populate the app’s `support_payments` SQLite table**; reconcile these in the Stripe dashboard unless a verified Payment Link webhook integration is developed later. Donations are to Paint Lab, not individual artists or a payout system.

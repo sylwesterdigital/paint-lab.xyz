@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.65",
-  "title": "Paint Lab v0.1.65 — Gallery Performance, View Analytics & Project Support",
+  "version": "0.1.66",
+  "title": "Paint Lab v0.1.66 — Live Stripe Donations & Studio Identity",
   "datetime": "2026-11-23",
   "changes": [
-    "Record bounded Umami artwork_view events for opened publications, including browsing via viewer arrows and mobile swipes; track original PNG downloads without sending artwork titles, user accounts or private painting data.",
-    "Serve cached, aspect-correct 720-pixel WebP gallery previews on demand while retaining original public PNG downloads; owner-only hidden artwork remains protected by account checks.",
-    "Request only the first four gallery thumbnails immediately and load later ones when they near the viewport using IntersectionObserver, with a graceful no-JavaScript/browser fallback.",
-    "Replace direct public-viewer Download PNG with a Download & Support sheet. Original PNG downloads stay free; optional Stripe Checkout contributions support the Paint Lab project, not artist payouts.",
-    "Keep Stripe secrets on the server, validate amount and CSRF, rate-limit anonymous checkout attempts, and verify signed payment webhooks into an idempotent SQLite receipt table. Checkout stays disabled until the operator configures Stripe keys and a webhook."
+    "Embed the live Stripe Buy Button in public artwork Download & Support and in a new studio Donate dialog, with a direct Stripe Payment Link fallback if the widget cannot load; artwork PNG downloads remain free.",
+    "Add a borderless pastel-gradient Paint-lab wordmark at the upper left, a compact v0.1.66 label, GitHub link and Donate action; retain a canvas-only mobile focus mode.",
+    "Load Stripe JavaScript only when a visitor opens a support dialog; allow the minimum viewer CSP extensions for Stripe while keeping private painting data out of the payment flow.",
+    "Retain optional server-generated GBP Checkout, signed webhook verification and SQLite receipts for that separate integration; Payment Link contributions are handled in Stripe and do not automatically populate those receipts.",
+    "Preserve published-artwork privacy, original-resolution PNGs, WebP gallery previews, lazy loading, Umami artwork-view tracking and the v0.1.6 checksum-verified deployment watcher."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.65",
+      "title": "Paint Lab v0.1.65 — Gallery Performance, View Analytics & Project Support",
+      "datetime": "2026-11-23",
+      "changes": [
+        "Record bounded Umami artwork_view events for opened publications, including browsing via viewer arrows and mobile swipes; track original PNG downloads without sending artwork titles, user accounts or private painting data.",
+        "Serve cached, aspect-correct 720-pixel WebP gallery previews on demand while retaining original public PNG downloads; owner-only hidden artwork remains protected by account checks.",
+        "Request only the first four gallery thumbnails immediately and load later ones when they near the viewport using IntersectionObserver, with a graceful no-JavaScript/browser fallback.",
+        "Replace direct public-viewer Download PNG with a Download & Support sheet. Original PNG downloads stay free; optional Stripe Checkout contributions support the Paint Lab project, not artist payouts.",
+        "Keep Stripe secrets on the server, validate amount and CSRF, rate-limit anonymous checkout attempts, and verify signed payment webhooks into an idempotent SQLite receipt table. Checkout stays disabled until the operator configures Stripe keys and a webhook."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.64",

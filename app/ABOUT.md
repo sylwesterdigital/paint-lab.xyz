@@ -116,3 +116,9 @@ The current 2D oil engine now shapes initial contact and lift-off according to b
 ## Release-history reliability (v0.1.30)
 
 The version displayed in What's New now comes from the packaged version-matched release history, with a verified same-version network refresh. The release build and deployment watcher reject stale embedded notes and unequal changelog copies. The same release fixes missing pigment after sparse oil-stylus samples and shapes high-DPI endpoints in bounded tiles. Existing saved strokes remain on their legacy rendering path. This release does not introduce a GPU-based paint solver.
+
+### Live project donations (v0.1.66)
+
+The painting studio’s top-left **Paint-lab v0.1.66** text identity includes [GitHub](https://github.com/sylwesterdigital/paint-lab.xyz) and **Donate**. The public artwork viewer’s **Download & Support** panel keeps the original PNG download free and offers the same optional donation route. The support dialogs contain the official Stripe Buy Button supplied by the project operator and an [independent Stripe-hosted Payment Link](https://donate.stripe.com/4gM6oGbw61Wf5nJa1wcZa0c) in case embeds or scripts are blocked. The button activates only when someone opens a support dialog; payment and any subsequent checkout redirects are handled by Stripe.
+
+No secret key or webhook secret is included in the release; only Stripe’s client-safe `pk_live_…` identifier and public buy-button ID are exposed. The older `POST /api/support/checkout` and `/api/stripe/webhook` routes remain separate, optional server-side integrations: they still require secret configuration. **Payments made through the new Payment Link do not automatically populate the app’s `support_payments` SQLite table**; reconcile these in the Stripe dashboard unless a verified Payment Link webhook integration is developed later. Donations are to Paint Lab, not individual artists or a payout system.

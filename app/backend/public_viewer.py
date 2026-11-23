@@ -264,10 +264,10 @@ body.viewer-page{height:100vh;height:100dvh;display:flex;flex-direction:column;o
 .support-description{margin:0;color:#b9cbc1;font-size:14px}
 .support-download{display:flex;align-items:center;justify-content:center;padding:13px;border-radius:10px;background:#b0d6a7;color:#142419;font-weight:750}
 .support-divider{height:1px;background:#44594e}
-.support-amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.support-amounts button{padding:12px 5px;border:1px solid #637d69;border-radius:10px;background:#304537;color:#f2fff4;font-weight:750;cursor:pointer}
-.support-amounts button:disabled{opacity:.4;cursor:not-allowed}
-.support-message{font-size:12px;color:#c5d4c7;min-height:1em;margin:0}
+.support-dialog .stripe-donation-embed{display:flex;justify-content:center;min-height:55px;max-width:100%}
+.support-dialog .stripe-donation-status{font-size:12px;color:#b9cbc1;line-height:1.45;margin:0}
+.support-dialog .stripe-donation-fallback{font-size:13px;color:#b5d7cc;text-decoration:underline;text-underline-offset:3px;text-align:center}
+.support-dialog .stripe-donation-embed stripe-buy-button{display:block;max-width:100%}
 @media(max-width:620px){.support-content{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 '''
@@ -286,8 +286,6 @@ VIEWER_JS = r'''(() => {
   const download = document.getElementById('artDownloadFile');
   const supportDialog=document.getElementById('supportDialog');
   const supportOpen=document.getElementById('artDownload');
-  const supportClose=document.getElementById('supportClose');
-  const supportMessage=document.getElementById('supportMessage');
   const stage = document.getElementById('artStage');
   const prev = document.getElementById('artPrev');
   const next = document.getElementById('artNext');
@@ -355,34 +353,9 @@ VIEWER_JS = r'''(() => {
       move(dx < 0 ? 1 : -1);
     }
   }, {passive: true});
-  supportOpen.addEventListener('click',()=>{if(supportDialog&&!supportDialog.open)supportDialog.showModal();});
-  supportClose.addEventListener('click',()=>supportDialog.close());
-  supportDialog.addEventListener('click',event=>{if(event.target===supportDialog)supportDialog.close();});
   download.addEventListener('click',()=>{
     const item=slides[index];
     if(window.umami&&typeof window.umami.track==='function')try{window.umami.track('artwork_download',{publication:item.token})}catch(e){}
-  });
-  supportDialog.querySelectorAll('button[data-support-amount]').forEach(button=>{
-    button.addEventListener('click',async()=>{
-      if(button.disabled)return;
-      const amount=Number(button.dataset.supportAmount);
-      if(![300,500,1000].includes(amount))return;
-      supportMessage.textContent='Opening secure Stripe checkout…';
-      supportDialog.querySelectorAll('button[data-support-amount]').forEach(el=>el.disabled=true);
-      try{
-        const response=await fetch('/api/support/checkout',{
-          method:'POST',credentials:'same-origin',
-          headers:{'Content-Type':'application/json','X-CSRF-Token':root.dataset.csrf},
-          body:JSON.stringify({token:slides[index].token,amount})
-        });
-        const data=await response.json();
-        if(!response.ok)throw new Error(data.error||'Checkout unavailable');
-        const url=new URL(data.url);
-        if(url.protocol!=='https:'||url.hostname!=='checkout.stripe.com')throw new Error('Invalid checkout destination');
-        location.assign(url.href);
-      }catch(error){supportMessage.textContent=error.message||'Checkout unavailable';}
-      finally{if(root.dataset.supportEnabled==='1')supportDialog.querySelectorAll('button[data-support-amount]').forEach(el=>el.disabled=false);}
-    });
   });
   show(index, false);
 })();'''
@@ -436,18 +409,20 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         f'<span class="art-counter" id="artCounter" aria-live="polite">{active+1} / {len(slides)}</span>'
         f'<span class="art-hint">{hint}</span>'
         '<a class="community-link" href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Discuss art</a>'
-        '<button type="button" class="download" id="artDownload">Download &amp; support</button>'
+        '<button type="button" class="download" id="artDownload" data-stripe-dialog-trigger="supportDialog" aria-haspopup="dialog">Download &amp; support</button>'
         '</footer>'
-        '<dialog class="support-dialog" id="supportDialog" aria-labelledby="supportTitle"><div class="support-content">'
-        '<div class="support-top"><h2 id="supportTitle">Download &amp; support</h2><button type="button" class="support-close" id="supportClose" aria-label="Close">×</button></div>'
+        '<dialog class="support-dialog" id="supportDialog" data-stripe-dialog aria-labelledby="supportTitle"><div class="support-content">'
+        '<div class="support-top"><h2 id="supportTitle">Download &amp; support</h2><button type="button" class="support-close" id="supportClose" data-stripe-dialog-close aria-label="Close">×</button></div>'
         '<p class="support-description">Download the original artwork for free, or optionally support Paint Lab.</p>'
         f'<a class="support-download" id="artDownloadFile" href="{escape(item["image"])}" download="paint-lab-artwork.png">Download original PNG</a>'
         '<div class="support-divider"></div>'
         '<strong>Support the Paint Lab project</strong>'
         '<p class="support-description">Contributions go to Paint Lab, not directly to the artist. Artist payouts would require a separate Stripe Connect programme.</p>'
-        '<div class="support-amounts">'
-        +''.join(f'<button type="button" data-support-amount="{amount}"'+('' if support_enabled else ' disabled')+f'>£{amount//100}</button>' for amount in (300,500,1000))+
-        '</div><p class="support-message" id="supportMessage" role="status">'+('Choose an amount to continue to secure Stripe Checkout.' if support_enabled else 'Project support payments are not enabled yet.')+'</p>'
+        '<div class="stripe-donation-embed" aria-label="Stripe donation button">'
+        '<stripe-buy-button buy-button-id="buy_btn_1UemYTC7wxoTGQU3bmUqn2Yl" publishable-key="pk_live_51OS1fPC7wxoTGQU3jLPCJmKrEOZ03kLdBpCyRKcE1DRj9xKHNdIWNbAAwMFLsi0s9cyUGw9BdYQzYDmFbsNacsrx00KDuQKgna"></stripe-buy-button>'
+        '</div>'
+        '<p class="stripe-donation-status" data-stripe-status role="status">Donations are optional. Stripe checkout may open a separate secure page.</p>'
+        '<a class="stripe-donation-fallback" href="https://donate.stripe.com/4gM6oGbw61Wf5nJa1wcZa0c" target="_blank" rel="noopener noreferrer">Open secure Stripe donation page</a>'
         '</div></dialog></main>'
     )
 

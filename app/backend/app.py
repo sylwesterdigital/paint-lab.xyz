@@ -460,6 +460,9 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,mana
     nonce=secrets.token_urlsafe(20)
     css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')+(public_viewer.DISCOVER_CSS if discover or gallery else '')+(public_viewer.MANAGE_CSS if manage else '')
     script=(f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else '')+(f'<script nonce="{nonce}">{public_viewer.MANAGE_JS}</script>' if manage else '')+(f'<script nonce="{nonce}">{public_viewer.DISCOVERY_JS}</script>' if discover or gallery else '')
+    # Reuse the same Stripe widget loader as the editor on public artwork viewers.
+    # Its script and the buy-button library load only if the sheet is opened.
+    if viewer:script+=f'<script src="/assets/stripe_donate.js" defer nonce="{nonce}"></script>'
     # Optional, idle-time analytics on public pages. No publication titles,
     # usernames, tokens or project documents are transmitted in custom events.
     script+=(f'<script nonce="{nonce}">(function(){{'
@@ -482,9 +485,14 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,mana
               +body+script+'</body></html>')
     resp=Response(document,mimetype='text/html')
     csp="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
-    csp+="; script-src 'nonce-"+nonce+"' https://analytics.mielniczuk.com"
+    csp+="; script-src 'nonce-"+nonce+"' 'self' https://analytics.mielniczuk.com"+(" https://js.stripe.com" if viewer else "")
     if discover or gallery:csp=csp.replace("form-action 'none'","form-action 'self'")
     csp+="; connect-src 'self' https://analytics.mielniczuk.com"
+    if viewer:
+        # Stripe's iframe/3DS resources only need permission on artwork viewers.
+        csp+=" https://api.stripe.com https://*.stripe.com https://*.stripe.network"
+        csp+="; frame-src https://js.stripe.com https://*.stripe.com"
+        csp=csp.replace("img-src 'self'", "img-src 'self' https://*.stripe.com data:")
     resp.headers['Content-Security-Policy']=csp
     resp.headers['X-Content-Type-Options']='nosniff'
     resp.headers['Cache-Control']='no-store'
