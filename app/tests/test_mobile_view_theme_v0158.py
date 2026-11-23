@@ -8,9 +8,9 @@ HTML=(APP/'frontend/index.html').read_text()
 class MobileViewAndThemes158(unittest.TestCase):
  def test_release_and_app_history(self):
   data=json.loads((APP/'changelog.json').read_text())
-  self.assertEqual(data['version'],'0.1.63')
-  self.assertEqual(data['history'][0]['version'],'0.1.62')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.63">',HTML)
+  self.assertEqual(data['version'],'0.1.64')
+  self.assertEqual(data['history'][0]['version'],'0.1.63')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.64">',HTML)
  def test_mobile_border_and_shadow_reach_zero(self):
   for marker in ('--pl-border-alpha','root.dataset.plBorders=uiAppearance.border===0',
     "root.dataset.plShadows=uiAppearance.shadows&&uiAppearance.shadowStrength>0",

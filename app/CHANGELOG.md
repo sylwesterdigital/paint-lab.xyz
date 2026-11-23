@@ -1,3 +1,10 @@
+# v0.1.64 — Mobile Control Clarity & Theme Contrast (2026-11-23)
+
+- Centre close X icons in every window, including Save & Share, Studio settings, gallery, and mobile tip/dynamics sheets.
+- Give white and light-coloured brush tip previews contrast in the mobile tip grid without altering their pigment colour.
+- Enlarge range slider handles consistently throughout the mobile app; preserve the larger 38 px controls in contextual brush and effects editors.
+- Honour the zero-shadow appearance preference on the new controls.
+
 # v0.1.62 — Focused Mobile Sliders (2026-11-22)
 
 - Long-press a mode button to open only its relevant brush, effect, or stylization settings, without internal tabs or switches.

@@ -1,16 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.63",
-  "title": "Paint Lab v0.1.63 — Optional Analytics & Responsive Undo",
-  "datetime": "2026-11-22",
+  "version": "0.1.64",
+  "title": "Paint Lab v0.1.64 — Mobile Control Clarity & Theme Contrast",
+  "datetime": "2026-11-23",
   "changes": [
-    "Load Umami tracking asynchronously after page load and during idle time, without waiting for analytics or requiring connectivity; support normal pageviews across the editor and public gallery.",
-    "Send only a bounded set of anonymized, throttled action events for opening artwork, local saves, public publishing, exports and gallery use; never send canvas pixels, names or stroke contents.",
-    "Make the Undo window configurable with a default of 20 steps. Preserve older action data in saved projects instead of silently discarding editable layers, brush strokes or project portability.",
-    "Cache per-stroke before-and-after pixel tiles on mobile for rapid Undo/Redo without copying all full-resolution layers; cap patch memory at 48 MB and use yielding replay for uncached operations.",
-    "Keep undo/redo button states and history navigation limited to the most recent window, while existing complex saved artworks and older project formats remain readable."
+    "Centre close X glyphs horizontally and vertically in every artwork, settings, brush, and gallery window, across light, dark, and generated themes.",
+    "Keep light-coloured and white brush tips visible in the mobile gallery by giving tip previews a contrasting neutral background; preserve the selected pigment colour in the preview.",
+    "Enlarge range-slider handles throughout the mobile app, including settings, layers, and painting controls, while retaining the 38px touch handles in contextual brush/dynamics editors.",
+    "Respect zero-shadow theme settings on the larger slider handles; preserve touch gestures, Undo/Redo, saved artwork and shared gallery functionality."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.63",
+      "title": "Paint Lab v0.1.63 — Optional Analytics & Responsive Undo",
+      "datetime": "2026-11-22",
+      "changes": [
+        "Load Umami tracking asynchronously after page load and during idle time, without waiting for analytics or requiring connectivity; support normal pageviews across the editor and public gallery.",
+        "Send only a bounded set of anonymized, throttled action events for opening artwork, local saves, public publishing, exports and gallery use; never send canvas pixels, names or stroke contents.",
+        "Make the Undo window configurable with a default of 20 steps. Preserve older action data in saved projects instead of silently discarding editable layers, brush strokes or project portability.",
+        "Cache per-stroke before-and-after pixel tiles on mobile for rapid Undo/Redo without copying all full-resolution layers; cap patch memory at 48 MB and use yielding replay for uncached operations.",
+        "Keep undo/redo button states and history navigation limited to the most recent window, while existing complex saved artworks and older project formats remain readable."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.62",
