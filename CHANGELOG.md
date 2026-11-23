@@ -1,3 +1,145 @@
+# v0.1.62 — Focused Mobile Sliders (2026-11-22)
+
+- Long-press a mode button to open only its relevant brush, effect, or stylization settings, without internal tabs or switches.
+- Use compact touch-first full-width sliders with larger thumbs; shorter panels fit their content and longer brush lists scroll within the phone height.
+- Retain the normal toolbar for selecting modes and disabling Effects or Stylize; adjust the underlying desktop brush values without duplication.
+
+# v0.1.60 — Restore Mobile Rotation & Preserve Canvas Aspect (2026-11-22)
+
+- Restore two-finger rotation together with pinch-to-zoom and pan, including for users whose rotation was disabled automatically in v0.1.58. Honour explicit preferences.
+- Keep the current rotation through app resume and mobile layout changes; interrupted gestures still roll back safely.
+- Measure the actual canvas display bounds for the render buffer to avoid aspect-ratio and pointer-position errors when mobile browser chrome changes.
+
+# v0.1.59 — Artwork-First Mobile Discovery (2026-11-22)
+
+- Show four recent publicly published artworks immediately as a compact mobile 2×2 gallery, preserving full images without cropping.
+- Put date ranges, text search, sorting and advanced filters behind a single expandable Search art & filters control, with active filters indicated in the collapsed state.
+- Move the Rantlist collaboration invitation below those four artworks and continue into the existing full-aspect masonry feed.
+- Preserve owner galleries, share links, SQLite privacy, and server-rendered search and pagination.
+
+# v0.1.58 — Mobile View Integrity & Theme Controls (2026-11-22)
+
+- Apply border and shadow settings to mobile controls down to true zero.
+- Add a discoverable sparkles icon for generating alternative UI themes.
+- Protect mobile canvas transforms and touch alignment when gestures are interrupted or the viewport changes.
+
+# v0.1.57 — One Mobile Brush Button (2026-11-22)
+
+- One compact brush silhouette button above the colour swatch: tap once to open size, tap the same button again to cycle brush tips.
+- Long-press that same button for the brush gallery, filtered by category. The selection returns to the still-open size rail.
+- Remove the second tip icon from the slider rail entirely. All bottom controls retain equal dimensions and existing placement.
+- Preserve canvas content, mobile Undo/Redo, saved artwork progress and editable project compatibility.
+
+# v0.1.56 — Single Mobile Brush Controller (2026-11-22)
+
+- Replace separate TIP and SIZE buttons above the mobile colour swatch with one icon-only button showing the selected brush tip.
+- Tap that single button to open a slim left-side size rail. Inside the rail, drag vertically for true-size tip preview or tap its brush-shape button to cycle tips. Hold the shape to open the category-filtered tip gallery.
+- Remove duplicated persistent size numbers, keep the slider colour-matched to the chosen paint colour, and return from the gallery to the open rail.
+- Keep the single-row square mobile dock, icon and current name FX/Stylize controls, cached Undo/Redo, and saved-artwork loading feedback.
+
+# v0.1.55 — Responsive Gallery Opening and Clear Mobile Tool Choices (2026-11-22)
+
+- Show an opening-artwork progress overlay immediately and reconstruct complex saved paintings across browser frames, including long stroke segments, to keep the screen responsive.
+- Display the actual selected pigment, effect and stylization names alongside their icons in the mobile toolbar; briefly announce selections at the centre of the screen.
+- Fix the invisible overlapping brush-control hit regions: clearly separated TIP and SIZE controls above the bottom-left colour swatch. TIP cycles or long-presses to browse; SIZE opens the colour-matched left-edge slider with an accurate central tip preview.
+- Preserve bottom-left colour and bottom-right Undo/Redo, editable artwork compatibility and gallery filters.
+
+# v0.1.54 — Clear Mobile Tools & Faster History (2026-11-22)
+
+- Restore logical mobile layout: square colour swatch pinned to the bottom-left, with painting tools next and Undo/Redo pinned to the bottom-right in the same row.
+- Restore a usable split brush-tip and size tile above the colour swatch. Tip tapping cycles silhouettes, long-press opens the filtered tip gallery, and the size readout opens the edge-mounted size rail; fix pointer-layer interception that previously blocked tip taps.
+- Always display the actual pigment name (Oil, Pencil, Chalk, or Water) in the mobile paint-mode button instead of an ambiguous generic drawing icon.
+- Cycle through FX and Stylize options including None; remove tinted selected-button backgrounds and display the exact newly chosen mode in the centre of the screen for 850 milliseconds. Long-press resets to None.
+- Speed up recent mobile Undo/Redo by capturing bounded full-resolution checkpoints immediately before new strokes, reduce the wait for idle checkpoint creation, and minimise work per fallback replay frame; defer off-screen layer thumbnail rebuilding until Layers is opened.
+
+# v0.1.53 — Compact Mobile Dock & Clean Mode Controls (2026-11-22)
+
+- Keep all bottom controls on one tight row of square buttons rather than stretching them across the viewport.
+- Place the colour swatch level with the other icons and keep the combined brush/size trigger directly above it.
+- Anchor the dock just above the phone safe area while retaining the colour picker, brush rail, tip gallery and full-height Layers view.
+- Verify mobile widths from 320px to 430px and the optional eraser without horizontal overflow.
+- Remove the floating reset X badges from FX and Stylize: tap each compact square mode button to cycle including None, or hold it to return directly to None.
+
+# v0.1.52 — Mobile Layer & Brush Control Redesign (2026-11-22)
+
+- Honor Icon only preferences in mobile pigment, effects, and stylization controls with accessible names and explicit selected states.
+- Position the combined brush tip/size button above the square colour palette swatch without adding another full-width toolbar row.
+- Open Layers from the very top of the mobile viewport as a full-height sheet, with sticky layer creation, merge, visibility, and transformation actions while only the layer list scrolls.
+- Enlarge mobile layer thumbnails by roughly 50%, reorganise each row with larger visibility/edit/reorder controls and a compact layer-name line.
+- Replace repeated inline layer opacity sliders with one wide, accessible slider that opens when the layer opacity control is tapped; preserve undoable opacity edits.
+- Center all mobile layer-sheet close controls and make the sheet close action visually unambiguous.
+- Replace the bulky mobile brush-size popover with a narrow rail aligned to the left edge. The rail and drag handle adopt the selected paint colour.
+- Show a central true-tip silhouette sized for the live canvas zoom while adjusting the brush, without modifying image pixels.
+- Use an icon-only tip-cycle button. Long-press to open a scrollable brush gallery with category pills, recipe presets, custom tips and personal brushes.
+
+# v0.1.51 — Native-Aspect Local Masonry Gallery (2026-11-22)
+
+- Replace the compressed internal IndexedDB gallery thumbnails with naturally proportioned artwork cards distributed across responsive masonry columns.
+- Generate proportional previews for new local and cloud saves. Display historical 360×220 thumbnails at the saved painting's actual canvas ratio without modifying records.
+- Search artwork titles, filter by Today / 7 days / 30 days or custom dates, and sort newest / oldest / A–Z / Z–A.
+- Retain full-card opening, local Rename/Delete edit mode, New artwork, Save as new, Overwrite, and public gallery navigation.
+
+# v0.1.47 — Compact Save & Share (2026-11-22)
+
+- Compress the Save & share interface into a single small panel: artwork name; Save as new, Overwrite, Publish and Device share in one row; PNG with paper, transparent PNG, project ZIP and project JSON in another.
+- Remove giant descriptive action cards, section headings, dividers and the unnecessary Done footer. Keep useful status feedback and copyable publication link only when needed.
+- Retain signed-in publishing, paper inclusion switch, safe overwrite gating, editable IndexedDB saving, all formats and mobile usability.
+
+# v0.1.46 — Responsive History & Fast Undo (2026-11-22)
+
+- Cache recent raster history states for rapid Undo/Redo and reconstruct older states across animation frames to avoid long main-thread freezes.
+- Reduce redundant canvas buffer invalidation, preserve undo correctness and all editable stroke-based filters.
+
+# v0.1.45 — Unified Save & Share (2026-11-22)
+
+- Replace the implicit Overwrite-first save dialog with a single Save & share panel that shows explicit Save as new and Overwrite current actions; never overwrite just because an artwork is already open.
+- Allow public PNG publishing directly from the same panel with paper toggle, account sign-in entry, success/error status, and a copyable publication link; no editable project data is published.
+- Expose all practical download/share choices together: PNG with paper, transparent PNG, editable portable ZIP, editable JSON and native device sharing; preserve typed artwork names in export filenames and project manifests.
+- Keep Save before clearing safe: only a successful Save as new clears the canvas. Preserve original IndexedDB gallery records, cloud account saves, existing Share/Export tools and project version 4.
+- Add responsive, scrollable desktop/mobile save-dialog styling and interaction tests for explicit destination choice, overwrite gating, publish flow and export actions.
+
+# v0.1.44 — Community Art Discovery (2026-11-22)
+
+- Introduce `/explore`, a public combined masonry gallery of all explicitly published artworks, newest first, with title/artist search, date presets, custom date range, multiple sort orders and pagination.
+- Add artist links, uncropped art, and access from local My gallery and Share; invite visitors to discuss collaboration on Rantlist.me without automatic cross-site sharing.
+- Proxy the new route through nginx and protect it with the deployment readiness checks. Existing public links, private projects and SQLite accounts remain unchanged.
+
+# v0.1.43 — Image-First Local Gallery (2026-11-22)
+
+- Make each local IndexedDB gallery tile fully clickable to open its editable painting, subject to the existing unsaved-work confirmation.
+- Remove the separate Open button, white caption footer, and date line; show the artwork name over a subtle bottom-left image gradient.
+- Retain Edit gallery with isolated top-right Rename and Delete controls, keyboard access, and confirmation before deletion.
+- Keep thumbnails contained instead of cropped, adapt tile columns to screen width, and preserve public masonry galleries, project format, cloud saving and deployments.
+
+# v0.1.42 — Uncropped Masonry Public Gallery (2026-11-22)
+
+- Replace uniform fixed-crop gallery thumbnails with a fluid CSS column masonry wall: tall, landscape and square published images keep their native aspect ratios.
+- Expand the gallery across the available desktop width, automatically reduce column count as the window narrows, and show one column on phones.
+- Preserve captions, links to individual publication viewers, published PNG files, and public gallery URLs. No database migration or re-publication required.
+- Keep the v0.1.41 full-height artwork viewer, mobile swipe, keyboard navigation, and watcher/nginx checks unchanged.
+
+# v0.1.41 — Full-Height Published Artwork Viewer (2026-11-22)
+
+- Published art now opens in a full-height, screen-fitted viewer; artwork is never cropped, and portrait/landscape images use the available viewport height.
+- Use the previous/next arrows or Left/Right keyboard shortcuts to browse the same artist’s public artworks. Swipe horizontally on mobile and tablet touchscreens.
+- Navigation updates the active public link and download target; browser Back/Forward works. Adjacent images are preloaded.
+- The gallery and existing `/p/<token>` links continue to work; viewer data contains only published PNGs, and the viewer script runs under a strict nonce-based CSP. No SQLite migration.
+- Preserve nginx route verification, v0.1.6 watcher, SHA-256 manifests, and app-only Ubuntu deployment validation.
+
+# v0.1.40 — Reliable Public-Link Routing Gate (2026-11-22)
+
+- Fix the failed v0.1.39 Ubuntu deployment gate: graceful nginx reloads can temporarily retain workers using the previous `/p/` and `/u/` SPA fallback rules; a single immediate 200 response no longer causes premature rollback.
+- Directly confirm Flask returns 404 for unknown publication pages, PNG assets and artist galleries. Retry the corresponding TLS-verified nginx routes for a bounded period until the new workers serve the correct routes.
+- Keep failing closed if public pages still return the editor after retries. Surface status codes and content types with actionable nginx diagnostics instead of reporting only `HTTP/1.1 200 OK`.
+- Preserve all published images, public links, SQLite data, nginx proxy configuration, watcher v0.1.6, SHA-256 manifests and app-only Ubuntu tests. No database migration is needed.
+
+# v0.1.39 — Published Artwork Link Routing (2026-11-22)
+
+- Route public `/p/<token>` artwork pages, `/p/<token>/image.png` assets, and `/u/<username>` public galleries to Flask through dedicated nginx locations. Previously the SPA fallback served the editor at published links.
+- Preserve existing publication URLs, SQLite records, uploaded artwork, and private user projects; no database migration or republishing required.
+- Verify all three public proxy routes over verified TLS against local nginx after the release restart; roll back on routing failure.
+- Keep watcher v0.1.6, app-only Ubuntu release validation, editable project v4 compatibility, and composited stroke-mask filters.
+
 # v0.1.38 — Git Worktree Archive Preflight Repair (2026-11-22)
 
 - Prevent safe, untracked `PAINT_LAB_RELEASE_vX.Y.Z.zip` artifacts at the Git repository root from failing the deployment preflight. Only regular files matching the exact versioned archive pattern are ignored; arbitrary untracked files and modified tracked files still block the release.
