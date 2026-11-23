@@ -30,6 +30,6 @@ class PaletteContracts(unittest.TestCase):
   a=json.loads((ROOT/'changelog.json').read_text())
   b=json.loads((ROOT/'frontend/changelog.json').read_text())
   self.assertEqual(a,b)
-  self.assertEqual(a['version'],'0.1.66')
-  self.assertEqual(a['history'][0]['version'],'0.1.65')
+  self.assertEqual(a['version'],'0.1.67')
+  self.assertEqual(a['history'][0]['version'],'0.1.66')
 if __name__=='__main__':unittest.main()

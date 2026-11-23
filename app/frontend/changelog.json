@@ -1,16 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.66",
-  "title": "Paint Lab v0.1.66 — Live Stripe Donations & Studio Identity",
+  "version": "0.1.67",
+  "title": "Paint Lab v0.1.67 — Desktop Toolbar, Branding & Save Shortcut",
   "datetime": "2026-11-23",
   "changes": [
-    "Embed the live Stripe Buy Button in public artwork Download & Support and in a new studio Donate dialog, with a direct Stripe Payment Link fallback if the widget cannot load; artwork PNG downloads remain free.",
-    "Add a borderless pastel-gradient Paint-lab wordmark at the upper left, a compact v0.1.66 label, GitHub link and Donate action; retain a canvas-only mobile focus mode.",
-    "Load Stripe JavaScript only when a visitor opens a support dialog; allow the minimum viewer CSP extensions for Stripe while keeping private painting data out of the payment flow.",
-    "Retain optional server-generated GBP Checkout, signed webhook verification and SQLite receipts for that separate integration; Payment Link contributions are handled in Stripe and do not automatically populate those receipts.",
-    "Preserve published-artwork privacy, original-resolution PNGs, WebP gallery previews, lazy loading, Umami artwork-view tracking and the v0.1.6 checksum-verified deployment watcher."
+    "Reserve a desktop header lane for a 25%-larger pastel-gradient Paint-lab wordmark, v0.1.67 label, GitHub and Donate links; use high-contrast links on checkerboard and light canvases without adding a logo box.",
+    "Condense the desktop application bar into a three-dot menu plus always-accessible Settings; show Clear, Save, Undo and Redo by default while letting each action be pinned or unpinned in a dedicated Settings section, persisted in workspace presets.",
+    "Move canvas zoom percentage and an interactive Fit button into the canvas HUD, preserving keyboard 0 and live zoom updates.",
+    "Keep restored, dragged and resized desktop panels below the header lane, so panel chrome never covers the wordmark; ensure X-only close buttons stay square with centred glyphs.",
+    "Add Shift+S to open Save & share without interfering with the existing S transform shortcut, and document it in keyboard help.",
+    "Preserve free PNG downloads, live Stripe Buy Button and Payment Link, Umami, cached WebP previews, privacy controls, watcher v0.1.6 and the guarded deployment pipeline."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.66",
+      "title": "Paint Lab v0.1.66 — Live Stripe Donations & Studio Identity",
+      "datetime": "2026-11-23",
+      "changes": [
+        "Embed the live Stripe Buy Button in public artwork Download & Support and in a new studio Donate dialog, with a direct Stripe Payment Link fallback if the widget cannot load; artwork PNG downloads remain free.",
+        "Add a borderless pastel-gradient Paint-lab wordmark at the upper left, a compact v0.1.66 label, GitHub link and Donate action; retain a canvas-only mobile focus mode.",
+        "Load Stripe JavaScript only when a visitor opens a support dialog; allow the minimum viewer CSP extensions for Stripe while keeping private painting data out of the payment flow.",
+        "Retain optional server-generated GBP Checkout, signed webhook verification and SQLite receipts for that separate integration; Payment Link contributions are handled in Stripe and do not automatically populate those receipts.",
+        "Preserve published-artwork privacy, original-resolution PNGs, WebP gallery previews, lazy loading, Umami artwork-view tracking and the v0.1.6 checksum-verified deployment watcher."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.65",

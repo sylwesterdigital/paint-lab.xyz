@@ -30,7 +30,7 @@ def check_page(browser, mobile=False):
  if mobile:
   page.wait_for_function("document.documentElement.classList.contains('mobile-workspace')")
  assert page.locator('.paint-lab-wordmark').inner_text()=='Paint-lab'
- assert page.locator('.paint-lab-version').inner_text()=='v0.1.66'
+ assert page.locator('.paint-lab-version').inner_text()=='v0.1.67'
  assert page.locator('a.paint-lab-brand-link').get_attribute('href').endswith('/paint-lab.xyz')
  assert not requested, 'Stripe must be lazy on studio startup'
  page.locator('[data-stripe-dialog-trigger="paintLabDonateDialog"]').click()

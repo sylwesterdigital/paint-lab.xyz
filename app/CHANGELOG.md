@@ -1,3 +1,11 @@
+# v0.1.67 — Desktop Toolbar, Brand Layout & Save Shortcut (2026-11-23)
+
+- Enlarge the pastel-gradient Paint-lab wordmark by approximately 25%, place it 10px from both top and left edges, and keep its GitHub/Donate links legible over the checkerboard with text-only high contrast.
+- Reserve the desktop header strip when restoring or dragging/resizing floating panels; stop tool windows hiding the wordmark or app actions.
+- Collapse the desktop app bar into a three-dot action menu and a separate Settings cog. Clear, Save, Undo and Redo remain visible by default; select which actions stay outside the menu in Settings → Desktop toolbar quick actions. Saved workspace presets include this choice.
+- Move the live zoom percentage and one-click Fit into the canvas HUD. Use **Shift+S** to open the Save & share dialog; normal **S** continues to scale artwork.
+- Make X-only close buttons square, with centred icons. Preserve mobile UI, free gallery downloads, live Stripe donation widget, public image permissions and the watcher deployment contract.
+
 # v0.1.66 — Live Stripe Donations & Paint-lab Wordmark (2026-11-23)
 
 - Add the supplied live Stripe Buy Button to the public artwork **Download & Support** dialog; original PNG downloads remain free, with no donation requirement.
