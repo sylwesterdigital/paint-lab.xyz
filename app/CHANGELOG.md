@@ -1,3 +1,10 @@
+# v0.1.65 — Gallery Performance, Artwork Views & Optional Stripe Support (2026-11-23)
+
+- View individual-publication analytics through Umami `artwork_view` events when a publication opens or navigation changes; no private layer data is transmitted.
+- Cache server-created 720-pixel WebP previews, serve full PNGs only in the viewer/download, and use an IntersectionObserver for near-viewport gallery image requests.
+- Add an accessible Download & Support dialog in the public viewer; downloads are always free. Optional Stripe Checkout (GBP £3/£5/£10) supports the Paint Lab project, **not** individual artists.
+- Verify checkout credentials only server-side and persist signed, paid Stripe webhook receipts idempotently. No payment button is active unless the operator provides the Stripe environment configuration.
+
 # v0.1.64 — Mobile Control Clarity & Theme Contrast (2026-11-23)
 
 - Centre close X icons in every window, including Save & Share, Studio settings, gallery, and mobile tip/dynamics sheets.

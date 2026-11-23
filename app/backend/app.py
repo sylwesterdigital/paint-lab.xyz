@@ -10,7 +10,7 @@ from flask import Flask,abort,g,jsonify,request,session,send_from_directory,send
 from flask_sock import Sock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash,check_password_hash
-from . import db,keyvault,project_format,public_image,public_viewer,public_discovery
+from . import db,keyvault,project_format,public_image,public_viewer,public_discovery,public_previews,support_checkout
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=Path(os.environ.get('PAINT_LAB_DATA_DIR',str(ROOT/'var'))).resolve()
@@ -287,6 +287,8 @@ def delete_project(project_id):
 PUBLIC_DIR=DATA/'public'
 PUBLIC_DIR.mkdir(parents=True,exist_ok=True)
 PUBLIC_IMAGE_LIMIT=7*1024*1024
+_support_attempts={}
+_support_attempts_lock=threading.Lock()
 
 def publication_link(token):
     return request.url_root.rstrip('/')+url_for('view_publication',token=token)
@@ -351,6 +353,7 @@ def revoke_publication(token):
     if not row:return jsonify(error='Not found'),404
     with con():con().execute('DELETE FROM publications WHERE token=? AND owner_id=?',(token,user()))
     (PUBLIC_DIR/row['file_name']).unlink(missing_ok=True)
+    public_previews.preview_path(PUBLIC_DIR,token).unlink(missing_ok=True)
     return jsonify(ok=True)
 
 @app.get('/api/publications/<token>/image.png')
@@ -363,6 +366,84 @@ def owner_publication_image(token):
     response.headers['Cache-Control']='private, no-store'
     response.headers['X-Content-Type-Options']='nosniff'
     return response
+
+def _preview_response(row, token, *, private=False):
+    source = PUBLIC_DIR / row['file_name']
+    if not source.is_file():abort(404)
+    try:
+        preview = public_previews.make_preview(source, public_previews.preview_path(PUBLIC_DIR,token))
+    except (OSError,ValueError) as exc:
+        logger.warning('Public preview unavailable: %s',type(exc).__name__)
+        return send_file(source,mimetype='image/png',conditional=True,max_age=0 if private else 300)
+    response=send_file(preview,mimetype='image/webp',conditional=True,max_age=0 if private else 120)
+    response.headers['Cache-Control']='private, no-store' if private else 'public, max-age=120, must-revalidate'
+    response.headers['X-Content-Type-Options']='nosniff'
+    return response
+
+@app.get('/p/<token>/preview.webp')
+def publication_preview(token):
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
+    row=con().execute('SELECT file_name FROM publications WHERE token=? AND is_visible=1',(token,)).fetchone()
+    if not row:abort(404)
+    return _preview_response(row,token)
+
+@app.get('/api/publications/<token>/preview.webp')
+@auth
+def owner_publication_preview(token):
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):abort(404)
+    row=con().execute('SELECT file_name FROM publications WHERE token=? AND owner_id=?',(token,user())).fetchone()
+    if not row:abort(404)
+    return _preview_response(row,token,private=True)
+
+@app.post('/api/support/checkout')
+def support_checkout_session():
+    require_csrf()
+    if not support_checkout.configured():return jsonify(error='Support payments are not enabled yet'),503
+    data=payload()
+    token=data.get('token','')
+    if not isinstance(token,str) or not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):return jsonify(error='Unknown artwork'),404
+    amount=data.get('amount')
+    if type(amount) is not int or amount not in support_checkout.SUPPORT_AMOUNTS_GBP:
+        return jsonify(error='Choose a listed support amount'),400
+    if not con().execute('SELECT 1 FROM publications WHERE token=? AND is_visible=1',(token,)).fetchone():
+        return jsonify(error='Artwork is not public'),404
+    # Cap anonymous checkout attempts without using cookies, credentials or IPs in Stripe metadata.
+    now=time.monotonic(); ip=request.remote_addr or 'unknown'
+    with _support_attempts_lock:
+        for key in list(_support_attempts):
+            recent=[ts for ts in _support_attempts[key] if now-ts<300]
+            if recent:_support_attempts[key]=recent
+            else:del _support_attempts[key]
+        attempts=_support_attempts.setdefault(ip,[])
+        if len(attempts)>=8:return jsonify(error='Too many checkout attempts; try again later'),429
+        attempts.append(now)
+    try:
+        target=support_checkout.create_session(token,amount,os.environ.get('PAINT_LAB_PUBLIC_BASE_URL','https://paint-lab.xyz'))
+    except (urllib.error.URLError,TimeoutError,RuntimeError,ValueError) as exc:
+        logger.warning('Stripe Checkout could not start: %s',type(exc).__name__)
+        return jsonify(error='Payment service unavailable; download remains free'),503
+    return jsonify(ok=True,url=target)
+
+@app.post('/api/stripe/webhook')
+def stripe_webhook():
+    secret=os.environ.get('PAINT_LAB_STRIPE_WEBHOOK_SECRET','')
+    try:event=support_checkout.signed_event(request.get_data(cache=False),request.headers.get('Stripe-Signature',''),secret)
+    except (ValueError,UnicodeError,TypeError):return jsonify(error='Invalid webhook signature'),400
+    if event.get('type') in ('checkout.session.completed','checkout.session.async_payment_succeeded'):
+        payment=event['data'].get('object')
+        if isinstance(payment,dict) and payment.get('payment_status')=='paid':
+            metadata=payment.get('metadata') or {}
+            token=metadata.get('publication_token','')
+            session_id=payment.get('id','')
+            amount=payment.get('amount_total')
+            if (metadata.get('purpose')=='paint_lab_project_support' and
+                isinstance(token,str) and re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token) and
+                isinstance(session_id,str) and re.fullmatch(r'cs_(?:live|test)_[A-Za-z0-9]+',session_id) and
+                type(amount) is int and amount in support_checkout.SUPPORT_AMOUNTS_GBP and
+                payment.get('currency')=='gbp'):
+                with con():con().execute('INSERT OR IGNORE INTO support_payments(session_id,publication_token,amount_pence,currency) VALUES(?,?,?,?)',
+                    (session_id,token,amount,'gbp'))
+    return jsonify(received=True)
 
 @app.get('/p/<token>/image.png')
 def publication_image(token):
@@ -378,7 +459,7 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,mana
     # viewer script may run, under a per-response CSP nonce.
     nonce=secrets.token_urlsafe(20)
     css=public_viewer.BASE_CSS+(public_viewer.VIEWER_CSS if viewer else '')+(public_viewer.DISCOVER_CSS if discover or gallery else '')+(public_viewer.MANAGE_CSS if manage else '')
-    script=(f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else '')+(f'<script nonce="{nonce}">{public_viewer.MANAGE_JS}</script>' if manage else '')
+    script=(f'<script nonce="{nonce}">{public_viewer.VIEWER_JS}</script>' if viewer else '')+(f'<script nonce="{nonce}">{public_viewer.MANAGE_JS}</script>' if manage else '')+(f'<script nonce="{nonce}">{public_viewer.DISCOVERY_JS}</script>' if discover or gallery else '')
     # Optional, idle-time analytics on public pages. No publication titles,
     # usernames, tokens or project documents are transmitted in custom events.
     script+=(f'<script nonce="{nonce}">(function(){{'
@@ -386,7 +467,8 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,mana
              'var t=document.createElement("script");t.async=true;'
              't.src="https://analytics.mielniczuk.com/script.js";'
              't.dataset.websiteId="bd5f9b1c-f457-47a5-81e6-e7bbe57bca9d";'
-             't.onerror=function(){t.remove()};document.head.appendChild(t)};'
+             't.onload=function(){var q=window.paintLabArtworkViews||[];window.paintLabArtworkViews=[];for(var i=0;i<q.length&&i<20;i++){try{window.umami&&umami.track("artwork_view",{publication:q[i]})}catch(e){}}};'
+             't.onerror=function(){window.paintLabArtworkViews=[];t.remove()};document.head.appendChild(t)};'
              'window.addEventListener("load",function(){'
              'if(window.requestIdleCallback)requestIdleCallback(start,{timeout:2500});'
              'else setTimeout(start,1200)},{once:true});'
@@ -431,7 +513,7 @@ def view_publication(token):
                      'image':url_for('publication_image',token=item['token'])} for item in feed_rows]
             space=url_for('public_user_space',username=row['username'])
             gallery_url=url_for('discover_artworks',**query_args)
-            body=public_viewer.viewer_markup(slides,active,row['username'],space,gallery_url=gallery_url)
+            body=public_viewer.viewer_markup(slides,active,row['username'],space,gallery_url=gallery_url,support_enabled=support_checkout.configured(),csrf=csrf())
             return public_page(body,row['title']+' · Paint Lab',viewer=True)
     publications=con().execute('SELECT token,title FROM publications WHERE owner_id=? AND is_visible=1 ORDER BY created_at DESC,token DESC LIMIT 50',(row['owner_id'],)).fetchall()
     slides=[{'token':item['token'],'title':item['title'],
@@ -440,7 +522,7 @@ def view_publication(token):
     active=next((i for i,item in enumerate(slides) if item['token']==token),None)
     if active is None:abort(404)
     space=url_for('public_user_space',username=row['username'])
-    content=public_viewer.viewer_markup(slides,active,row['username'],space)
+    content=public_viewer.viewer_markup(slides,active,row['username'],space,support_enabled=support_checkout.configured(),csrf=csrf())
     return public_page(content,row['title']+' · Paint Lab',viewer=True)
 
 @app.get('/explore')
@@ -453,6 +535,8 @@ def discover_artworks():
     browse_params={key:value for key,value in browse_params.items() if value}
     items=[{'url':url_for('view_publication',token=row['token'],**browse_params),
             'image':url_for('publication_image',token=row['token']),
+            'preview':url_for('publication_preview',token=row['token']),
+            'dimensions':public_previews.png_dimensions(PUBLIC_DIR/row['file_name']),
             'artist_url':url_for('public_user_space',username=row['username']),
             'username':row['username'],'title':row['title'],
             'created_at':row['created_at']} for row in rows]
@@ -482,6 +566,8 @@ def public_user_space(username):
     browse_params={key:v for key,v in browse_params.items() if v}
     items=[{'url':url_for('view_publication',token=r['token']),
             'image':url_for('owner_publication_image',token=r['token']) if edit else url_for('publication_image',token=r['token']),
+            'preview':url_for('owner_publication_preview',token=r['token']) if edit else url_for('publication_preview',token=r['token']),
+            'dimensions':public_previews.png_dimensions(PUBLIC_DIR/r['file_name']),
             'title':r['title'],'username':row['username'],'token':r['token'],
             'artist_url':url_for('public_user_space',username=row['username']),
             'created_at':r['created_at'],'visible':bool(r['is_visible'])} for r in rows]

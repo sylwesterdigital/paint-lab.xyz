@@ -212,3 +212,9 @@ never accepts or publishes private editable project JSON. The client resizes
 public PNGs to at most 7 MiB; the backend validates structure and CRCs before
 storing the image. Export ZIP/JSON for editable projects and use the account
 cloud canvas storage to resume editing between devices.
+
+### Public gallery previews and support (v0.1.65)
+
+Public gallery tiles use on-demand, cached, 720 px WebP previews and IntersectionObserver fetching; original PNGs remain available for full-resolution viewing and free download. Umami reports per-publication views under the custom `artwork_view` event (publication token only).
+
+Optional Stripe Checkout accepts GBP £3 / £5 / £10 support payments **to the Paint Lab project**. This is not a creator payment or Stripe Connect payout. To enable, add `PAINT_LAB_STRIPE_SECRET_KEY=sk_...` and `PAINT_LAB_STRIPE_WEBHOOK_SECRET=whsec_...` to the existing server `/etc/paint-lab.env` securely, restart the service, and configure the Stripe webhook endpoint `https://paint-lab.xyz/api/stripe/webhook` for `checkout.session.completed` and `checkout.session.async_payment_succeeded`. Never put the secret in the ZIP or frontend. Without Stripe configuration the download-and-support sheet offers free downloads and clearly labels project support as unavailable. Paid receipts persist in SQLite outside releases.

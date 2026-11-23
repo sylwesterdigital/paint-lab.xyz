@@ -72,7 +72,7 @@ def search(connection, filters: Filters, now=None, *, owner_id=None, include_hid
     tables = ' FROM publications p JOIN users u ON u.id=p.owner_id'
     total = connection.execute('SELECT COUNT(*)'+tables+condition,values).fetchone()[0]
     page = min(filters.page,max(1,(total+PAGE_SIZE-1)//PAGE_SIZE))
-    rows=connection.execute('SELECT p.token,p.title,p.created_at,p.is_visible,u.username'+tables+condition+
+    rows=connection.execute('SELECT p.token,p.title,p.file_name,p.created_at,p.is_visible,u.username'+tables+condition+
         ' ORDER BY '+SORTS[filters.sort]+' LIMIT ? OFFSET ?',
         [*values,PAGE_SIZE,(page-1)*PAGE_SIZE]).fetchall()
     return rows,total,page

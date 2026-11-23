@@ -1,15 +1,28 @@
 {
   "project": "paint-lab",
-  "version": "0.1.64",
-  "title": "Paint Lab v0.1.64 — Mobile Control Clarity & Theme Contrast",
+  "version": "0.1.65",
+  "title": "Paint Lab v0.1.65 — Gallery Performance, View Analytics & Project Support",
   "datetime": "2026-11-23",
   "changes": [
-    "Centre close X glyphs horizontally and vertically in every artwork, settings, brush, and gallery window, across light, dark, and generated themes.",
-    "Keep light-coloured and white brush tips visible in the mobile gallery by giving tip previews a contrasting neutral background; preserve the selected pigment colour in the preview.",
-    "Enlarge range-slider handles throughout the mobile app, including settings, layers, and painting controls, while retaining the 38px touch handles in contextual brush/dynamics editors.",
-    "Respect zero-shadow theme settings on the larger slider handles; preserve touch gestures, Undo/Redo, saved artwork and shared gallery functionality."
+    "Record bounded Umami artwork_view events for opened publications, including browsing via viewer arrows and mobile swipes; track original PNG downloads without sending artwork titles, user accounts or private painting data.",
+    "Serve cached, aspect-correct 720-pixel WebP gallery previews on demand while retaining original public PNG downloads; owner-only hidden artwork remains protected by account checks.",
+    "Request only the first four gallery thumbnails immediately and load later ones when they near the viewport using IntersectionObserver, with a graceful no-JavaScript/browser fallback.",
+    "Replace direct public-viewer Download PNG with a Download & Support sheet. Original PNG downloads stay free; optional Stripe Checkout contributions support the Paint Lab project, not artist payouts.",
+    "Keep Stripe secrets on the server, validate amount and CSRF, rate-limit anonymous checkout attempts, and verify signed payment webhooks into an idempotent SQLite receipt table. Checkout stays disabled until the operator configures Stripe keys and a webhook."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.64",
+      "title": "Paint Lab v0.1.64 — Mobile Control Clarity & Theme Contrast",
+      "datetime": "2026-11-23",
+      "changes": [
+        "Centre close X glyphs horizontally and vertically in every artwork, settings, brush, and gallery window, across light, dark, and generated themes.",
+        "Keep light-coloured and white brush tips visible in the mobile gallery by giving tip previews a contrasting neutral background; preserve the selected pigment colour in the preview.",
+        "Enlarge range-slider handles throughout the mobile app, including settings, layers, and painting controls, while retaining the 38px touch handles in contextual brush/dynamics editors.",
+        "Respect zero-shadow theme settings on the larger slider handles; preserve touch gestures, Undo/Redo, saved artwork and shared gallery functionality."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.63",

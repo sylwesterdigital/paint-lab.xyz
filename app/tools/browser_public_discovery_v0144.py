@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='paintlab-discovery-browser-') as tmp:
             page=context.new_page();errors=[]
             page.on('pageerror',lambda err:errors.append(str(err)))
             page.set_content(make_page('http://local.test/explore'),wait_until='load')
-            page.locator('.discovery-tile img').evaluate_all('(els)=>els.forEach(x=>x.loading="eager")')
+            page.locator('.discovery-tile img').evaluate_all('(els)=>els.forEach(x=>{if(x.dataset.previewSrc){x.src=x.dataset.previewSrc};x.loading="eager"})')
             page.wait_for_function('Array.from(document.querySelectorAll(".discovery-tile img")).every(img=>img.complete && img.naturalWidth>0)')
             result=page.evaluate('''() => {
                const images=[...document.querySelectorAll('.discovery-tile img')];

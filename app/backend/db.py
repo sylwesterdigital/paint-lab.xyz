@@ -25,6 +25,14 @@ CREATE TABLE IF NOT EXISTS publications (
 );
 CREATE INDEX IF NOT EXISTS idx_publications_owner ON publications(owner_id,created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_publications_recent ON publications(created_at DESC,token DESC);
+CREATE TABLE IF NOT EXISTS support_payments (
+  session_id TEXT PRIMARY KEY,
+  publication_token TEXT NOT NULL,
+  amount_pence INTEGER NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'gbp',
+  confirmed_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_support_payments_publication ON support_payments(publication_token,confirmed_at DESC);
 CREATE TABLE IF NOT EXISTS provider_keys (
   owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   provider TEXT NOT NULL, ciphertext BLOB NOT NULL,

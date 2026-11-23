@@ -54,7 +54,7 @@ def check(browser,mobile=False):
     page.locator('#artNext').click()
     assert page.locator('#artTitle').inner_text()==SLIDES[1]['title']
     assert page.evaluate('__shareNav.at(-1)')==SLIDES[1]['url']
-    assert page.locator('#artDownload').get_attribute('href')==SLIDES[1]['image']
+    assert page.locator('#artDownloadFile').get_attribute('href')==SLIDES[1]['image']
     page.keyboard.press('ArrowRight')
     assert page.locator('#artTitle').inner_text()==SLIDES[2]['title']
     page.keyboard.press('ArrowRight')

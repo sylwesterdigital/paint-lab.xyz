@@ -131,8 +131,20 @@ def discover_markup(items, filters, total, page, urls, *, artist=None, edit=Fals
         visible=item.get('visible',True)
         token=escape(item.get('token',''))
         title=escape(item['title'])
-        priority=' loading="eager" fetchpriority="high"' if featured and index<4 else ' loading="lazy"'
-        img='<img src="'+escape(item['image'])+'"'+priority+' decoding="async" alt="'+title+'">'
+        # First four tiles paint immediately; the rest request compressed previews
+        # only as they approach the viewport. Width/height reserve the correct
+        # uncropped height while the image is deferred.
+        eager=index<4
+        src=escape(item.get('preview',item['image']))
+        fallback=escape(item['image'])
+        dims=item.get('dimensions',(1,1))
+        try: width,height=int(dims[0]),int(dims[1])
+        except (TypeError,ValueError,IndexError):width,height=1,1
+        sizes=' width="'+str(max(1,width))+'" height="'+str(max(1,height))+'"'
+        priority=' loading="eager" fetchpriority="high"' if eager else ' loading="lazy"'
+        img=('<img'+(' src="'+src+'"' if eager else ' data-preview-src="'+src+'"')+
+             ' data-fallback-src="'+fallback+'"'+priority+' decoding="async"'+sizes+' alt="'+title+'">')
+        if not eager: img+='<noscript><img src="'+src+'" loading="lazy" alt="'+title+'"></noscript>'
         main=('<a class="artwork-link" href="'+escape(item['url'])+'">'+img+
               '<span class="discovery-caption">'+title+'</span></a>') if visible else (
               '<div class="artwork-link">'+img+'<span class="discovery-caption">'+title+'</span></div>')
@@ -243,6 +255,20 @@ body.viewer-page{height:100vh;height:100dvh;display:flex;flex-direction:column;o
   .art-foot .download{font-size:11px;padding:7px 9px}
 }
 @media(max-height:500px){.viewer-page main{gap:4px;padding-top:4px;padding-bottom:4px}.art-head{min-height:34px}.viewer-page nav{min-height:40px;padding-top:5px;padding-bottom:5px}}
+.support-dialog{border:1px solid #52665c;border-radius:18px;background:#202925;color:#f2f5f1;padding:0;width:min(460px,calc(100vw - 28px));max-height:calc(100dvh - 28px);box-shadow:0 20px 80px #0008}
+.support-dialog::backdrop{background:#060b09c9}
+.support-content{padding:23px;display:flex;flex-direction:column;gap:16px}
+.support-top{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.support-top h2{margin:0;font-size:22px}
+.support-close{width:38px;height:38px;border:1px solid #587367;background:#2b3a33;border-radius:10px;color:white;display:grid;place-items:center;font-size:23px;cursor:pointer}
+.support-description{margin:0;color:#b9cbc1;font-size:14px}
+.support-download{display:flex;align-items:center;justify-content:center;padding:13px;border-radius:10px;background:#b0d6a7;color:#142419;font-weight:750}
+.support-divider{height:1px;background:#44594e}
+.support-amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.support-amounts button{padding:12px 5px;border:1px solid #637d69;border-radius:10px;background:#304537;color:#f2fff4;font-weight:750;cursor:pointer}
+.support-amounts button:disabled{opacity:.4;cursor:not-allowed}
+.support-message{font-size:12px;color:#c5d4c7;min-height:1em;margin:0}
+@media(max-width:620px){.support-content{padding:18px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 '''
 
@@ -257,7 +283,11 @@ VIEWER_JS = r'''(() => {
   const title = document.getElementById('artTitle');
   const creator = document.getElementById('artCreator');
   const counter = document.getElementById('artCounter');
-  const download = document.getElementById('artDownload');
+  const download = document.getElementById('artDownloadFile');
+  const supportDialog=document.getElementById('supportDialog');
+  const supportOpen=document.getElementById('artDownload');
+  const supportClose=document.getElementById('supportClose');
+  const supportMessage=document.getElementById('supportMessage');
   const stage = document.getElementById('artStage');
   const prev = document.getElementById('artPrev');
   const next = document.getElementById('artNext');
@@ -266,6 +296,15 @@ VIEWER_JS = r'''(() => {
   const at = i => (i + total) % total;
   const currentPath = () => window.location.pathname;
   const indexForPath = () => slides.findIndex(slide => slide.url.split('?')[0] === currentPath());
+  let lastViewed='';
+  let viewsSent=0;
+  function recordView(item){
+    if(item.token===lastViewed || viewsSent>=24)return;
+    lastViewed=item.token; viewsSent++;
+    if(window.umami && typeof window.umami.track==='function'){
+      try{window.umami.track('artwork_view',{publication:item.token});}catch(e){}
+    }else{(window.paintLabArtworkViews||(window.paintLabArtworkViews=[])).push(item.token);}
+  }
   function show(i, push = true) {
     index = at(i);
     const item = slides[index];
@@ -276,6 +315,8 @@ VIEWER_JS = r'''(() => {
     counter.textContent = (index + 1) + ' / ' + total;
     download.href = item.image;
     download.setAttribute('download', 'paint-lab-artwork.png');
+    supportOpen.dataset.publication=item.token;
+    recordView(item);
     document.title = item.title + ' · Paint Lab';
     if (push && currentPath() !== item.url.split('?')[0]) history.pushState({paintLabPublicSlide: true}, '', item.url);
     if (total > 1) {
@@ -288,7 +329,7 @@ VIEWER_JS = r'''(() => {
   next.addEventListener('click', () => move(1));
   window.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.defaultPrevented) return;
-    if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) return;
+    if(supportDialog?.open || ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) return;
     if (event.key === 'ArrowRight') { event.preventDefault(); move(1); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1); }
   });
@@ -314,6 +355,35 @@ VIEWER_JS = r'''(() => {
       move(dx < 0 ? 1 : -1);
     }
   }, {passive: true});
+  supportOpen.addEventListener('click',()=>{if(supportDialog&&!supportDialog.open)supportDialog.showModal();});
+  supportClose.addEventListener('click',()=>supportDialog.close());
+  supportDialog.addEventListener('click',event=>{if(event.target===supportDialog)supportDialog.close();});
+  download.addEventListener('click',()=>{
+    const item=slides[index];
+    if(window.umami&&typeof window.umami.track==='function')try{window.umami.track('artwork_download',{publication:item.token})}catch(e){}
+  });
+  supportDialog.querySelectorAll('button[data-support-amount]').forEach(button=>{
+    button.addEventListener('click',async()=>{
+      if(button.disabled)return;
+      const amount=Number(button.dataset.supportAmount);
+      if(![300,500,1000].includes(amount))return;
+      supportMessage.textContent='Opening secure Stripe checkout…';
+      supportDialog.querySelectorAll('button[data-support-amount]').forEach(el=>el.disabled=true);
+      try{
+        const response=await fetch('/api/support/checkout',{
+          method:'POST',credentials:'same-origin',
+          headers:{'Content-Type':'application/json','X-CSRF-Token':root.dataset.csrf},
+          body:JSON.stringify({token:slides[index].token,amount})
+        });
+        const data=await response.json();
+        if(!response.ok)throw new Error(data.error||'Checkout unavailable');
+        const url=new URL(data.url);
+        if(url.protocol!=='https:'||url.hostname!=='checkout.stripe.com')throw new Error('Invalid checkout destination');
+        location.assign(url.href);
+      }catch(error){supportMessage.textContent=error.message||'Checkout unavailable';}
+      finally{if(root.dataset.supportEnabled==='1')supportDialog.querySelectorAll('button[data-support-amount]').forEach(el=>el.disabled=false);}
+    });
+  });
   show(index, false);
 })();'''
 
@@ -339,7 +409,7 @@ def gallery_markup(items: list[dict], username: str) -> str:
     return '<main class="gallery-main" id="publicGallery">' + heading + '<div class="gallery">' + cards + '</div></main>'
 
 
-def viewer_markup(slides: list[dict], active: int, username: str, space_path: str, *, gallery_url: str | None = None) -> str:
+def viewer_markup(slides: list[dict], active: int, username: str, space_path: str, *, gallery_url: str | None = None, support_enabled=False, csrf="") -> str:
     """Build the page for public paintings by one artist, newest first."""
     if not slides or not 0 <= active < len(slides):
         raise ValueError('Viewer requires a published active artwork')
@@ -350,7 +420,7 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
     controls = '' if len(slides) > 1 else ' hidden'
     hint = 'Swipe or use ← → to browse' if len(slides) > 1 else 'Published artwork'
     return (
-        f'<main class="artwork-viewer" id="publicViewer" data-slides="{slide_data}" data-index="{active}">'
+        f'<main class="artwork-viewer" id="publicViewer" data-slides="{slide_data}" data-index="{active}" data-csrf="{escape(csrf)}" data-support-enabled="{1 if support_enabled else 0}">'
         '<header class="art-head"><div>'
         f'<h1 id="artTitle">{escape(item["title"])}</h1>'
         f'<p>By <a id="artCreator" href="{escape(space_path)}">{escape(username)}</a> · Public artwork</p>'
@@ -366,8 +436,19 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         f'<span class="art-counter" id="artCounter" aria-live="polite">{active+1} / {len(slides)}</span>'
         f'<span class="art-hint">{hint}</span>'
         '<a class="community-link" href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Discuss art</a>'
-        f'<a class="download" id="artDownload" href="{escape(item["image"])}" download="paint-lab-artwork.png">Download PNG</a>'
-        '</footer></main>'
+        '<button type="button" class="download" id="artDownload">Download &amp; support</button>'
+        '</footer>'
+        '<dialog class="support-dialog" id="supportDialog" aria-labelledby="supportTitle"><div class="support-content">'
+        '<div class="support-top"><h2 id="supportTitle">Download &amp; support</h2><button type="button" class="support-close" id="supportClose" aria-label="Close">×</button></div>'
+        '<p class="support-description">Download the original artwork for free, or optionally support Paint Lab.</p>'
+        f'<a class="support-download" id="artDownloadFile" href="{escape(item["image"])}" download="paint-lab-artwork.png">Download original PNG</a>'
+        '<div class="support-divider"></div>'
+        '<strong>Support the Paint Lab project</strong>'
+        '<p class="support-description">Contributions go to Paint Lab, not directly to the artist. Artist payouts would require a separate Stripe Connect programme.</p>'
+        '<div class="support-amounts">'
+        +''.join(f'<button type="button" data-support-amount="{amount}"'+('' if support_enabled else ' disabled')+f'>£{amount//100}</button>' for amount in (300,500,1000))+
+        '</div><p class="support-message" id="supportMessage" role="status">'+('Choose an amount to continue to secure Stripe Checkout.' if support_enabled else 'Project support payments are not enabled yet.')+'</p>'
+        '</div></dialog></main>'
     )
 
 
@@ -414,3 +495,26 @@ MANAGE_JS = r'''
  });
 })();
 '''
+
+
+# Avoid downloading full-resolution PNGs in masonry feeds. The first four previews
+# are eagerly requested; remaining WebPs begin at most 450px before entering view.
+DISCOVERY_JS = r"""(()=>{
+  'use strict';
+  const root=document.getElementById('publicDiscovery');
+  if(!root)return;
+  const images=[...root.querySelectorAll('img[data-preview-src]')];
+  const load=img=>{if(img.dataset.previewSrc){img.src=img.dataset.previewSrc;delete img.dataset.previewSrc;}};
+  const missing=img=>{
+    const fallback=img.dataset.fallbackSrc;
+    if(fallback&&img.src!==new URL(fallback,location.href).href){img.src=fallback;}
+  };
+  for(const img of root.querySelectorAll('img[data-fallback-src]')){
+    img.addEventListener('error',()=>missing(img),{once:true});
+  }
+  if(!('IntersectionObserver' in window)){images.forEach(load);return;}
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{if(entry.isIntersecting){load(entry.target);observer.unobserve(entry.target);}});
+  },{rootMargin:'450px 0px',threshold:0});
+  images.forEach(img=>observer.observe(img));
+})();"""
