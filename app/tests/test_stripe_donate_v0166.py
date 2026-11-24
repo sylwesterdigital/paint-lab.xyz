@@ -18,11 +18,11 @@ class StripeDonationAndIdentity166(unittest.TestCase):
   self.assertIn('background:linear-gradient(100deg',FRONT)
   self.assertIn('color:transparent;-webkit-text-fill-color:transparent',FRONT)
   self.assertIn('>Paint-lab</a>',FRONT)
-  self.assertIn('v0.1.73</span>',FRONT)
+  self.assertIn('v0.1.74</span>',FRONT)
   self.assertIn('href="https://github.com/sylwesterdigital/paint-lab.xyz"',FRONT)
   self.assertIn('data-stripe-dialog-trigger="paintLabDonateDialog"',FRONT)
   self.assertIn("classList.toggle('mobile-focused',mobileFocusMode)",FRONT)
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.73')
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.74')
 
  def test_both_support_panels_use_the_supplied_public_stripe_widget(self):
   slide={'token':'a'*26,'title':'Art','url':'/p/'+'a'*26,'image':'/p/'+'a'*26+'/image.png'}

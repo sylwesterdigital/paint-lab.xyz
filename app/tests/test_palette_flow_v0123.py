@@ -24,7 +24,7 @@ class PaletteFlowTests(unittest.TestCase):
         self.assertIn('const nextColour=strokeTravelColour(c,(run.pathLength||0)+travel*q)', HTML)
         self.assertIn('paintTextStamp(s,x,y,radius,angle,rng,opacity,travelledColor)', HTML)
         self.assertIn('paletteSource:[...paletteSource],paletteSize,paletteName,colorTravel,colorTravelPingPong,color', HTML)
-        self.assertIn('paletteSource:paletteSource.slice(),paletteSize,paletteName,colorTravel,colorTravelPingPong', HTML)
+        self.assertIn('paletteSource:paletteSource.slice(),paletteSize,paletteName,gradientAnchors:gradientAnchors.map(a=>({...a}))', HTML)
 
     @unittest.skipUnless(shutil.which('node'), 'Node is required for standalone colour-function tests')
     def test_actual_colour_algorithms(self):
@@ -32,7 +32,7 @@ class PaletteFlowTests(unittest.TestCase):
         # separately reimplemented Python algorithms.
         segments = [
             HTML[HTML.index('function colourToLab('):HTML.index('function interpolateGradient(')],
-            HTML[HTML.index('function resizePaletteColours('):HTML.index('function setPalette(colors,name)')],
+            HTML[HTML.index('function resizePaletteColours('):HTML.index('function setPalette(colors,name,options={})')],
         ]
         script = r'''
         const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
@@ -63,4 +63,4 @@ class PaletteFlowTests(unittest.TestCase):
 
     def test_project_version_consistency(self):
         for name in ('version.json', 'frontend/version.json', 'changelog.json', 'frontend/changelog.json'):
-            self.assertEqual(json.loads((APP / name).read_text())['version'], '0.1.73')
+            self.assertEqual(json.loads((APP / name).read_text())['version'], '0.1.74')
