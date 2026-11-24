@@ -10,7 +10,7 @@ from flask import Flask,abort,g,jsonify,request,session,send_from_directory,send
 from flask_sock import Sock
 from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash,check_password_hash
-from . import db,keyvault,project_format,public_image,public_viewer,public_discovery,public_previews,support_checkout
+from . import db,keyvault,project_format,public_image,public_viewer,public_discovery,public_previews,support_checkout,rantlist_bridge
 
 ROOT=Path(__file__).resolve().parents[1]
 DATA=Path(os.environ.get('PAINT_LAB_DATA_DIR',str(ROOT/'var'))).resolve()
@@ -330,6 +330,37 @@ def publish_artwork():
         raise
     row=con().execute('SELECT token,title,created_at,is_visible FROM publications WHERE token=?',(token,)).fetchone()
     return jsonify(ok=True,**publication_record(row)),201
+
+
+@app.get('/api/integrations/rantlist')
+def rantlist_bridge_status():
+    # Public capability flag only; no URL, secret or account information exposed.
+    return jsonify(enabled=rantlist_bridge.enabled(),destination='lobby')
+
+@app.post('/api/publications/<token>/share/rantlist')
+@auth
+def share_publication_rantlist(token):
+    require_csrf()
+    payload()  # Require JSON; never accept title, URL, channel or credentials from clients.
+    if not re.fullmatch(r'[A-Za-z0-9_-]{20,80}',token):return jsonify(error='Publication not found'),404
+    row=con().execute('SELECT title FROM publications WHERE token=? AND owner_id=? AND is_visible=1',
+        (token,user())).fetchone()
+    if not row:return jsonify(error='Only your visible public artwork can be shared'),404
+    existing=con().execute('SELECT message_id FROM rantlist_publication_shares WHERE publication_token=? AND owner_id=?',
+        (token,user())).fetchone()
+    if existing:return jsonify(ok=True,channel='lobby',message_id=existing['message_id'],already_shared=True)
+    if not rantlist_bridge.enabled():return jsonify(error='Rantlist automatic sharing is not configured yet'),503
+    # Bounded on our side too; Rantlist must independently rate-limit its bot.
+    recent=con().execute("SELECT COUNT(*) FROM rantlist_publication_shares WHERE owner_id=? AND shared_at>=strftime('%Y-%m-%dT%H:%M:%fZ','now','-1 hour')",(user(),)).fetchone()[0]
+    if recent>=5:return jsonify(error='Rantlist sharing limit reached; try again later'),429
+    try:message_id=rantlist_bridge.send_publication(token,row['title'])
+    except rantlist_bridge.BridgeError as exc:
+        logger.warning('Rantlist share not confirmed (%s)',type(exc).__name__)
+        return jsonify(error=str(exc)),502
+    with con():
+        con().execute('INSERT OR IGNORE INTO rantlist_publication_shares(publication_token,owner_id,message_id) VALUES(?,?,?)',
+            (token,user(),message_id))
+    return jsonify(ok=True,channel='lobby',message_id=message_id,already_shared=False)
 
 @app.patch('/api/publications/<token>')
 @auth

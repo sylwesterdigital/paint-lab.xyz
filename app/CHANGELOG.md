@@ -1,3 +1,11 @@
+# v0.1.70 — One-step Publish & Rantlist Sharing Bridge (2026-11-24)
+
+- Add Open link immediately beside Copy link after publishing an artwork from Save & share, using a validated same-site publication URL and opening safely in a new tab.
+- Add Save & Publish: save a new local layered copy first, then publish its public PNG without closing the panel; never overwrite an existing artwork silently and distinguish partial success.
+- Add a deliberate Share to Rantlist #lobby action after publishing; until the Rantlist bot receiver is deployed it opens Rantlist and copies the public URL for manual posting without claiming it was sent.
+- Prepare an optional signed Paint Lab server-to-server bridge using a restricted HTTPS destination, per-publication idempotency, CSRF, ownership and visibility checks, and SQLite confirmed message receipts.
+- Document the Rantlist r749 authenticated bot receiver contract, signing, limits, test plan and secure rollout; keep private projects, stroke histories, credentials, downloads, Stripe and the watcher isolated.
+
 # v0.1.69 — Optional Stroke History & Fast Layered Gallery (2026-11-23)
 
 - Add a Public gallery link beside the Paint-lab GitHub and Donate links, preserving the simple shadowless header.

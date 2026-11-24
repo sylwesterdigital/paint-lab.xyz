@@ -20,7 +20,7 @@ window.__saveHubTest={
   sharePNGBlob=async(resize,withPaper)=>{window.__shareArgs={resize,withPaper};return new Blob(['test png'],{type:'image/png'});};
   blobAsDataURL=async()=> 'data:image/png;base64,iVBORw0KGgo=';
   apiCall=async(path,method,data)=>{if(path==='/publications'&&method==='POST'){
-   window.__publishes.push({path,method,data});return {url:'https://paint-lab.xyz/p/testToken'};}
+   window.__publishes.push({path,method,data});return {token:'ABCDEFGHIJKLMNOPQRSTUVWX1234567890',url:'https://paint-lab.xyz/p/ABCDEFGHIJKLMNOPQRSTUVWX1234567890'};}
    throw Error('Unexpected API request: '+path);
   };
   cloudUser=null;cloudCSRF='csrf';
@@ -76,7 +76,7 @@ def run(browser,viewport,kind):
  assert page.evaluate('window.__publishes[0].data.title')=='Public art name'
  assert page.evaluate('window.__shareArgs')=={'resize':True,'withPaper':False}
  assert page.locator('#savePublicLinkWrap').is_visible()
- assert page.locator('#savePublicLink').input_value()=='https://paint-lab.xyz/p/testToken'
+ assert page.locator('#savePublicLink').input_value()=='https://paint-lab.xyz/p/ABCDEFGHIJKLMNOPQRSTUVWX1234567890'
  assert page.locator('#saveOverlay').evaluate('e=>e.classList.contains("visible")')
  # Exports are direct and use the draft title; no intermediate modal.
  page.locator('#artName').fill('Export revised name')
@@ -105,7 +105,7 @@ def run(browser,viewport,kind):
   return {width:innerWidth,height:innerHeight,dialog:{x:a.x,y:a.y,width:a.width,height:a.height},body:{height:b.height,scrollHeight:body.scrollHeight,overflow:getComputedStyle(body).overflowY},pageScroll:document.documentElement.scrollWidth};
  }''')
  assert layout['dialog']['height']<=layout['height']+2,layout
- assert layout['dialog']['height']<380,layout
+ assert layout['dialog']['height']<470,layout
  assert layout['dialog']['x']>=-1 and layout['dialog']['x']+layout['dialog']['width']<=layout['width']+2,layout
  assert layout['pageScroll']<=layout['width']+2,layout
  page.screenshot(path=f'/mnt/data/paintlab_compact_save_v0147_{kind}.png')

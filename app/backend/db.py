@@ -25,6 +25,13 @@ CREATE TABLE IF NOT EXISTS publications (
 );
 CREATE INDEX IF NOT EXISTS idx_publications_owner ON publications(owner_id,created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_publications_recent ON publications(created_at DESC,token DESC);
+CREATE TABLE IF NOT EXISTS rantlist_publication_shares (
+  publication_token TEXT PRIMARY KEY REFERENCES publications(token) ON DELETE CASCADE,
+  owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  message_id TEXT NOT NULL,
+  shared_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_rantlist_shares_owner ON rantlist_publication_shares(owner_id,shared_at DESC);
 CREATE TABLE IF NOT EXISTS support_payments (
   session_id TEXT PRIMARY KEY,
   publication_token TEXT NOT NULL,

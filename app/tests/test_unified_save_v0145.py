@@ -8,8 +8,8 @@ PAGE=(ROOT/'frontend/index.html').read_text()
 class UnifiedSaveTests(unittest.TestCase):
  def test_version_history(self):
   current=json.loads((ROOT/'changelog.json').read_text())
-  self.assertEqual(current['version'],'0.1.69')
-  self.assertEqual(current['history'][0]['version'],'0.1.68')
+  self.assertEqual(current['version'],'0.1.70')
+  self.assertEqual(current['history'][0]['version'],'0.1.69')
 
  def test_each_destination_is_explicit(self):
   for button in ('saveNew','saveOverwrite','savePublish','savePNGWith','savePNGWithout','saveZIP','saveJSON','saveNativeShare'):
@@ -24,7 +24,7 @@ class UnifiedSaveTests(unittest.TestCase):
   self.assertIn('async function publishFromSave()',PAGE)
   self.assertIn("sharePNGBlob(true,$('savePublishBackground').checked)",PAGE)
   self.assertIn("apiCall('/publications','POST',{title:name,image:await blobAsDataURL(image)})",PAGE)
-  self.assertIn("$('savePublicLink').value=result.url",PAGE)
+  self.assertIn("setPublishedSaveLink(result)",PAGE)
   self.assertIn("$('saveCopyLink').onclick=copyPublicLinkFromSave",PAGE)
   self.assertIn("if(!cloudUser){saveHubStatus('Sign in",PAGE)
 

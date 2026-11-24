@@ -1,17 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.69",
-  "title": "Paint Lab v0.1.69 — Optional Stroke History & Instant Layered Gallery",
-  "datetime": "2026-11-23",
+  "version": "0.1.70",
+  "title": "Paint Lab v0.1.70 — One-step Publish & Rantlist Sharing Bridge",
+  "datetime": "2026-11-24",
   "changes": [
-    "Add a Public gallery link beside the Paint-lab GitHub and Donate links, preserving the simple shadowless header.",
-    "Save local gallery artwork as lossless PNG-backed editable layers by default; choose Keep brush stroke history in Save & share to retain recorded strokes and previous Undo states.",
-    "Open both gallery save modes directly from their stored layer previews instead of replaying every brush point; retain the legacy history replay path for older saved artworks.",
-    "Preserve a raster baseline across Undo, Redo, resizes, recovery drafts and editable JSON/ZIP/cloud project exports when artwork has been opened without earlier stroke history.",
-    "Do not discard history merely by opening legacy projects; opening an older history-only painting keeps history enabled on subsequent saves unless the user explicitly opts out.",
-    "Retain watcher v0.1.6, release checksum validation and existing public-gallery privacy, downloads and voluntary Stripe support."
+    "Add Open link immediately beside Copy link after publishing an artwork from Save & share, using a validated same-site publication URL and opening safely in a new tab.",
+    "Add Save & Publish: save a new local layered copy first, then publish its public PNG without closing the panel; never overwrite an existing artwork silently and distinguish partial success.",
+    "Add a deliberate Share to Rantlist #lobby action after publishing; until the Rantlist bot receiver is deployed it opens Rantlist and copies the public URL for manual posting without claiming it was sent.",
+    "Prepare an optional signed Paint Lab server-to-server bridge using a restricted HTTPS destination, per-publication idempotency, CSRF, ownership and visibility checks, and SQLite confirmed message receipts.",
+    "Document the Rantlist r749 authenticated bot receiver contract, signing, limits, test plan and secure rollout; keep private projects, stroke histories, credentials, downloads, Stripe and the watcher isolated."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.69",
+      "title": "Paint Lab v0.1.69 — Optional Stroke History & Instant Layered Gallery",
+      "datetime": "2026-11-23",
+      "changes": [
+        "Add a Public gallery link beside the Paint-lab GitHub and Donate links, preserving the simple shadowless header.",
+        "Save local gallery artwork as lossless PNG-backed editable layers by default; choose Keep brush stroke history in Save & share to retain recorded strokes and previous Undo states.",
+        "Open both gallery save modes directly from their stored layer previews instead of replaying every brush point; retain the legacy history replay path for older saved artworks.",
+        "Preserve a raster baseline across Undo, Redo, resizes, recovery drafts and editable JSON/ZIP/cloud project exports when artwork has been opened without earlier stroke history.",
+        "Do not discard history merely by opening legacy projects; opening an older history-only painting keeps history enabled on subsequent saves unless the user explicitly opts out.",
+        "Retain watcher v0.1.6, release checksum validation and existing public-gallery privacy, downloads and voluntary Stripe support."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.68",
