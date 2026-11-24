@@ -1,16 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.68",
-  "title": "Paint Lab v0.1.68 — Brush Gallery, Clean Links & Free Window Placement",
+  "version": "0.1.69",
+  "title": "Paint Lab v0.1.69 — Optional Stroke History & Instant Layered Gallery",
   "datetime": "2026-11-23",
   "changes": [
-    "Restore free dragging of collapsed desktop windows to the top viewport edge, while keeping expanded windows below the initial header strip and allowing deliberately dragged panels to appear above branding.",
-    "Make GitHub and Donate links (and the version label) plain black text with no shadows or boxes, on desktop and mobile; keep the pastel-gradient Paint-lab wordmark.",
-    "Make Brush Tips image-first: prioritize a scrollable, readable grid of actual brush silhouette previews, show shape tips before recipes on All, and stop shrinking previews to fit every category at once.",
-    "Collapse Customize selected brush and Text & character brush settings by default; allow opening either section without changing existing slider, preset, import, or text brush functionality.",
-    "Retain the desktop three-dot toolbar, Settings preferences, canvas HUD Fit, Shift+S Save, free PNG downloads, Stripe support, and watcher v0.1.6 integrity checks."
+    "Add a Public gallery link beside the Paint-lab GitHub and Donate links, preserving the simple shadowless header.",
+    "Save local gallery artwork as lossless PNG-backed editable layers by default; choose Keep brush stroke history in Save & share to retain recorded strokes and previous Undo states.",
+    "Open both gallery save modes directly from their stored layer previews instead of replaying every brush point; retain the legacy history replay path for older saved artworks.",
+    "Preserve a raster baseline across Undo, Redo, resizes, recovery drafts and editable JSON/ZIP/cloud project exports when artwork has been opened without earlier stroke history.",
+    "Do not discard history merely by opening legacy projects; opening an older history-only painting keeps history enabled on subsequent saves unless the user explicitly opts out.",
+    "Retain watcher v0.1.6, release checksum validation and existing public-gallery privacy, downloads and voluntary Stripe support."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.68",
+      "title": "Paint Lab v0.1.68 — Brush Gallery, Clean Links & Free Window Placement",
+      "datetime": "2026-11-23",
+      "changes": [
+        "Restore free dragging of collapsed desktop windows to the top viewport edge, while keeping expanded windows below the initial header strip and allowing deliberately dragged panels to appear above branding.",
+        "Make GitHub and Donate links (and the version label) plain black text with no shadows or boxes, on desktop and mobile; keep the pastel-gradient Paint-lab wordmark.",
+        "Make Brush Tips image-first: prioritize a scrollable, readable grid of actual brush silhouette previews, show shape tips before recipes on All, and stop shrinking previews to fit every category at once.",
+        "Collapse Customize selected brush and Text & character brush settings by default; allow opening either section without changing existing slider, preset, import, or text brush functionality.",
+        "Retain the desktop three-dot toolbar, Settings preferences, canvas HUD Fit, Shift+S Save, free PNG downloads, Stripe support, and watcher v0.1.6 integrity checks."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.67",

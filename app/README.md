@@ -233,3 +233,7 @@ The desktop app bar now shows a three-dot overflow and Settings cog with Clear, 
 ## v0.1.68 — Brush selection and panel positioning
 
 The desktop Brush Tips window prioritizes visible, scrollable silhouettes. Advanced brush editing and text/character stamping are expandable sections, closed by default. Collapsed draggable windows can be positioned 6 px from the viewport's top edge, independently of the expanded-panel header allowance. GitHub and Donate use plain black, shadow-free text. No painting data or payment behaviour changes.
+
+## v0.1.69 — Fast layered gallery saves
+
+Local Save & share now saves PNG-backed layers by default without preserving earlier brush strokes; the **Keep brush stroke history** checkbox preserves the editable stroke sequence and prior Undo states. Both choices open from layer snapshots without replaying the painting. Previously saved history-only artworks are still supported and will preserve their history by default when reopened. A public gallery link is available beside GitHub and Donate in the studio header. Flattened-layer artwork retains its own layer stack and can accept new edits and Undo history.

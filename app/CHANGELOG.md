@@ -1,3 +1,12 @@
+# v0.1.69 — Optional Stroke History & Fast Layered Gallery (2026-11-23)
+
+- Add a Public gallery link beside the Paint-lab GitHub and Donate links, preserving the simple shadowless header.
+- Save local gallery artwork as lossless PNG-backed editable layers by default; choose Keep brush stroke history in Save & share to retain recorded strokes and previous Undo states.
+- Open both gallery save modes directly from their stored layer previews instead of replaying every brush point; retain the legacy history replay path for older saved artworks.
+- Preserve a raster baseline across Undo, Redo, resizes, recovery drafts and editable JSON/ZIP/cloud project exports when artwork has been opened without earlier stroke history.
+- Do not discard history merely by opening legacy projects; opening an older history-only painting keeps history enabled on subsequent saves unless the user explicitly opts out.
+- Retain watcher v0.1.6, release checksum validation and existing public-gallery privacy, downloads and voluntary Stripe support.
+
 # v0.1.68 — Visible Brush Tips, Plain Links & Movable Minimized Windows (2026-11-23)
 
 - The Brush Tips panel opens on actual, scrollable brush silhouettes instead of an overwhelming settings form. Both advanced brush editing and text stamping are closed until requested, while the same controls and imported brushes remain available.

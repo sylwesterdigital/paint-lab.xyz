@@ -8,8 +8,8 @@ HTML=(ROOT/'frontend/index.html').read_text()
 
 class Mobile154(unittest.TestCase):
     def test_version_and_devlog(self):
-        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.68')
-        self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.68')
+        self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.69')
+        self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.69')
 
     def test_tip_tap_accessibility_and_gallery(self):
         self.assertNotIn('id="mobileTipCycle"',HTML)
