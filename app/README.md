@@ -245,3 +245,12 @@ Save & share now offers **Save & Publish**, which creates a new editable local g
 ## v0.1.71 — Reference guides and palette flow
 
 A native-resolution, non-destructive reference image is pinned to the bottom of the Layers panel. Its original pixels remain in editable project data and can be moved, scaled, rotated, hidden and faded without repeated raster resampling. References remain visible as guides but are not included in PNG exports or published images. Palette Flow optionally bounces backward at the last swatch; select any swatch and use Edit swatch to change its colour and the resulting gradients. Public Open link is styled like Copy link and opens a new tab.
+
+
+## v0.1.72 — Palette swatch fix
+
+Selecting a palette swatch changes the active brush pigment without overwriting the first custom-colour swatch. Editing a palette swatch updates only that swatch; Gradients now blend from the first to the final swatch, preserving edited endpoints. Palette colours and the active brush colour are stored independently.
+
+## v0.1.73 — Reference uses normal layer transforms
+
+In **Layers**, add a reference guide and select its bottom-pinned thumbnail row just as you would a painting layer. Use the existing **Move**, **Rotate** and **Scale** controls (desktop **G**, **R**, **S**, or mobile layer-transform controls) to transform the guide. Cancel or apply using the normal tool workflow. Reference thumbnails, visibility and opacity are in the normal Layers list rather than a separate adjustment panel. The source image remains at its original resolution and is excluded from rendered PNG exports and public publication. References persist in editable project records; painting layers are not merged with or overwritten by the reference.

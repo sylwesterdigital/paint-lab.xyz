@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SOURCE=(ROOT/'frontend/index.html').read_text()
 class StrokeRevealV136(unittest.TestCase):
  def test_versioned_new_stroke_engine(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.71')
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.73')
   self.assertIn("styleEngine:'existing-image-fx-v3'",SOURCE)
   self.assertIn('Stroke-masked filters · reveal existing artwork',SOURCE)
  def test_source_pixels_not_own_pigment(self):

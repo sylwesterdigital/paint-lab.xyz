@@ -1,3 +1,19 @@
+# v0.1.73 — Reference in the Ordinary Layers Workflow (2026-11-24)
+
+- Present the reference image as a normal, selectable bottom row in Layers, alongside painting layers, with a thumbnail, visibility toggle and opacity control. The + Add reference action remains compact.
+- Use the existing Layers Move, Rotate and Scale buttons, desktop G/R/S shortcuts and mobile transform gestures on the selected reference. Apply or cancel transforms using the ordinary controls; the separate reference transform console has been removed.
+- Keep original image bytes and native resolution across successive transforms. Continue pinning the reference beneath painted layers and excluding it from public and downloaded PNGs.
+- Preserve existing saved reference-image records and editable project exports; regular painting layers retain their existing selection and merge behaviour.
+- Add regression and desktop/mobile browser tests for selection, G/R/S transforms, cancel, opacity, save/reopen, image pixels and export isolation.
+
+# v0.1.72 — Independent Palette Swatches & Gradient Stops (2026-11-24)
+
+- Fix palette swatch clicks and Edit swatch: selecting or recolouring a middle/last swatch no longer changes the independent first custom-colour/gradient swatch.
+- Make Gradients consistently interpolate from the actual first palette swatch to the final swatch, including user-edited endpoints and Shift-selected intermediate stops.
+- Keep the currently active brush pigment separate from palette stop editing and persist both independently across workspace settings and project reopens.
+- Preserve the first custom colour picker, mobile palette selection, XL/M/S palettes, Bounce/Flow, existing public gallery and optional Stripe/Rantlist publishing.
+- Add desktop/mobile Chromium regressions for swatch selection, editing first/middle/final gradient stops, generated gradient endpoints and settings restoration.
+
 # v0.1.71 — Reference Guides & Palette Control (2026-11-24)
 
 - Style Open link exactly like the adjacent Copy link button, retaining a safe target=_blank and noopener/noreferrer so the editing session remains open.

@@ -1,4 +1,4 @@
-"""Release v0.1.71: guide images, non-destructive transforms, palette editing and link UI."""
+"""Release v0.1.73: guide images, non-destructive transforms, palette editing and link UI."""
 import json
 import re
 import subprocess
@@ -11,8 +11,8 @@ HTML = (APP / 'frontend/index.html').read_text()
 class ReferencePaletteContract(unittest.TestCase):
     def test_reference_is_pinned_and_excluded_from_png(self):
         self.assertIn('id="addReferenceImage"', HTML)
-        self.assertIn('id="referenceSlot"', HTML)
-        self.assertIn('addReferenceRow(slot);const add=', HTML)
+        self.assertNotIn('id="referenceSlot"', HTML)
+        self.assertIn('addReferenceRow(root);const add=', HTML)
         self.assertIn('drawReferenceGuide(layerCtx)', HTML)
         export = HTML.split('function createExportCanvas(withBg){', 1)[1].split('function exportPNG()', 1)[0]
         self.assertNotIn('drawReferenceGuide', export)
@@ -36,9 +36,9 @@ class ReferencePaletteContract(unittest.TestCase):
 
     def test_devlog_and_version(self):
         data = json.loads((APP / 'changelog.json').read_text())
-        self.assertEqual(data['version'], '0.1.71')
+        self.assertEqual(data['version'], '0.1.73')
         self.assertEqual(data, json.loads((APP / 'frontend/changelog.json').read_text()))
-        self.assertEqual(data['history'][0]['version'], '0.1.70')
+        self.assertEqual(data['history'][0]['version'], '0.1.72')
 
     def test_triangle_wave(self):
         match = re.search(r'function paletteBounceIndex\(step,count\)\{.*?\n\}', HTML, re.S)

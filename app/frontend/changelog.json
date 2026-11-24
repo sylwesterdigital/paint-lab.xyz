@@ -1,17 +1,43 @@
 {
   "project": "paint-lab",
-  "version": "0.1.71",
-  "title": "Paint Lab v0.1.71 — Reference Guides & Palette Control",
+  "version": "0.1.73",
+  "title": "Paint Lab v0.1.73 — Unified Reference Layer Transforms",
   "datetime": "2026-11-24",
   "changes": [
-    "Style Open link exactly like the adjacent Copy link button, retaining a safe target=_blank and noopener/noreferrer so the editing session remains open.",
-    "Add a native-pixel image reference guide pinned below all painting layers: control visibility, opacity, canvas drag-position, scale, rotation, centre and fit without destructive resampling.",
-    "Keep reference image data and transforms in editable local gallery, recovery, JSON and portable ZIP records; previews and public/downloaded PNGs contain only the actual painted layers.",
-    "Introduce a Bounce mode alongside palette Flow, progressing first to last and back by brush travel distance, with settings and stroke replay recording the selected direction mode.",
-    "Allow direct recolouring of the selected swatch using Edit swatch, including gradient endpoints and intermediate stops, without regenerating the entire palette from a fixed last colour.",
-    "Retain independent Rantlist publication, Stripe donations, existing painting-layer history, watcher v0.1.6 and safe manifest-based deployment."
+    "Render the reference as a selectable bottom-pinned row in the ordinary Layers list, with the same thumbnail, visibility, and opacity controls as paint layers; remove its separate expanded transform console.",
+    "Use standard Move (G), Rotate (R), and Scale (S) actions and the same desktop/mobile transform tools on selected references; apply or cancel through the existing transform workflow.",
+    "Keep reference transforms non-destructive: source image pixels are retained, and transformation metadata persists in editable projects and recovery while reference images remain excluded from downloaded/published PNGs.",
+    "Keep selection and bulk paint actions separate so reference images cannot be merged, painted into history, or reordered above painting layers; retain previously saved v0.1.71/v0.1.72 reference records.",
+    "Add dedicated UI and browser regression checks for selection, transforms, cancel, opacity, save/reopen, and PNG exclusion."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.72",
+      "title": "Paint Lab v0.1.72 — Independent Palette Swatches & Gradient Stops",
+      "datetime": "2026-11-24",
+      "changes": [
+        "Fix palette swatch clicks and Edit swatch: selecting or recolouring a middle/last swatch no longer changes the independent first custom-colour/gradient swatch.",
+        "Make Gradients consistently interpolate from the actual first palette swatch to the final swatch, including user-edited endpoints and Shift-selected intermediate stops.",
+        "Keep the currently active brush pigment separate from palette stop editing and persist both independently across workspace settings and project reopens.",
+        "Preserve the first custom colour picker, mobile palette selection, XL/M/S palettes, Bounce/Flow, existing public gallery and optional Stripe/Rantlist publishing.",
+        "Add desktop/mobile Chromium regressions for swatch selection, editing first/middle/final gradient stops, generated gradient endpoints and settings restoration."
+      ]
+    },
+    {
+      "project": "paint-lab",
+      "version": "0.1.71",
+      "title": "Paint Lab v0.1.71 — Reference Guides & Palette Control",
+      "datetime": "2026-11-24",
+      "changes": [
+        "Style Open link exactly like the adjacent Copy link button, retaining a safe target=_blank and noopener/noreferrer so the editing session remains open.",
+        "Add a native-pixel image reference guide pinned below all painting layers: control visibility, opacity, canvas drag-position, scale, rotation, centre and fit without destructive resampling.",
+        "Keep reference image data and transforms in editable local gallery, recovery, JSON and portable ZIP records; previews and public/downloaded PNGs contain only the actual painted layers.",
+        "Introduce a Bounce mode alongside palette Flow, progressing first to last and back by brush travel distance, with settings and stroke replay recording the selected direction mode.",
+        "Allow direct recolouring of the selected swatch using Edit swatch, including gradient endpoints and intermediate stops, without regenerating the entire palette from a fixed last colour.",
+        "Retain independent Rantlist publication, Stripe donations, existing painting-layer history, watcher v0.1.6 and safe manifest-based deployment."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.70",

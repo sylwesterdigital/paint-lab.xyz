@@ -1,4 +1,4 @@
-"""v0.1.71: brush previews remain usable and minimized desktop panels may reach top edge."""
+"""v0.1.73: brush previews remain usable and minimized desktop panels may reach top edge."""
 import json
 import re
 import unittest
@@ -29,7 +29,7 @@ class BrushWindow168(unittest.TestCase):
         self.assertIn('cursor:pointer;text-shadow:none',HTML)
         self.assertIn('paint-lab-wordmark',HTML)
         log=json.loads((APP/'changelog.json').read_text())
-        self.assertEqual(log['version'],'0.1.71')
-        self.assertEqual(log['history'][0]['version'],'0.1.70')
+        self.assertEqual(log['version'],'0.1.73')
+        self.assertEqual(log['history'][0]['version'],'0.1.72')
 
 if __name__=='__main__':unittest.main()
