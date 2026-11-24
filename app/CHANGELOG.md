@@ -1,3 +1,12 @@
+# v0.1.71 — Reference Guides & Palette Control (2026-11-24)
+
+- Style Open link exactly like the adjacent Copy link button, retaining a safe target=_blank and noopener/noreferrer so the editing session remains open.
+- Add a native-pixel image reference guide pinned below all painting layers: control visibility, opacity, canvas drag-position, scale, rotation, centre and fit without destructive resampling.
+- Keep reference image data and transforms in editable local gallery, recovery, JSON and portable ZIP records; previews and public/downloaded PNGs contain only the actual painted layers.
+- Introduce a Bounce mode alongside palette Flow, progressing first to last and back by brush travel distance, with settings and stroke replay recording the selected direction mode.
+- Allow direct recolouring of the selected swatch using Edit swatch, including gradient endpoints and intermediate stops, without regenerating the entire palette from a fixed last colour.
+- Retain independent Rantlist publication, Stripe donations, existing painting-layer history, watcher v0.1.6 and safe manifest-based deployment.
+
 # v0.1.70 — One-step Publish & Rantlist Sharing Bridge (2026-11-24)
 
 - Add Open link immediately beside Copy link after publishing an artwork from Save & share, using a validated same-site publication URL and opening safely in a new tab.

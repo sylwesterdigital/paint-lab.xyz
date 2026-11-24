@@ -23,8 +23,8 @@ class PaletteFlowTests(unittest.TestCase):
         self.assertIn('const colour=hexToRgb(strokeTravelColour(c,0))', HTML)
         self.assertIn('const nextColour=strokeTravelColour(c,(run.pathLength||0)+travel*q)', HTML)
         self.assertIn('paintTextStamp(s,x,y,radius,angle,rng,opacity,travelledColor)', HTML)
-        self.assertIn('paletteSource:[...paletteSource],paletteSize,paletteName,colorTravel,color', HTML)
-        self.assertIn('paletteSource:paletteSource.slice(),paletteSize,paletteName,colorTravel', HTML)
+        self.assertIn('paletteSource:[...paletteSource],paletteSize,paletteName,colorTravel,colorTravelPingPong,color', HTML)
+        self.assertIn('paletteSource:paletteSource.slice(),paletteSize,paletteName,colorTravel,colorTravelPingPong', HTML)
 
     @unittest.skipUnless(shutil.which('node'), 'Node is required for standalone colour-function tests')
     def test_actual_colour_algorithms(self):
@@ -63,4 +63,4 @@ class PaletteFlowTests(unittest.TestCase):
 
     def test_project_version_consistency(self):
         for name in ('version.json', 'frontend/version.json', 'changelog.json', 'frontend/changelog.json'):
-            self.assertEqual(json.loads((APP / name).read_text())['version'], '0.1.70')
+            self.assertEqual(json.loads((APP / name).read_text())['version'], '0.1.71')

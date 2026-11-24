@@ -1,16 +1,30 @@
 {
   "project": "paint-lab",
-  "version": "0.1.70",
-  "title": "Paint Lab v0.1.70 — One-step Publish & Rantlist Sharing Bridge",
+  "version": "0.1.71",
+  "title": "Paint Lab v0.1.71 — Reference Guides & Palette Control",
   "datetime": "2026-11-24",
   "changes": [
-    "Add Open link immediately beside Copy link after publishing an artwork from Save & share, using a validated same-site publication URL and opening safely in a new tab.",
-    "Add Save & Publish: save a new local layered copy first, then publish its public PNG without closing the panel; never overwrite an existing artwork silently and distinguish partial success.",
-    "Add a deliberate Share to Rantlist #lobby action after publishing; until the Rantlist bot receiver is deployed it opens Rantlist and copies the public URL for manual posting without claiming it was sent.",
-    "Prepare an optional signed Paint Lab server-to-server bridge using a restricted HTTPS destination, per-publication idempotency, CSRF, ownership and visibility checks, and SQLite confirmed message receipts.",
-    "Document the Rantlist r749 authenticated bot receiver contract, signing, limits, test plan and secure rollout; keep private projects, stroke histories, credentials, downloads, Stripe and the watcher isolated."
+    "Style Open link exactly like the adjacent Copy link button, retaining a safe target=_blank and noopener/noreferrer so the editing session remains open.",
+    "Add a native-pixel image reference guide pinned below all painting layers: control visibility, opacity, canvas drag-position, scale, rotation, centre and fit without destructive resampling.",
+    "Keep reference image data and transforms in editable local gallery, recovery, JSON and portable ZIP records; previews and public/downloaded PNGs contain only the actual painted layers.",
+    "Introduce a Bounce mode alongside palette Flow, progressing first to last and back by brush travel distance, with settings and stroke replay recording the selected direction mode.",
+    "Allow direct recolouring of the selected swatch using Edit swatch, including gradient endpoints and intermediate stops, without regenerating the entire palette from a fixed last colour.",
+    "Retain independent Rantlist publication, Stripe donations, existing painting-layer history, watcher v0.1.6 and safe manifest-based deployment."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.70",
+      "title": "Paint Lab v0.1.70 — One-step Publish & Rantlist Sharing Bridge",
+      "datetime": "2026-11-24",
+      "changes": [
+        "Add Open link immediately beside Copy link after publishing an artwork from Save & share, using a validated same-site publication URL and opening safely in a new tab.",
+        "Add Save & Publish: save a new local layered copy first, then publish its public PNG without closing the panel; never overwrite an existing artwork silently and distinguish partial success.",
+        "Add a deliberate Share to Rantlist #lobby action after publishing; until the Rantlist bot receiver is deployed it opens Rantlist and copies the public URL for manual posting without claiming it was sent.",
+        "Prepare an optional signed Paint Lab server-to-server bridge using a restricted HTTPS destination, per-publication idempotency, CSRF, ownership and visibility checks, and SQLite confirmed message receipts.",
+        "Document the Rantlist r749 authenticated bot receiver contract, signing, limits, test plan and secure rollout; keep private projects, stroke histories, credentials, downloads, Stripe and the watcher isolated."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.69",

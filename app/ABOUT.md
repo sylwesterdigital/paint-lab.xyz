@@ -139,3 +139,7 @@ Local Save & share now saves PNG-backed layers by default without preserving ear
 ## v0.1.70 — Public artwork sharing and Rantlist
 
 Save & share now offers **Save & Publish**, which creates a new editable local gallery copy and then publishes the visible PNG with a single click; this never silently overwrites an existing saved artwork. After publishing, **Open link** opens the public artwork alongside Copy link. **Share to Rantlist #lobby** is opt-in. Until Rantlist deploys its authenticated bot receiver it copies the publication URL and opens Rantlist for manual posting; it never claims the chat message was sent. The separate signed server-to-server bot bridge is fully specified in [Rantlist integration](docs/RANTLIST_INTEGRATION.md) and disabled until server secrets are configured. No private project history or login data is shared.
+
+## v0.1.71 — Reference guides and palette flow
+
+A native-resolution, non-destructive reference image is pinned to the bottom of the Layers panel. Its original pixels remain in editable project data and can be moved, scaled, rotated, hidden and faded without repeated raster resampling. References remain visible as guides but are not included in PNG exports or published images. Palette Flow optionally bounces backward at the last swatch; select any swatch and use Edit swatch to change its colour and the resulting gradients. Public Open link is styled like Copy link and opens a new tab.
