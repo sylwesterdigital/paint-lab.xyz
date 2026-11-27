@@ -258,3 +258,7 @@ In **Layers**, add a reference guide and select its bottom-pinned thumbnail row 
 ### Public viewer → Rantlist discussion (v0.1.75)
 
 The Discuss art link tracks the active public publication (including arrows/swipes/Back) and opens `https://rantlist.me/?room=lobby&paintLabPublication=<token>` in a new tab. Until Rantlist implements the [share-intent receiver](docs/RANTLIST_DISCUSS_ART_SPEC_v2.md), Paint Lab attempts to copy the current artwork title and canonical link for manual posting; it never posts a message automatically. The owner-only Share to Rantlist bot remains separate.
+
+## Rantlist artwork-specific discussions (v0.1.76)
+
+After publishing a public PNG, Save & share and Share artwork now offer **Share to Rantlist #lobby** with the same `https://rantlist.me/?room=lobby&paintLabPublication=<token>` intent as the public viewer's **Discuss art** button. The link opens in a separate tab and does not automatically post. A missing image draft or room redirection must be fixed in the separately deployed Rantlist client/server; Paint Lab cannot compel Rantlist to consume query parameters. The optional existing server-side bot endpoint remains a separate capability. See `docs/RANTLIST_DISCUSS_ART_ACTION_v3.md`.

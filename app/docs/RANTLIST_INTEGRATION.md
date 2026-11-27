@@ -40,3 +40,7 @@
 ## Viewer discussions (v0.1.75)
 
 The public viewer's **Discuss art** is an author-confirmed Rantlist share intent, *not* the owner-only bot publishing path. It uses `?room=lobby&paintLabPublication=<public-token>` and tracks the active artwork as the viewer navigates. Rantlist must consume this intent and show an authenticated #lobby composer with the actual public image in the medium-sized native image bubble. See [RANTLIST_DISCUSS_ART_SPEC_v2.md](RANTLIST_DISCUSS_ART_SPEC_v2.md) for implementation and security requirements. Until then Paint Lab attempts to copy the canonical artwork URL for manual posting, without asserting an automatic post.
+
+## v0.1.76 — Publish-dialog share links
+
+The visible Share to Rantlist #lobby control now opens the same `?room=lobby&paintLabPublication=<token>` authenticated user-draft intent as Discuss art in the public viewer. It is a new-tab anchor and never silently posts a bot message. The existing owner-scoped signed bot endpoint remains available independently if explicitly integrated later. A correct link does not imply Rantlist deployed the receiver. See `RANTLIST_DISCUSS_ART_ACTION_v3.md`.

@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 HTML=(ROOT/'frontend/index.html').read_text()
 class GalleryOpeningMobile155(unittest.TestCase):
  def test_busy_overlay_and_incremental_replay(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.75')
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.76')
   for marker in ('id="artworkOpening" hidden role="status"','function showArtworkOpening(title)',
    'await nextPaintFrame();await nextPaintFrame();',
    'rebuildHistoryWithoutBlocking({opening:true,onProgress:setArtworkOpeningProgress',

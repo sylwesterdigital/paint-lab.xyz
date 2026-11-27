@@ -145,3 +145,7 @@ In **Layers**, add a reference guide and select its bottom-pinned thumbnail row 
 ### Contextual Rantlist discussion (v0.1.75)
 
 Public viewer **Discuss art** follows the displayed publication, sending its token in an opt-in Rantlist share-intent URL while retaining the viewer in its original tab. The Rantlist side needs a receiver to display an authenticated #lobby composer with a native medium image attachment. Until deployed, the current painting URL is offered for manual sharing; no message is posted just by opening the link.
+
+## Rantlist discussion handoff (v0.1.76)
+
+The Publish actions and public gallery viewer now use the same artwork-specific Rantlist #lobby link. Opening Rantlist does not itself send a message; the native image draft depends on a separately installed Rantlist share-intent receiver. See `app/docs/RANTLIST_DISCUSS_ART_ACTION_v3.md`.

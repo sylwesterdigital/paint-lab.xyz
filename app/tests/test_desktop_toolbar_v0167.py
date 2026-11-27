@@ -1,4 +1,4 @@
-"""v0.1.75 desktop toolbar, wordmark placement and zoom-HUD contracts."""
+"""v0.1.76 desktop toolbar, wordmark placement and zoom-HUD contracts."""
 import json
 import re
 import unittest
@@ -11,10 +11,10 @@ FRONT = (ROOT / 'frontend/index.html').read_text(encoding='utf-8')
 class DesktopToolbar167(unittest.TestCase):
     def test_release_markers_and_history(self):
         for file in ('version.json', 'frontend/version.json', 'changelog.json', 'frontend/changelog.json'):
-            self.assertEqual(json.loads((ROOT / file).read_text())['version'], '0.1.75')
-        self.assertIn('<meta name="paint-lab-version" content="0.1.75">', FRONT)
+            self.assertEqual(json.loads((ROOT / file).read_text())['version'], '0.1.76')
+        self.assertIn('<meta name="paint-lab-version" content="0.1.76">', FRONT)
         changelog = json.loads((ROOT / 'changelog.json').read_text())
-        self.assertEqual(changelog['history'][0]['version'], '0.1.74')
+        self.assertEqual(changelog['history'][0]['version'], '0.1.75')
 
     def test_brand_is_unboxed_and_header_reserves_panel_space(self):
         self.assertIn('id="paintLabBrand"', FRONT)

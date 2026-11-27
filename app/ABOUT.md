@@ -156,3 +156,7 @@ In **Layers**, add a reference guide and select its bottom-pinned thumbnail row 
 ### Contextual discussions in the public gallery (v0.1.75)
 
 Discuss art now targets the publication currently on-screen, including when browsing with arrows and mobile swipes. The viewer opens a Rantlist share-intent link in a new tab and provides the canonical artwork URL for manual posting. Rantlist must implement the complementary authenticated image-draft receiver before the intended #lobby medium-image bubble can appear automatically; opening the discussion never posts without confirmation.
+
+## Public artwork discussion handoff (v0.1.76)
+
+Published Paint Lab image links can be carried into an explicit Rantlist #lobby discussion intent, shared from either the viewer or the studio after publishing. Rantlist's separate server must resolve this intent into its authenticated, user-confirmed image-message draft; Paint Lab does not automatically send a user chat message.

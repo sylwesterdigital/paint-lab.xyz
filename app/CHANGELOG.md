@@ -1,3 +1,11 @@
+# v0.1.76 — Contextual Rantlist Handoff After Publishing (2026-11-27)
+
+- Generate the same Rantlist #lobby artwork-specific share-intent URL after publication as the public viewer Discuss art action, using only the validated public publication token.
+- Make Share to Rantlist #lobby a safe new-tab link in Save & share and the older Share artwork dialog; do not open the generic Rantlist homepage or silently post as a bot.
+- Preserve the original browser session, Copy/Open public-link actions and optional authenticated server-side Rantlist bot endpoint, while clearly stating that the image draft requires Rantlist-side support.
+- Document the receiver contract and its distinct error cases, including image-size/preview processing, while never misreporting an inaccessible publication without verifying its public URL.
+- Add regression tests for both publishing dialogs, exact URL matching, invalid token rejection, new-tab behaviour, and strict versioned release validation.
+
 # v0.1.75 — Discuss the Currently Viewed Public Artwork (2026-11-27)
 
 - Bind public viewer Discuss art to the publication currently displayed, updating the Rantlist share-intent link on viewer arrows, mobile swipes and browser Back/Forward navigation.

@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.75",
-  "title": "Paint Lab v0.1.75 — Contextual Discuss Art Handoff",
+  "version": "0.1.76",
+  "title": "Paint Lab v0.1.76 — Contextual Rantlist Links After Publishing",
   "datetime": "2026-11-27",
   "changes": [
-    "Bind public viewer Discuss art to the publication currently displayed, updating the Rantlist share-intent link on viewer arrows, mobile swipes and browser Back/Forward navigation.",
-    "Open Rantlist in a separate tab with a strict #lobby, publication-token share intent; include only publicly published artwork context, never private projects or history.",
-    "While Rantlist lacks the receiver, attempt to copy the exact canonical public artwork link and show an honest manual-post fallback. Never report an automatic Rantlist message for a viewer discussion.",
-    "Document the Rantlist authenticated share-intent receiver needed to create a user-confirmed medium-sized native image message in #lobby; retain the existing owner-authenticated bot share bridge independently.",
-    "Add regression coverage for per-artwork links, keyboard/swipe navigation, clipboard fallback, and no implicit publication; keep the v0.1.6 checksum deployment workflow."
+    "Generate the same Rantlist #lobby artwork-specific share-intent URL after publication as the public viewer Discuss art action, using only the validated public publication token.",
+    "Make Share to Rantlist #lobby a safe new-tab link in Save & share and the older Share artwork dialog; do not open the generic Rantlist homepage or silently post as a bot.",
+    "Preserve the original browser session, Copy/Open public-link actions and optional authenticated server-side Rantlist bot endpoint, while clearly stating that the image draft requires Rantlist-side support.",
+    "Document the receiver contract and its distinct error cases, including image-size/preview processing, while never misreporting an inaccessible publication without verifying its public URL.",
+    "Add regression tests for both publishing dialogs, exact URL matching, invalid token rejection, new-tab behaviour, and strict versioned release validation."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.75",
+      "title": "Paint Lab v0.1.75 — Contextual Discuss Art Handoff",
+      "datetime": "2026-11-27",
+      "changes": [
+        "Bind public viewer Discuss art to the publication currently displayed, updating the Rantlist share-intent link on viewer arrows, mobile swipes and browser Back/Forward navigation.",
+        "Open Rantlist in a separate tab with a strict #lobby, publication-token share intent; include only publicly published artwork context, never private projects or history.",
+        "While Rantlist lacks the receiver, attempt to copy the exact canonical public artwork link and show an honest manual-post fallback. Never report an automatic Rantlist message for a viewer discussion.",
+        "Document the Rantlist authenticated share-intent receiver needed to create a user-confirmed medium-sized native image message in #lobby; retain the existing owner-authenticated bot share bridge independently.",
+        "Add regression coverage for per-artwork links, keyboard/swipe navigation, clipboard fallback, and no implicit publication; keep the v0.1.6 checksum deployment workflow."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.74",
