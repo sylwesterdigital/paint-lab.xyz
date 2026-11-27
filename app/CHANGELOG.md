@@ -1,3 +1,11 @@
+# v0.1.81 — Safe Gradient Preset Selection & Deletion (2026-11-27)
+
+- Remove the overlaid delete crosses from all saved gradient swatches, leaving each square completely available as a colour-preview and Apply target.
+- Give the clicked saved gradient a distinct selected border and provide one Delete button next to + Save gradient, disabled until a preset is selected.
+- Require explicit confirmation before deleting the selected saved preset; cancel leaves everything unchanged and deletion never removes the applied working gradient.
+- Clear the deletion selection when manually editing gradient stops or switching to another palette, while keeping saved presets, their colours, and XL/M/S support compatible with earlier versions.
+- Add desktop/mobile Chromium regression coverage for selection borders, disabled Delete, cancel, confirmed deletion, original preview area, and persistent browser storage.
+
 # v0.1.80 — Stable Native Colour Picker (2026-11-27)
 
 - Keep the native colour input and its first-swatch container attached during live gradient editing, preventing the macOS colour picker from closing on each spectrum adjustment.

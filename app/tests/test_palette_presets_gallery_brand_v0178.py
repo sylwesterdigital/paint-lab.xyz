@@ -16,7 +16,7 @@ class PalettePresetsGalleryBrandTests(unittest.TestCase):
   self.assertIn('#palettePanel .palette-travel-toggle input:checked:after{transform:translateX(12px)}',HTML)
   self.assertIn('colorTravelPingPong=e.target.checked;schedulePersist()',HTML)
  def test_custom_gradient_presets_are_editable_persistent_and_deletable(self):
-  for marker in ('id="saveGradientPreset"','id="gradientPresets"',
+  for marker in ('id="saveGradientPreset"','id="deleteGradientPreset"','id="gradientPresets"',
                  "const GRADIENT_PRESETS_KEY='paint-lab-gradient-presets-v1'",
                  'normalizeGradientAnchors(preset.anchors)',
                  'localStorage.setItem(GRADIENT_PRESETS_KEY,JSON.stringify(customGradientPresets))',

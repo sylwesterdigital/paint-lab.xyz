@@ -36,9 +36,9 @@ class ReferencePaletteContract(unittest.TestCase):
 
     def test_devlog_and_version(self):
         data = json.loads((APP / 'changelog.json').read_text())
-        self.assertEqual(data['version'], '0.1.80')
+        self.assertEqual(data['version'], '0.1.81')
         self.assertEqual(data, json.loads((APP / 'frontend/changelog.json').read_text()))
-        self.assertEqual(data['history'][0]['version'], '0.1.79')
+        self.assertEqual(data['history'][0]['version'], '0.1.80')
 
     def test_triangle_wave(self):
         match = re.search(r'function paletteBounceIndex\(step,count\)\{.*?\n\}', HTML, re.S)

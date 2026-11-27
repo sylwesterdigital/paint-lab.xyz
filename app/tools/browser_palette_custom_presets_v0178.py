@@ -68,7 +68,7 @@ with sync_playwright() as p:
   assert page.locator('#gradientPresets .palette-gradient-load').count()==1
   page.evaluate("document.querySelector('#gradientPresets .palette-gradient-load').click()")
   assert page.evaluate('window.__customGradient178.state()')['anchors']==created['anchors']
-  page.evaluate("document.querySelector('#gradientPresets .palette-gradient-delete').click()")
+  page.evaluate("document.querySelector('#deleteGradientPreset').click()")
   page.locator('#askAccept').click()
   page.wait_for_function("JSON.parse(localStorage.getItem('paint-lab-gradient-presets-v1')||'[]').length===0")
   assert page.locator('#gradientPresets .palette-gradient-load').count()==0

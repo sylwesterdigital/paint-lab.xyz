@@ -270,3 +270,7 @@ The Colour palette now has clearly checked Flow and Bounce pill switches. Save n
 ## v0.1.80: Stable colour picker during live gradients
 
 The desktop and mobile colour pickers now keep their native input elements mounted while editing gradient stops, allowing continuous spectrum adjustments without palette redraws interrupting the picker. The gallery, saved gradients, exported originals, and public artwork routes remain unchanged.
+
+## v0.1.81: Safe custom gradient selection and deletion
+
+Custom gradient presets are full square swatches without delete overlays. Clicking one applies it and selects it with a border; the separate **Delete** action beside **+ Save gradient** is enabled only for that selected preset and requires confirmation. Editing stops clears the selection to prevent accidental removal. Existing saved presets remain compatible.
