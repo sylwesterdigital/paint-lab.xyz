@@ -7,8 +7,8 @@ SRC=(ROOT/'frontend/index.html').read_text()
 
 class OilLiftTests(unittest.TestCase):
  def test_version(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.79')
-  self.assertIn('<title>Paint Lab v0.1.79</title>',SRC)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.80')
+  self.assertIn('<title>Paint Lab v0.1.80</title>',SRC)
  def test_model(self):
   body=SRC[SRC.index('function oilReleaseBehaviour('):SRC.index('// v0.1.29: A graphite pencil')]
   for key in ['function oilReleaseMetrics(', 'function finishOilStroke(', 'slowing', 'endPressure', 'tipWidth', 'originalOilPigment(', 'const segments=[]', 'profile.length', 'antialias=Math.max(', 'const excess=', 'paint.putImageData(image,tileX,tileY)']:

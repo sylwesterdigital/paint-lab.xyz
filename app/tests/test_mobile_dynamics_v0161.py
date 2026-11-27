@@ -5,9 +5,9 @@ ROOT=Path(__file__).resolve().parents[1]
 HTML=(ROOT/'frontend/index.html').read_text()
 class MobileDynamics161(unittest.TestCase):
  def test_release_markers(self):
-  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.79')
-  self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.79')
-  self.assertIn('<meta name="paint-lab-version" content="0.1.79">',HTML)
+  self.assertEqual(json.loads((ROOT/'version.json').read_text())['version'],'0.1.80')
+  self.assertEqual(json.loads((ROOT/'frontend/changelog.json').read_text())['version'],'0.1.80')
+  self.assertIn('<meta name="paint-lab-version" content="0.1.80">',HTML)
  def test_eraser_is_grouped_immediately_before_history(self):
   m=re.search(r'<div id="mobileUndoRedo".*?</div>',HTML,re.S)
   self.assertIsNotNone(m)

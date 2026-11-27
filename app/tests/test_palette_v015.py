@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 HTML=(ROOT/'frontend/index.html').read_text()
 class PaletteContracts(unittest.TestCase):
  def test_palette_first_swatch_replaces_original_colour(self):
-  self.assertIn("sw.append(picker);",HTML)
+  self.assertIn("if(picker.parentElement!==sw)sw.prepend(picker);",HTML)
   self.assertIn("for(let index=1;index<palette.length;index++)",HTML)
   self.assertIn('const PALETTE_MODIFIERS=',HTML)
   self.assertIn('function updatePaletteGrid()',HTML)
@@ -30,6 +30,6 @@ class PaletteContracts(unittest.TestCase):
   a=json.loads((ROOT/'changelog.json').read_text())
   b=json.loads((ROOT/'frontend/changelog.json').read_text())
   self.assertEqual(a,b)
-  self.assertEqual(a['version'],'0.1.79')
-  self.assertEqual(a['history'][0]['version'],'0.1.78')
+  self.assertEqual(a['version'],'0.1.80')
+  self.assertEqual(a['history'][0]['version'],'0.1.79')
 if __name__=='__main__':unittest.main()

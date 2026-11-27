@@ -29,7 +29,7 @@ class BrushWindow168(unittest.TestCase):
         self.assertIn('cursor:pointer;text-shadow:none',HTML)
         self.assertIn('paint-lab-wordmark',HTML)
         log=json.loads((APP/'changelog.json').read_text())
-        self.assertEqual(log['version'],'0.1.79')
-        self.assertEqual(log['history'][0]['version'],'0.1.78')
+        self.assertEqual(log['version'],'0.1.80')
+        self.assertEqual(log['history'][0]['version'],'0.1.79')
 
 if __name__=='__main__':unittest.main()

@@ -1,3 +1,11 @@
+# v0.1.80 — Stable Native Colour Picker (2026-11-27)
+
+- Keep the native colour input and its first-swatch container attached during live gradient editing, preventing the macOS colour picker from closing on each spectrum adjustment.
+- Update existing palette swatches in place on colour changes instead of destroying and recreating the whole grid, preserving click handlers and the active colour picker.
+- Avoid redundant programmatic writes to the native colour input while the user drags the spectrum selector; keep live first and intermediate gradient stops responsive.
+- Reuse mobile palette buttons during colour changes as well, reducing work and preserving the same active swatches across desktop and mobile.
+- Add browser regressions that simulate repeated native colour input, watch for transient input or tile detachment, and verify editable gradient stops and XL/M/S palette resizing.
+
 # v0.1.79 — Compact Gradient Preset Swatches (2026-11-27)
 
 - Replace wasteful named gradient preset rows with a compact grid of full-size square gradient swatches matching the main palette tile layout.

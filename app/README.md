@@ -266,3 +266,7 @@ After publishing a public PNG, Save & share and Share artwork now offer **Share 
 ## v0.1.78: Custom gradients and public gallery identity
 
 The Colour palette now has clearly checked Flow and Bounce pill switches. Save named live multistop gradients directly in Custom gradients, reopen them with normalized anchor positions across XL/M/S, and delete saved presets with confirmation. These presets remain local to the browser; they do not publish artwork or synchronize with an account. The public gallery and viewer use the editor’s pastel Paint-lab text logo for the Paint Lab home link.
+
+## v0.1.80: Stable colour picker during live gradients
+
+The desktop and mobile colour pickers now keep their native input elements mounted while editing gradient stops, allowing continuous spectrum adjustments without palette redraws interrupting the picker. The gallery, saved gradients, exported originals, and public artwork routes remain unchanged.

@@ -1,4 +1,4 @@
-"""v0.1.79: compact gradient presets, visible Bounce switch and public wordmark."""
+"""v0.1.80: compact gradient presets, visible Bounce switch and public wordmark."""
 from pathlib import Path
 import unittest
 from backend import public_viewer

@@ -74,6 +74,6 @@ class SaveAndRantlist(unittest.TestCase):
  def test_bridge_documentation_and_version(self):
   self.assertTrue((APP/'docs/RANTLIST_INTEGRATION.md').is_file())
   self.assertIn('server-to-server', (APP/'docs/RANTLIST_INTEGRATION.md').read_text())
-  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.79')
+  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.80')
 
 if __name__=='__main__':unittest.main()
