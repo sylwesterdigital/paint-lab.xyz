@@ -1,4 +1,4 @@
-"""Release v0.1.74: guide images, non-destructive transforms, palette editing and link UI."""
+"""Release v0.1.75: guide images, non-destructive transforms, palette editing and link UI."""
 import json
 import re
 import subprocess
@@ -36,9 +36,9 @@ class ReferencePaletteContract(unittest.TestCase):
 
     def test_devlog_and_version(self):
         data = json.loads((APP / 'changelog.json').read_text())
-        self.assertEqual(data['version'], '0.1.74')
+        self.assertEqual(data['version'], '0.1.75')
         self.assertEqual(data, json.loads((APP / 'frontend/changelog.json').read_text()))
-        self.assertEqual(data['history'][0]['version'], '0.1.73')
+        self.assertEqual(data['history'][0]['version'], '0.1.74')
 
     def test_triangle_wave(self):
         match = re.search(r'function paletteBounceIndex\(step,count\)\{.*?\n\}', HTML, re.S)

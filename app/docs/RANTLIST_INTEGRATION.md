@@ -36,3 +36,7 @@
 3. Configure identical bridge secret in both services, verify the Paint Lab capability endpoint responds `enabled:true`, then click Share to #lobby for one published test artwork. Confirm end-to-end receipt and idempotent repeat.
 4. Verify rejected invisible/other-owner artwork, unauthenticated/CSRF attempts, 503 when unconfigured, Rantlist offline/timeout paths, and no data from private projects or brush-stroke histories. Do not mark the integration live without these checks.
 5. Future improvement (separate decision): offer an author-authenticated Rantlist share-intent/deep-link that opens `#lobby` with a draft for the author to confirm; this should not be confused with the server-bot workflow described here.
+
+## Viewer discussions (v0.1.75)
+
+The public viewer's **Discuss art** is an author-confirmed Rantlist share intent, *not* the owner-only bot publishing path. It uses `?room=lobby&paintLabPublication=<public-token>` and tracks the active artwork as the viewer navigates. Rantlist must consume this intent and show an authenticated #lobby composer with the actual public image in the medium-sized native image bubble. See [RANTLIST_DISCUSS_ART_SPEC_v2.md](RANTLIST_DISCUSS_ART_SPEC_v2.md) for implementation and security requirements. Until then Paint Lab attempts to copy the canonical artwork URL for manual posting, without asserting an automatic post.

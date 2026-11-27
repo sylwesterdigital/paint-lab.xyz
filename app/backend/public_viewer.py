@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import html
 import json
+from urllib.parse import urlencode
 
 BASE_CSS = '''
 *{box-sizing:border-box}
@@ -239,6 +240,8 @@ body.viewer-page{height:100vh;height:100dvh;display:flex;flex-direction:column;o
 .art-foot .art-counter{font-variant-numeric:tabular-nums;min-width:54px}
 .art-foot .art-hint{flex:1;text-align:center}
 .art-foot .community-link{flex:none;color:#b5d7cc;padding:8px;font-weight:650}
+.art-discuss-status{flex:0 0 100%;font-size:11px;color:#b7cbc2;line-height:1.4;padding:0 6px 3px}
+.art-discuss-status[hidden]{display:none}
 .art-foot .download{flex:none;display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border:1px solid #566966;border-radius:9px;font-weight:650}
 @media(max-width:620px){
   .viewer-page nav{min-height:48px;padding-top:8px;padding-bottom:8px}
@@ -286,6 +289,14 @@ VIEWER_JS = r'''(() => {
   const download = document.getElementById('artDownloadFile');
   const supportDialog=document.getElementById('supportDialog');
   const supportOpen=document.getElementById('artDownload');
+  const discuss=document.getElementById('artDiscuss');
+  const discussStatus=document.getElementById('artDiscussStatus');
+  const rantlistIntent=item=>{
+    const url=new URL('https://rantlist.me/');
+    url.searchParams.set('room','lobby');
+    url.searchParams.set('paintLabPublication',item.token);
+    return url.href;
+  };
   const stage = document.getElementById('artStage');
   const prev = document.getElementById('artPrev');
   const next = document.getElementById('artNext');
@@ -314,6 +325,10 @@ VIEWER_JS = r'''(() => {
     download.href = item.image;
     download.setAttribute('download', 'paint-lab-artwork.png');
     supportOpen.dataset.publication=item.token;
+    // Context follows arrows, swipes and browser back/forward, not the entry artwork.
+    discuss.href=rantlistIntent(item);
+    discuss.setAttribute('aria-label','Discuss '+item.title+' in Rantlist #lobby');
+    if(discussStatus){discussStatus.hidden=true;discussStatus.textContent='';}
     recordView(item);
     document.title = item.title + ' · Paint Lab';
     if (push && currentPath() !== item.url.split('?')[0]) history.pushState({paintLabPublicSlide: true}, '', item.url);
@@ -353,6 +368,24 @@ VIEWER_JS = r'''(() => {
       move(dx < 0 ? 1 : -1);
     }
   }, {passive: true});
+  // Until Rantlist supports paintLabPublication share intents, copy the exact
+  // public artwork link for a manual #lobby post. Do not silently publish.
+  discuss.addEventListener('click',()=>{
+    const item=slides[index];
+    const publicUrl='https://paint-lab.xyz/p/'+item.token;
+    const text='Discuss this Paint Lab artwork: '+item.title+'\n'+publicUrl;
+    const status=copied=>{
+      if(!discussStatus)return;
+      discussStatus.textContent=copied
+        ? 'Artwork link copied. If Rantlist does not show a draft, paste it into #lobby. No message was posted.'
+        : 'Rantlist needs the image-draft integration. Copy this artwork URL to post it manually in #lobby.';
+      discussStatus.hidden=false;
+    };
+    if(navigator.clipboard?.writeText){
+      navigator.clipboard.writeText(text).then(()=>status(true)).catch(()=>status(false));
+    }else status(false);
+    // Allow the native target=_blank anchor navigation to proceed synchronously.
+  });
   download.addEventListener('click',()=>{
     const item=slides[index];
     if(window.umami&&typeof window.umami.track==='function')try{window.umami.track('artwork_download',{publication:item.token})}catch(e){}
@@ -387,6 +420,9 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
     if not slides or not 0 <= active < len(slides):
         raise ValueError('Viewer requires a published active artwork')
     item = slides[active]
+    # The no-JS link also identifies the exact active publication. Rantlist
+    # currently needs a compatible share-intent receiver to use the parameter.
+    discuss_url='https://rantlist.me/?'+urlencode({'room':'lobby','paintLabPublication':item['token']})
     escape = lambda val: html.escape(str(val), quote=True)
     # HTML attribute escaping prevents titles/URLs from escaping into arbitrary markup.
     slide_data = escape(json.dumps(slides, ensure_ascii=True, separators=(',', ':')))
@@ -408,7 +444,8 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         '<footer class="art-foot">'
         f'<span class="art-counter" id="artCounter" aria-live="polite">{active+1} / {len(slides)}</span>'
         f'<span class="art-hint">{hint}</span>'
-        '<a class="community-link" href="https://rantlist.me/" target="_blank" rel="noopener noreferrer">Discuss art</a>'
+        f'<a class="community-link" id="artDiscuss" href="{escape(discuss_url)}" target="_blank" rel="noopener noreferrer" aria-label="Discuss this artwork in Rantlist #lobby">Discuss art</a>'
+        '<span class="art-discuss-status" id="artDiscussStatus" role="status" aria-live="polite" hidden></span>' 
         '<button type="button" class="download" id="artDownload" data-stripe-dialog-trigger="supportDialog" aria-haspopup="dialog">Download &amp; support</button>'
         '</footer>'
         '<dialog class="support-dialog" id="supportDialog" data-stripe-dialog aria-labelledby="supportTitle"><div class="support-content">'

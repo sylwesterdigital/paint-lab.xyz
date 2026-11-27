@@ -1,4 +1,4 @@
-"""Release v0.1.74: combined save/publish, safe public-link UI and scoped Rantlist bridge."""
+"""Release v0.1.75: combined save/publish, safe public-link UI and scoped Rantlist bridge."""
 import hashlib,hmac,json,os,sqlite3,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -74,6 +74,6 @@ class SaveAndRantlist(unittest.TestCase):
  def test_bridge_documentation_and_version(self):
   self.assertTrue((APP/'docs/RANTLIST_INTEGRATION.md').is_file())
   self.assertIn('server-to-server', (APP/'docs/RANTLIST_INTEGRATION.md').read_text())
-  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.74')
+  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.75')
 
 if __name__=='__main__':unittest.main()

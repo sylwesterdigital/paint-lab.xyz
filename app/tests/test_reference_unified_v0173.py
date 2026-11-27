@@ -1,4 +1,4 @@
-"""Release v0.1.74 contract: reference uses normal layer selector/transform pipeline."""
+"""Release v0.1.75 contract: reference uses normal layer selector/transform pipeline."""
 import json
 import unittest
 from pathlib import Path
@@ -28,7 +28,7 @@ class ReferenceUnified173(unittest.TestCase):
   self.assertNotIn('drawReferenceGuide',HTML.split('function createExportCanvas(withBg){',1)[1].split('function exportPNG()',1)[0])
  def test_release(self):
   log=json.loads((APP/'changelog.json').read_text())
-  self.assertEqual(log['version'],'0.1.74')
-  self.assertEqual(log['history'][0]['version'],'0.1.73')
+  self.assertEqual(log['version'],'0.1.75')
+  self.assertEqual(log['history'][0]['version'],'0.1.74')
   self.assertEqual(log,json.loads((APP/'frontend/changelog.json').read_text()))
 if __name__=='__main__':unittest.main()

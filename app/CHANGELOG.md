@@ -1,3 +1,11 @@
+# v0.1.75 — Discuss the Currently Viewed Public Artwork (2026-11-27)
+
+- Bind public viewer Discuss art to the publication currently displayed, updating the Rantlist share-intent link on viewer arrows, mobile swipes and browser Back/Forward navigation.
+- Open Rantlist in a separate tab with a strict #lobby, publication-token share intent; include only publicly published artwork context, never private projects or history.
+- While Rantlist lacks the receiver, attempt to copy the exact canonical public artwork link and show an honest manual-post fallback. Never report an automatic Rantlist message for a viewer discussion.
+- Document the Rantlist authenticated share-intent receiver needed to create a user-confirmed medium-sized native image message in #lobby; retain the existing owner-authenticated bot share bridge independently.
+- Add regression coverage for per-artwork links, keyboard/swipe navigation, clipboard fallback, and no implicit publication; keep the v0.1.6 checksum deployment workflow.
+
 # v0.1.73 — Reference in the Ordinary Layers Workflow (2026-11-24)
 
 - Present the reference image as a normal, selectable bottom row in Layers, alongside painting layers, with a thumbnail, visibility toggle and opacity control. The + Add reference action remains compact.

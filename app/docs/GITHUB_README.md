@@ -141,3 +141,7 @@ Selecting a palette swatch changes the active brush pigment without overwriting 
 ## v0.1.73 — Reference uses normal layer transforms
 
 In **Layers**, add a reference guide and select its bottom-pinned thumbnail row just as you would a painting layer. Use the existing **Move**, **Rotate** and **Scale** controls (desktop **G**, **R**, **S**, or mobile layer-transform controls) to transform the guide. Cancel or apply using the normal tool workflow. Reference thumbnails, visibility and opacity are in the normal Layers list rather than a separate adjustment panel. The source image remains at its original resolution and is excluded from rendered PNG exports and public publication. References persist in editable project records; painting layers are not merged with or overwritten by the reference.
+
+### Contextual Rantlist discussion (v0.1.75)
+
+Public viewer **Discuss art** follows the displayed publication, sending its token in an opt-in Rantlist share-intent URL while retaining the viewer in its original tab. The Rantlist side needs a receiver to display an authenticated #lobby composer with a native medium image attachment. Until deployed, the current painting URL is offered for manual sharing; no message is posted just by opening the link.

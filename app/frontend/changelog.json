@@ -1,16 +1,29 @@
 {
   "project": "paint-lab",
-  "version": "0.1.74",
-  "title": "Paint Lab v0.1.74 — Live Multi-stop Gradients",
-  "datetime": "2026-11-24",
+  "version": "0.1.75",
+  "title": "Paint Lab v0.1.75 — Contextual Discuss Art Handoff",
+  "datetime": "2026-11-27",
   "changes": [
-    "Turn Gradients into a live position-based OKLab colour ramp: editing any swatch creates or changes a persistent anchor and immediately updates the colours between neighbouring stops.",
-    "Preserve first, middle and final gradient colours independently, including edits through the native first-colour picker; selecting another swatch no longer modifies gradient anchors.",
-    "Keep edited gradient stops when Gradients is clicked again, across XL/M/S palette sizes and across workspace settings reloads. Shift-click can add or remove intermediate stops.",
-    "Clearly indicate gradient stop swatches and change the editor label to Edit stop in live Gradients mode; retain other palette modifiers and Flow/Bounce brush travel unchanged.",
-    "Add desktop and mobile Chromium live-gradient regression tests and watcher-compatible deterministic release metadata."
+    "Bind public viewer Discuss art to the publication currently displayed, updating the Rantlist share-intent link on viewer arrows, mobile swipes and browser Back/Forward navigation.",
+    "Open Rantlist in a separate tab with a strict #lobby, publication-token share intent; include only publicly published artwork context, never private projects or history.",
+    "While Rantlist lacks the receiver, attempt to copy the exact canonical public artwork link and show an honest manual-post fallback. Never report an automatic Rantlist message for a viewer discussion.",
+    "Document the Rantlist authenticated share-intent receiver needed to create a user-confirmed medium-sized native image message in #lobby; retain the existing owner-authenticated bot share bridge independently.",
+    "Add regression coverage for per-artwork links, keyboard/swipe navigation, clipboard fallback, and no implicit publication; keep the v0.1.6 checksum deployment workflow."
   ],
   "history": [
+    {
+      "project": "paint-lab",
+      "version": "0.1.74",
+      "title": "Paint Lab v0.1.74 — Live Multi-stop Gradients",
+      "datetime": "2026-11-24",
+      "changes": [
+        "Turn Gradients into a live position-based OKLab colour ramp: editing any swatch creates or changes a persistent anchor and immediately updates the colours between neighbouring stops.",
+        "Preserve first, middle and final gradient colours independently, including edits through the native first-colour picker; selecting another swatch no longer modifies gradient anchors.",
+        "Keep edited gradient stops when Gradients is clicked again, across XL/M/S palette sizes and across workspace settings reloads. Shift-click can add or remove intermediate stops.",
+        "Clearly indicate gradient stop swatches and change the editor label to Edit stop in live Gradients mode; retain other palette modifiers and Flow/Bounce brush travel unchanged.",
+        "Add desktop and mobile Chromium live-gradient regression tests and watcher-compatible deterministic release metadata."
+      ]
+    },
     {
       "project": "paint-lab",
       "version": "0.1.73",
