@@ -8,8 +8,8 @@ PAGE=(ROOT/'frontend/index.html').read_text()
 class UnifiedSaveTests(unittest.TestCase):
  def test_version_history(self):
   current=json.loads((ROOT/'changelog.json').read_text())
-  self.assertEqual(current['version'],'0.1.76')
-  self.assertEqual(current['history'][0]['version'],'0.1.75')
+  self.assertEqual(current['version'],'0.1.77')
+  self.assertEqual(current['history'][0]['version'],'0.1.76')
 
  def test_each_destination_is_explicit(self):
   for button in ('saveNew','saveOverwrite','savePublish','savePNGWith','savePNGWithout','saveZIP','saveJSON','saveNativeShare'):

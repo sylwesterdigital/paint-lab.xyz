@@ -1,4 +1,4 @@
-"""v0.1.76 release contract: optional stroke history, lossless raster snapshots."""
+"""v0.1.77 release contract: optional stroke history, lossless raster snapshots."""
 import json
 import unittest
 from pathlib import Path
@@ -31,12 +31,12 @@ class FastLayeredGallery(unittest.TestCase):
 
     def test_version_and_notes_match(self):
         version = json.loads((APP / 'version.json').read_text())['version']
-        self.assertEqual(version, '0.1.76')
-        self.assertIn('content="0.1.76"', HTML)
+        self.assertEqual(version, '0.1.77')
+        self.assertIn('content="0.1.77"', HTML)
         canonical = json.loads((APP / 'changelog.json').read_text())
         self.assertEqual(canonical, json.loads((APP / 'frontend/changelog.json').read_text()))
-        self.assertEqual(canonical['history'][0]['version'], '0.1.75')
-        self.assertIn('Keep brush stroke history', ' '.join(canonical['history'][6]['changes']))
+        self.assertEqual(canonical['history'][0]['version'], '0.1.76')
+        self.assertIn('Keep brush stroke history', ' '.join(canonical['history'][7]['changes']))
 
 
 if __name__ == '__main__':

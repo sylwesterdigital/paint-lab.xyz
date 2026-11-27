@@ -47,9 +47,10 @@ class GalleryPreviewAndSupport(unittest.TestCase):
   self.assertIn('rootMargin:\'450px 0px\'',public_viewer.DISCOVERY_JS)
 
  def test_download_and_support_does_not_sell_free_download(self):
-  slide={'token':'a'*24,'title':'Acrylic','url':'/p/'+'a'*24,'image':'/p/'+'a'*24+'/image.png'}
+  slide={'token':'a'*24,'title':'Acrylic','url':'/p/'+'a'*24,'image':'/p/'+'a'*24+'/image.png','preview':'/p/'+'a'*24+'/preview.webp'}
   markup=public_viewer.viewer_markup([slide],0,'Artist','/u/Artist',csrf='csrf-token')
   self.assertIn('id="artDownloadFile"',markup)
+  self.assertIn('id="artImage" src="/p/'+'a'*24+'/preview.webp"',markup)
   self.assertIn('download="paint-lab-artwork.png"',markup)
   self.assertIn('Download original PNG',markup)
   self.assertIn('not directly to the artist',markup)
@@ -101,6 +102,7 @@ class GalleryPreviewAndSupport(unittest.TestCase):
   for marker in ("@app.get('/p/<token>/preview.webp')","@app.get('/api/publications/<token>/preview.webp')",
     "WHERE token=? AND is_visible=1","WHERE token=? AND owner_id=?",
     "@app.post('/api/support/checkout')","@app.post('/api/stripe/webhook')",
+    "preview_url=request.url_root.rstrip('/')+url_for('publication_preview',token=token)","public_previews.make_preview(image_path, public_previews.preview_path(PUBLIC_DIR,token))",
     'require_csrf()','support_checkout.signed_event','INSERT OR IGNORE INTO support_payments'):
    self.assertIn(marker,s)
 

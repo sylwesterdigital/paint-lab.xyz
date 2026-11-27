@@ -1,4 +1,4 @@
-"""Regression contracts for v0.1.76 live position-based multi-stop gradient editor."""
+"""Regression contracts for v0.1.77 live position-based multi-stop gradient editor."""
 import json,unittest
 from pathlib import Path
 APP=Path(__file__).resolve().parents[1]
@@ -14,7 +14,7 @@ class PaletteLiveGradient(unittest.TestCase):
   self.assertIn("if(paletteName==='Gradients'&&gradientAnchors.length>=2){",HTML)
  def test_history(self):
   log=json.loads((APP/'changelog.json').read_text())
-  self.assertEqual(log['version'],'0.1.76')
-  self.assertEqual(log['history'][0]['version'],'0.1.75')
+  self.assertEqual(log['version'],'0.1.77')
+  self.assertEqual(log['history'][0]['version'],'0.1.76')
   self.assertEqual(log,json.loads((APP/'frontend/changelog.json').read_text()))
 if __name__=='__main__':unittest.main()

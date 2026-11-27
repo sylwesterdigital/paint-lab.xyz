@@ -297,8 +297,11 @@ def public_space_link(username):
     return request.url_root.rstrip('/')+url_for('public_user_space',username=username)
 
 def publication_record(row):
-    return dict(token=row['token'],title=row['title'],created_at=row['created_at'],visible=bool(row['is_visible']) if 'is_visible' in row.keys() else True,
-                url=publication_link(row['token']),image_url=request.url_root.rstrip('/')+url_for('publication_image',token=row['token']))
+    token=row['token']
+    return dict(token=token,title=row['title'],created_at=row['created_at'],visible=bool(row['is_visible']) if 'is_visible' in row.keys() else True,
+                url=publication_link(token),
+                image_url=request.url_root.rstrip('/')+url_for('publication_image',token=token),
+                preview_url=request.url_root.rstrip('/')+url_for('publication_preview',token=token))
 
 def check_public_png(data):
     return public_image.check_public_png(data,limit=PUBLIC_IMAGE_LIMIT)
@@ -324,9 +327,14 @@ def publish_artwork():
     try:
         with image_path.open('xb') as stream:stream.write(raw)
         image_path.chmod(0o600)
+        try:
+            public_previews.make_preview(image_path, public_previews.preview_path(PUBLIC_DIR,token))
+        except (OSError,ValueError) as exc:
+            logger.warning('Initial public preview unavailable: %s',type(exc).__name__)
         with con():con().execute('INSERT INTO publications(token,owner_id,title,file_name) VALUES(?,?,?,?)',(token,user(),name,file_name))
     except Exception:
         image_path.unlink(missing_ok=True)
+        public_previews.preview_path(PUBLIC_DIR,token).unlink(missing_ok=True)
         raise
     row=con().execute('SELECT token,title,created_at,is_visible FROM publications WHERE token=?',(token,)).fetchone()
     return jsonify(ok=True,**publication_record(row)),201
@@ -549,7 +557,8 @@ def view_publication(token):
                      'username':item['username'],
                      'artist_url':url_for('public_user_space',username=item['username']),
                      'url':url_for('view_publication',token=item['token'],browse='explore',**query_args),
-                     'image':url_for('publication_image',token=item['token'])} for item in feed_rows]
+                     'image':url_for('publication_image',token=item['token']),
+                     'preview':url_for('publication_preview',token=item['token'])} for item in feed_rows]
             space=url_for('public_user_space',username=row['username'])
             gallery_url=url_for('discover_artworks',**query_args)
             body=public_viewer.viewer_markup(slides,active,row['username'],space,gallery_url=gallery_url,support_enabled=support_checkout.configured(),csrf=csrf())
@@ -557,7 +566,8 @@ def view_publication(token):
     publications=con().execute('SELECT token,title FROM publications WHERE owner_id=? AND is_visible=1 ORDER BY created_at DESC,token DESC LIMIT 50',(row['owner_id'],)).fetchall()
     slides=[{'token':item['token'],'title':item['title'],
              'url':url_for('view_publication',token=item['token']),
-             'image':url_for('publication_image',token=item['token'])} for item in publications]
+             'image':url_for('publication_image',token=item['token']),
+             'preview':url_for('publication_preview',token=item['token'])} for item in publications]
     active=next((i for i,item in enumerate(slides) if item['token']==token),None)
     if active is None:abort(404)
     space=url_for('public_user_space',username=row['username'])

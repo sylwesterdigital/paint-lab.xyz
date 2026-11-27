@@ -1,3 +1,11 @@
+# v0.1.77 — Real Public Previews & True Original Downloads (2026-11-27)
+
+- Use the compressed public WebP derivative as the default image for public artwork viewing and gallery previews, while keeping the original PNG only for the explicit Download original PNG action.
+- Generate the WebP preview eagerly when an artwork is published so the preview is a real derived asset, not a disguised second path to the same original PNG.
+- Expose the public preview URL alongside the public image URL in publication metadata for consistent gallery, viewer and downstream discussion integrations.
+- Keep the viewer, artist gallery and explore feed preview-first with original PNG fallbacks only if preview generation is unavailable; continue to preserve privacy and visibility rules.
+- Add regression coverage to ensure previews are WebP, viewer images prefer previews, and the original PNG remains a distinct download target.
+
 # v0.1.76 — Contextual Rantlist Handoff After Publishing (2026-11-27)
 
 - Generate the same Rantlist #lobby artwork-specific share-intent URL after publication as the public viewer Discuss art action, using only the validated public publication token.

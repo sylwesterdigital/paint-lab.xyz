@@ -317,7 +317,7 @@ VIEWER_JS = r'''(() => {
   function show(i, push = true) {
     index = at(i);
     const item = slides[index];
-    image.src = item.image;
+    image.src = item.preview || item.image;
     image.alt = item.title;
     title.textContent = item.title;
     if (creator && item.username && item.artist_url) { creator.textContent = item.username; creator.href = item.artist_url; }
@@ -334,7 +334,7 @@ VIEWER_JS = r'''(() => {
     if (push && currentPath() !== item.url.split('?')[0]) history.pushState({paintLabPublicSlide: true}, '', item.url);
     if (total > 1) {
       const adjacent = new Image();
-      adjacent.src = slides[at(index + 1)].image;
+      adjacent.src = slides[at(index + 1)].preview || slides[at(index + 1)].image;
     }
   }
   const move = step => { if (total > 1) show(index + step); };
@@ -407,8 +407,8 @@ def gallery_markup(items: list[dict], username: str) -> str:
         return '<main class="gallery-main" id="publicGallery">' + heading + '<p>No artworks have been published yet.</p></main>'
     cards = ''.join(
         '<article class="card"><a href="' + escape(item['url']) + '">'
-        '<img loading="lazy" decoding="async" src="' + escape(item['image']) +
-        '" alt="' + escape(item['title']) + '">'
+        '<img loading="lazy" decoding="async" src="' + escape(item.get('preview',item['image'])) +
+        '" data-fallback-src="' + escape(item['image']) + '" alt="' + escape(item['title']) + '">'
         '<h2>' + escape(item['title']) + '</h2></a></article>'
         for item in items
     )
@@ -437,7 +437,7 @@ def viewer_markup(slides: list[dict], active: int, username: str, space_path: st
         f'<a class="gallery-link" href="{escape(gallery_url or space_path)}">All artworks</a>'
         '</header>'
         '<section class="art-stage" id="artStage" aria-label="Published artwork preview">'
-        f'<img id="artImage" src="{escape(item["image"])}" alt="{escape(item["title"])}" draggable="false">'
+        f'<img id="artImage" src="{escape(item.get("preview",item["image"]))}" alt="{escape(item["title"])}" draggable="false">'
         f'<button type="button" class="art-arrow prev" id="artPrev" aria-label="Previous artwork"{controls}>‹</button>'
         f'<button type="button" class="art-arrow next" id="artNext" aria-label="Next artwork"{controls}>›</button>'
         '</section>'

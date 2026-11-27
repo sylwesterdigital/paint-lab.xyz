@@ -13,7 +13,7 @@ class Tags(HTMLParser):
 
 class DiscussArtHandoffTests(unittest.TestCase):
  def slides(self):
-  return [dict(token=token,title=title,url='/p/'+token+'?browse=explore&page=1',image='/p/'+token+'/image.png')
+  return [dict(token=token,title=title,url='/p/'+token+'?browse=explore&page=1',image='/p/'+token+'/image.png',preview='/p/'+token+'/preview.webp')
           for token,title in [('A'*28,'First "<Paint>" & more'),('B'*28,'Second painting'),('C'*28,'Third')]]
  def test_initial_handoff_is_only_a_published_token_and_a_new_tab(self):
   markup=public_viewer.viewer_markup(self.slides(),1,'Sample Artist','/u/artist')
@@ -28,12 +28,14 @@ class DiscussArtHandoffTests(unittest.TestCase):
   self.assertNotIn('Second painting',attr['href'])
   self.assertNotIn('image.png',attr['href'])
   self.assertEqual(tags.by_id['artDiscussStatus'][1].get('hidden'),None)
+  self.assertEqual(tags.by_id['artImage'][1]['src'],'/p/'+'B'*28+'/preview.webp')
   self.assertEqual(json.loads(tags.by_id['publicViewer'][1]['data-slides']),self.slides())
  def test_dynamic_navigation_links_to_shown_item_and_manual_fallback(self):
   js=public_viewer.VIEWER_JS
   for text in ("url.searchParams.set('paintLabPublication',item.token)",
                "url.searchParams.set('room','lobby')",'discuss.href=rantlistIntent(item);',
                "const item=slides[index];", "navigator.clipboard.writeText(text)",
+               "image.src = item.preview || item.image;","adjacent.src = slides[at(index + 1)].preview || slides[at(index + 1)].image;",
                "No message was posted.","show(target, false)","move(dx < 0 ? 1 : -1)",
                "history.pushState", "discuss.addEventListener('click'", "status(false)"):
    self.assertIn(text,js)
