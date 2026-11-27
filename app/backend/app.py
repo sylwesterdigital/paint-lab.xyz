@@ -520,7 +520,7 @@ def public_page(body,title_text,*,viewer=False,gallery=False,discover=False,mana
     document=('<!doctype html><html lang="en"><head><meta charset="utf-8">'
               '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
               '<title>'+html.escape(title_text)+'</title><style>'+css+'</style></head>'
-              '<body'+body_class+'><nav><a href="/">Paint Lab</a><a href="/explore">Explore art</a><span>Public gallery</span></nav>'
+              '<body'+body_class+'><nav><a class="paint-lab-wordmark" href="/" aria-label="Paint Lab home">Paint-lab</a><a href="/explore">Explore art</a><span>Public gallery</span></nav>'
               +body+script+'</body></html>')
     resp=Response(document,mimetype='text/html')
     csp="default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"

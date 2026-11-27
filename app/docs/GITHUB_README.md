@@ -149,3 +149,7 @@ Public viewer **Discuss art** follows the displayed publication, sending its tok
 ## Rantlist discussion handoff (v0.1.76)
 
 The Publish actions and public gallery viewer now use the same artwork-specific Rantlist #lobby link. Opening Rantlist does not itself send a message; the native image draft depends on a separately installed Rantlist share-intent receiver. See `app/docs/RANTLIST_DISCUSS_ART_ACTION_v3.md`.
+
+## v0.1.78: Custom gradients and public gallery identity
+
+The Colour palette now has clearly checked Flow and Bounce pill switches. Save named live multistop gradients directly in Custom gradients, reopen them with normalized anchor positions across XL/M/S, and delete saved presets with confirmation. These presets remain local to the browser; they do not publish artwork or synchronize with an account. The public gallery and viewer use the editor’s pastel Paint-lab text logo for the Paint Lab home link.

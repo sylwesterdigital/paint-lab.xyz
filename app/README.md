@@ -262,3 +262,7 @@ The Discuss art link tracks the active public publication (including arrows/swip
 ## Rantlist artwork-specific discussions (v0.1.76)
 
 After publishing a public PNG, Save & share and Share artwork now offer **Share to Rantlist #lobby** with the same `https://rantlist.me/?room=lobby&paintLabPublication=<token>` intent as the public viewer's **Discuss art** button. The link opens in a separate tab and does not automatically post. A missing image draft or room redirection must be fixed in the separately deployed Rantlist client/server; Paint Lab cannot compel Rantlist to consume query parameters. The optional existing server-side bot endpoint remains a separate capability. See `docs/RANTLIST_DISCUSS_ART_ACTION_v3.md`.
+
+## v0.1.78: Custom gradients and public gallery identity
+
+The Colour palette now has clearly checked Flow and Bounce pill switches. Save named live multistop gradients directly in Custom gradients, reopen them with normalized anchor positions across XL/M/S, and delete saved presets with confirmation. These presets remain local to the browser; they do not publish artwork or synchronize with an account. The public gallery and viewer use the editor’s pastel Paint-lab text logo for the Paint Lab home link.

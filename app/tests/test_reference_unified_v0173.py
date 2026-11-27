@@ -28,7 +28,7 @@ class ReferenceUnified173(unittest.TestCase):
   self.assertNotIn('drawReferenceGuide',HTML.split('function createExportCanvas(withBg){',1)[1].split('function exportPNG()',1)[0])
  def test_release(self):
   log=json.loads((APP/'changelog.json').read_text())
-  self.assertEqual(log['version'],'0.1.77')
-  self.assertEqual(log['history'][0]['version'],'0.1.76')
+  self.assertEqual(log['version'],'0.1.78')
+  self.assertEqual(log['history'][0]['version'],'0.1.77')
   self.assertEqual(log,json.loads((APP/'frontend/changelog.json').read_text()))
 if __name__=='__main__':unittest.main()

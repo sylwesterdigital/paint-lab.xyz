@@ -14,7 +14,7 @@ class AppearanceAndBrushDynamics(unittest.TestCase):
    self.assertIn(s,HTML)
   self.assertIn('if(cfg.naturalWidth!==true)return 1;',HTML)
  def test_version_and_log(self):
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.77')
-  self.assertIn('content="0.1.77"',HTML)
-  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['history'][0]['version'],'0.1.76')
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['version'],'0.1.78')
+  self.assertIn('content="0.1.78"',HTML)
+  self.assertEqual(json.loads((ROOT/'changelog.json').read_text())['history'][0]['version'],'0.1.77')
 if __name__=='__main__':unittest.main()

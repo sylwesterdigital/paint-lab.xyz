@@ -14,7 +14,7 @@ class PaletteLiveGradient(unittest.TestCase):
   self.assertIn("if(paletteName==='Gradients'&&gradientAnchors.length>=2){",HTML)
  def test_history(self):
   log=json.loads((APP/'changelog.json').read_text())
-  self.assertEqual(log['version'],'0.1.77')
-  self.assertEqual(log['history'][0]['version'],'0.1.76')
+  self.assertEqual(log['version'],'0.1.78')
+  self.assertEqual(log['history'][0]['version'],'0.1.77')
   self.assertEqual(log,json.loads((APP/'frontend/changelog.json').read_text()))
 if __name__=='__main__':unittest.main()

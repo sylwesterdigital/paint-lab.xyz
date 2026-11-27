@@ -46,7 +46,7 @@ class RantlistShareIntent(unittest.TestCase):
   self.assertIn('no message was posted.',HTML)
   self.assertIn('const RANTLIST_HOME=',HTML)
   self.assertIn("@app.post('/api/publications/<token>/share/rantlist')",(APP/'backend/app.py').read_text())
-  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.77')
+  self.assertEqual(json.loads((APP/'version.json').read_text())['version'],'0.1.78')
   self.assertTrue((APP/'docs/RANTLIST_DISCUSS_ART_ACTION_v3.md').is_file())
 
 if __name__=='__main__':unittest.main()

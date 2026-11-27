@@ -31,12 +31,12 @@ class FastLayeredGallery(unittest.TestCase):
 
     def test_version_and_notes_match(self):
         version = json.loads((APP / 'version.json').read_text())['version']
-        self.assertEqual(version, '0.1.77')
-        self.assertIn('content="0.1.77"', HTML)
+        self.assertEqual(version, '0.1.78')
+        self.assertIn('content="0.1.78"', HTML)
         canonical = json.loads((APP / 'changelog.json').read_text())
         self.assertEqual(canonical, json.loads((APP / 'frontend/changelog.json').read_text()))
-        self.assertEqual(canonical['history'][0]['version'], '0.1.76')
-        self.assertIn('Keep brush stroke history', ' '.join(canonical['history'][7]['changes']))
+        self.assertEqual(canonical['history'][0]['version'], '0.1.77')
+        self.assertIn('Keep brush stroke history', ' '.join(canonical['history'][8]['changes']))
 
 
 if __name__ == '__main__':

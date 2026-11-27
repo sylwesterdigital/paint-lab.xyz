@@ -1,3 +1,11 @@
+# v0.1.78 — Gradient Presets, Bounce Switch & Gallery Wordmark (2026-11-27)
+
+- Give Bounce the same pill-shaped, clearly ON/OFF switch as Flow, with an accessible checked state and consistent saved/restored settings.
+- Add Custom gradients directly below the palette modifiers: name and save any live multi-stop gradient, preview saved colour ramps, apply them with one click, and delete with confirmation.
+- Save true normalized OKLab gradient stop positions and colours in browser storage, keeping presets editable and independent of XL/M/S palette size changes.
+- Make the gallery, Explore, and public viewer Paint Lab home link use the same pastel-gradient text wordmark as the painting editor.
+- Add desktop/mobile browser regressions for Bounce, gradient save/load/delete, local persistence, and the consistent public-gallery wordmark; keep the existing watcher packaging unchanged.
+
 # v0.1.77 — Real Public Previews & True Original Downloads (2026-11-27)
 
 - Use the compressed public WebP derivative as the default image for public artwork viewing and gallery previews, while keeping the original PNG only for the explicit Download original PNG action.

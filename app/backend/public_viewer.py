@@ -16,6 +16,10 @@ a{color:#b5d7cc;text-decoration:none}a:hover{text-decoration:underline}
 button{font:inherit}button:focus-visible,a:focus-visible{outline:3px solid #b4d3ac;outline-offset:3px}
 nav{display:flex;align-items:center;gap:18px;min-height:54px;padding:11px max(18px,env(safe-area-inset-right)) 11px max(18px,env(safe-area-inset-left));background:#202727;border-bottom:1px solid #34403f}
 nav a{font-weight:700}nav span{color:#a1aba8;font-size:13px}
+/* Identical text-only pastel wordmark as the editor, linking back to Paint Lab. */
+nav .paint-lab-wordmark{flex:none;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:28px;font-weight:850;letter-spacing:-.075em;line-height:1.1;text-decoration:none!important;background:linear-gradient(100deg,#ed92ab 3%,#af9fee 29%,#91c4d8 53%,#9fcda8 77%,#edbc8c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;white-space:nowrap}
+nav .paint-lab-wordmark:hover{filter:brightness(1.12)}
+@media(max-width:480px){nav .paint-lab-wordmark{font-size:23px}nav{gap:11px}}
 main{max-width:1120px;margin:26px auto;padding:0 20px 32px}
 main h1{font-size:clamp(20px,3vw,29px);line-height:1.25;overflow-wrap:anywhere}
 /* A fluid, column-based masonry wall: real PNG proportions determine each tile's height.
