@@ -16,7 +16,7 @@ class PaletteGradientRegression(unittest.TestCase):
   self.assertIn("updateColor(data.color,false)",HTML)
  def test_release_metadata(self):
   j=json.loads((APP/'changelog.json').read_text())
-  self.assertEqual(j['version'],'0.1.78')
-  self.assertEqual(j['history'][0]['version'],'0.1.77')
+  self.assertEqual(j['version'],'0.1.79')
+  self.assertEqual(j['history'][0]['version'],'0.1.78')
   self.assertEqual(j,json.loads((APP/'frontend/changelog.json').read_text()))
 if __name__=='__main__':unittest.main()

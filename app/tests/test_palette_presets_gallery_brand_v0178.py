@@ -1,4 +1,4 @@
-"""v0.1.78: named gradient presets, visible Bounce switch and public wordmark."""
+"""v0.1.79: compact gradient presets, visible Bounce switch and public wordmark."""
 from pathlib import Path
 import unittest
 from backend import public_viewer
@@ -21,10 +21,13 @@ class PalettePresetsGalleryBrandTests(unittest.TestCase):
                  'normalizeGradientAnchors(preset.anchors)',
                  'localStorage.setItem(GRADIENT_PRESETS_KEY,JSON.stringify(customGradientPresets))',
                  "gradientAnchors=normalizeGradientAnchors(preset.anchors)",
-                 "confirmAction('Delete custom gradient",
+                 "confirmAction('Delete this saved gradient?",
                  "function saveGradientPreset()"):
    self.assertIn(marker,HTML)
-  self.assertIn('const label=document.createElement(\'span\');label.className=\'palette-gradient-name\';label.textContent=preset.name;',HTML)
+  self.assertNotIn('palette-gradient-name',HTML)
+  self.assertIn('const tile=document.createElement(\'div\');tile.className=\'palette-gradient-item\';',HTML)
+  self.assertIn('grid-template-columns:repeat(var(--palette-cols,6),minmax(0,1fr))',HTML)
+  self.assertNotIn("await inputAction('Save custom gradient'",HTML)
   self.assertIn('preview.style.background=\'linear-gradient(90deg,\'',HTML)
  def test_public_gallery_and_viewer_use_editor_brand_wordmark(self):
   for marker in ('nav .paint-lab-wordmark','linear-gradient(100deg,#ed92ab 3%,#af9fee 29%,#91c4d8 53%,#9fcda8 77%,#edbc8c 100%)',

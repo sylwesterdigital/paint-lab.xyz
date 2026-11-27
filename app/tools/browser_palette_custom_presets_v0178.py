@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Chromium desktop/mobile: visible Bounce switch and named, persisted multi-stop gradient presets."""
+"""Chromium desktop/mobile: compact gradient swatches and persisted multi-stop gradients."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -46,10 +46,13 @@ with sync_playwright() as p:
   state=page.evaluate('window.__customGradient178.state()')
   assert state['bounce'] and state['flow']
   page.evaluate("document.querySelector('#saveGradientPreset').click()")
-  page.locator('#askText').fill('Coastal Dawn')
-  page.locator('#askAccept').click()
   page.wait_for_function("JSON.parse(localStorage.getItem('paint-lab-gradient-presets-v1')||'[]').length===1")
   saved=page.evaluate('window.__customGradient178.state()')
+  assert page.locator('#askText').is_hidden()
+  assert page.locator('#gradientPresets .palette-gradient-name').count()==0
+  dims=page.evaluate("""() => {const main=document.querySelector('#swatches .swatch').getBoundingClientRect(),tile=document.querySelector('#gradientPresets .palette-gradient-load').getBoundingClientRect(),name=document.querySelector('#gradientPresets .palette-gradient-load').innerText;return {mainWidth:main.width,tileWidth:tile.width,w:tile.width,h:tile.height,name}}""")
+  assert abs(dims['w']-dims['h'])<1.5 and abs(dims['mainWidth']-dims['tileWidth'])<7, dims
+  assert not dims['name'],dims
   assert len(saved['presets'])==1 and len(saved['presets'][0]['anchors'])==4
   page.evaluate('window.__customGradient178.reset()')
   page.evaluate("document.querySelector('#gradientPresets .palette-gradient-load').click()")

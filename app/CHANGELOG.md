@@ -1,3 +1,11 @@
+# v0.1.79 — Compact Gradient Preset Swatches (2026-11-27)
+
+- Replace wasteful named gradient preset rows with a compact grid of full-size square gradient swatches matching the main palette tile layout.
+- Display the complete colour ramp across each saved swatch instead of a tiny strip; apply directly by clicking the tile and delete from a small overlaid × with confirmation.
+- Save custom gradients with one click and automatic internal names; keep names only as accessible titles, without requiring a naming dialog or showing labels in the palette.
+- Keep all existing custom gradient presets and original normalized stop data intact in browser storage, preserving live gradient edits across XL, M and S palettes.
+- Add desktop and mobile browser regression checks for tile sizing, compact layout, no naming prompt, persistence, application, and deletion.
+
 # v0.1.78 — Gradient Presets, Bounce Switch & Gallery Wordmark (2026-11-27)
 
 - Give Bounce the same pill-shaped, clearly ON/OFF switch as Flow, with an accessible checked state and consistent saved/restored settings.
