@@ -1,3 +1,82 @@
+# v0.1.73 — Reference in the Ordinary Layers Workflow (2026-11-24)
+
+- Present the reference image as a normal, selectable bottom row in Layers, alongside painting layers, with a thumbnail, visibility toggle and opacity control. The + Add reference action remains compact.
+- Use the existing Layers Move, Rotate and Scale buttons, desktop G/R/S shortcuts and mobile transform gestures on the selected reference. Apply or cancel transforms using the ordinary controls; the separate reference transform console has been removed.
+- Keep original image bytes and native resolution across successive transforms. Continue pinning the reference beneath painted layers and excluding it from public and downloaded PNGs.
+- Preserve existing saved reference-image records and editable project exports; regular painting layers retain their existing selection and merge behaviour.
+- Add regression and desktop/mobile browser tests for selection, G/R/S transforms, cancel, opacity, save/reopen, image pixels and export isolation.
+
+# v0.1.72 — Independent Palette Swatches & Gradient Stops (2026-11-24)
+
+- Fix palette swatch clicks and Edit swatch: selecting or recolouring a middle/last swatch no longer changes the independent first custom-colour/gradient swatch.
+- Make Gradients consistently interpolate from the actual first palette swatch to the final swatch, including user-edited endpoints and Shift-selected intermediate stops.
+- Keep the currently active brush pigment separate from palette stop editing and persist both independently across workspace settings and project reopens.
+- Preserve the first custom colour picker, mobile palette selection, XL/M/S palettes, Bounce/Flow, existing public gallery and optional Stripe/Rantlist publishing.
+- Add desktop/mobile Chromium regressions for swatch selection, editing first/middle/final gradient stops, generated gradient endpoints and settings restoration.
+
+# v0.1.71 — Reference Guides & Palette Control (2026-11-24)
+
+- Style Open link exactly like the adjacent Copy link button, retaining a safe target=_blank and noopener/noreferrer so the editing session remains open.
+- Add a native-pixel image reference guide pinned below all painting layers: control visibility, opacity, canvas drag-position, scale, rotation, centre and fit without destructive resampling.
+- Keep reference image data and transforms in editable local gallery, recovery, JSON and portable ZIP records; previews and public/downloaded PNGs contain only the actual painted layers.
+- Introduce a Bounce mode alongside palette Flow, progressing first to last and back by brush travel distance, with settings and stroke replay recording the selected direction mode.
+- Allow direct recolouring of the selected swatch using Edit swatch, including gradient endpoints and intermediate stops, without regenerating the entire palette from a fixed last colour.
+- Retain independent Rantlist publication, Stripe donations, existing painting-layer history, watcher v0.1.6 and safe manifest-based deployment.
+
+# v0.1.70 — One-step Publish & Rantlist Sharing Bridge (2026-11-24)
+
+- Add Open link immediately beside Copy link after publishing an artwork from Save & share, using a validated same-site publication URL and opening safely in a new tab.
+- Add Save & Publish: save a new local layered copy first, then publish its public PNG without closing the panel; never overwrite an existing artwork silently and distinguish partial success.
+- Add a deliberate Share to Rantlist #lobby action after publishing; until the Rantlist bot receiver is deployed it opens Rantlist and copies the public URL for manual posting without claiming it was sent.
+- Prepare an optional signed Paint Lab server-to-server bridge using a restricted HTTPS destination, per-publication idempotency, CSRF, ownership and visibility checks, and SQLite confirmed message receipts.
+- Document the Rantlist r749 authenticated bot receiver contract, signing, limits, test plan and secure rollout; keep private projects, stroke histories, credentials, downloads, Stripe and the watcher isolated.
+
+# v0.1.69 — Optional Stroke History & Fast Layered Gallery (2026-11-23)
+
+- Add a Public gallery link beside the Paint-lab GitHub and Donate links, preserving the simple shadowless header.
+- Save local gallery artwork as lossless PNG-backed editable layers by default; choose Keep brush stroke history in Save & share to retain recorded strokes and previous Undo states.
+- Open both gallery save modes directly from their stored layer previews instead of replaying every brush point; retain the legacy history replay path for older saved artworks.
+- Preserve a raster baseline across Undo, Redo, resizes, recovery drafts and editable JSON/ZIP/cloud project exports when artwork has been opened without earlier stroke history.
+- Do not discard history merely by opening legacy projects; opening an older history-only painting keeps history enabled on subsequent saves unless the user explicitly opts out.
+- Retain watcher v0.1.6, release checksum validation and existing public-gallery privacy, downloads and voluntary Stripe support.
+
+# v0.1.68 — Visible Brush Tips, Plain Links & Movable Minimized Windows (2026-11-23)
+
+- The Brush Tips panel opens on actual, scrollable brush silhouettes instead of an overwhelming settings form. Both advanced brush editing and text stamping are closed until requested, while the same controls and imported brushes remain available.
+- Collapsed desktop windows can be dragged to the top 6 px of the viewport; expanded windows continue to observe the startup header clearance. When deliberately dragged to the header, panels render above the identity and toolbar.
+- The GitHub and Donate labels and the small version indicator use plain black text without any text shadows, including on mobile and dark themes. The pastel Paint-lab wordmark is unchanged.
+- Maintain free public PNG downloads and the existing optional Stripe donation flows, workspace presets, v0.1.67 toolbar refinements and watcher v0.1.6 release safeguards.
+
+# v0.1.67 — Desktop Toolbar, Brand Layout & Save Shortcut (2026-11-23)
+
+- Enlarge the pastel-gradient Paint-lab wordmark by approximately 25%, place it 10px from both top and left edges, and keep its GitHub/Donate links legible over the checkerboard with text-only high contrast.
+- Reserve the desktop header strip when restoring or dragging/resizing floating panels; stop tool windows hiding the wordmark or app actions.
+- Collapse the desktop app bar into a three-dot action menu and a separate Settings cog. Clear, Save, Undo and Redo remain visible by default; select which actions stay outside the menu in Settings → Desktop toolbar quick actions. Saved workspace presets include this choice.
+- Move the live zoom percentage and one-click Fit into the canvas HUD. Use **Shift+S** to open the Save & share dialog; normal **S** continues to scale artwork.
+- Make X-only close buttons square, with centred icons. Preserve mobile UI, free gallery downloads, live Stripe donation widget, public image permissions and the watcher deployment contract.
+
+# v0.1.66 — Live Stripe Donations & Paint-lab Wordmark (2026-11-23)
+
+- Add the supplied live Stripe Buy Button to the public artwork **Download & Support** dialog; original PNG downloads remain free, with no donation requirement.
+- Add a borderless pastel-gradient **Paint-lab** logo, small v0.1.66 label, **GitHub** link and **Donate** action to the painting studio, including touch layouts. Mobile focus mode still hides nonessential UI.
+- Both donation panels show Stripe’s official embedded button and a direct Stripe Payment Link fallback, and load Stripe’s script only after the visitor opens the panel. Stripe may navigate to a separate secure checkout page.
+- Keep the prior optional Stripe secret-key Checkout API and signed webhooks intact. Payment Link receipts live in Stripe and are not automatically added to the application’s publication-specific SQLite receipt table; server-side webhook credentials are not needed for the new button.
+- Preserve Umami view tracking, WebP public gallery previews, viewport-based loading, publication permissions, watcher v0.1.6 and SHA-256 release validation.
+
+# v0.1.65 — Gallery Performance, Artwork Views & Optional Stripe Support (2026-11-23)
+
+- View individual-publication analytics through Umami `artwork_view` events when a publication opens or navigation changes; no private layer data is transmitted.
+- Cache server-created 720-pixel WebP previews, serve full PNGs only in the viewer/download, and use an IntersectionObserver for near-viewport gallery image requests.
+- Add an accessible Download & Support dialog in the public viewer; downloads are always free. Optional Stripe Checkout (GBP £3/£5/£10) supports the Paint Lab project, **not** individual artists.
+- Verify checkout credentials only server-side and persist signed, paid Stripe webhook receipts idempotently. No payment button is active unless the operator provides the Stripe environment configuration.
+
+# v0.1.64 — Mobile Control Clarity & Theme Contrast (2026-11-23)
+
+- Centre close X icons in every window, including Save & Share, Studio settings, gallery, and mobile tip/dynamics sheets.
+- Give white and light-coloured brush tip previews contrast in the mobile tip grid without altering their pigment colour.
+- Enlarge range slider handles consistently throughout the mobile app; preserve the larger 38 px controls in contextual brush and effects editors.
+- Honour the zero-shadow appearance preference on the new controls.
+
 # v0.1.62 — Focused Mobile Sliders (2026-11-22)
 
 - Long-press a mode button to open only its relevant brush, effect, or stylization settings, without internal tabs or switches.

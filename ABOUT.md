@@ -116,3 +116,39 @@ The current 2D oil engine now shapes initial contact and lift-off according to b
 ## Release-history reliability (v0.1.30)
 
 The version displayed in What's New now comes from the packaged version-matched release history, with a verified same-version network refresh. The release build and deployment watcher reject stale embedded notes and unequal changelog copies. The same release fixes missing pigment after sparse oil-stylus samples and shapes high-DPI endpoints in bounded tiles. Existing saved strokes remain on their legacy rendering path. This release does not introduce a GPU-based paint solver.
+
+### Live project donations (v0.1.66)
+
+The painting studio’s top-left **Paint-lab v0.1.66** text identity includes [GitHub](https://github.com/sylwesterdigital/paint-lab.xyz) and **Donate**. The public artwork viewer’s **Download & Support** panel keeps the original PNG download free and offers the same optional donation route. The support dialogs contain the official Stripe Buy Button supplied by the project operator and an [independent Stripe-hosted Payment Link](https://donate.stripe.com/4gM6oGbw61Wf5nJa1wcZa0c) in case embeds or scripts are blocked. The button activates only when someone opens a support dialog; payment and any subsequent checkout redirects are handled by Stripe.
+
+No secret key or webhook secret is included in the release; only Stripe’s client-safe `pk_live_…` identifier and public buy-button ID are exposed. The older `POST /api/support/checkout` and `/api/stripe/webhook` routes remain separate, optional server-side integrations: they still require secret configuration. **Payments made through the new Payment Link do not automatically populate the app’s `support_payments` SQLite table**; reconcile these in the Stripe dashboard unless a verified Payment Link webhook integration is developed later. Donations are to Paint Lab, not individual artists or a payout system.
+
+
+## v0.1.67 — Desktop workspace controls
+
+The desktop app bar now shows a three-dot overflow and Settings cog with Clear, Save, Undo and Redo pinned by default. Settings → Desktop toolbar quick actions lets you choose any toolbar action to keep visible; this choice is saved with workspace settings and named presets. The canvas HUD shows current zoom and a Fit control; **Shift+S** opens Save & share. Floating desktop windows stay below the Paint-lab wordmark and header actions. Existing free downloads and optional project donations are unchanged.
+
+## v0.1.68 — Brush selection and panel positioning
+
+The desktop Brush Tips window prioritizes visible, scrollable silhouettes. Advanced brush editing and text/character stamping are expandable sections, closed by default. Collapsed draggable windows can be positioned 6 px from the viewport's top edge, independently of the expanded-panel header allowance. GitHub and Donate use plain black, shadow-free text. No painting data or payment behaviour changes.
+
+## v0.1.69 — Fast layered gallery saves
+
+Local Save & share now saves PNG-backed layers by default without preserving earlier brush strokes; the **Keep brush stroke history** checkbox preserves the editable stroke sequence and prior Undo states. Both choices open from layer snapshots without replaying the painting. Previously saved history-only artworks are still supported and will preserve their history by default when reopened. A public gallery link is available beside GitHub and Donate in the studio header. Flattened-layer artwork retains its own layer stack and can accept new edits and Undo history.
+
+## v0.1.70 — Public artwork sharing and Rantlist
+
+Save & share now offers **Save & Publish**, which creates a new editable local gallery copy and then publishes the visible PNG with a single click; this never silently overwrites an existing saved artwork. After publishing, **Open link** opens the public artwork alongside Copy link. **Share to Rantlist #lobby** is opt-in. Until Rantlist deploys its authenticated bot receiver it copies the publication URL and opens Rantlist for manual posting; it never claims the chat message was sent. The separate signed server-to-server bot bridge is fully specified in [Rantlist integration](docs/RANTLIST_INTEGRATION.md) and disabled until server secrets are configured. No private project history or login data is shared.
+
+## v0.1.71 — Reference guides and palette flow
+
+A native-resolution, non-destructive reference image is pinned to the bottom of the Layers panel. Its original pixels remain in editable project data and can be moved, scaled, rotated, hidden and faded without repeated raster resampling. References remain visible as guides but are not included in PNG exports or published images. Palette Flow optionally bounces backward at the last swatch; select any swatch and use Edit swatch to change its colour and the resulting gradients. Public Open link is styled like Copy link and opens a new tab.
+
+
+## v0.1.72 — Palette and gradient edits
+
+Selecting a palette swatch changes the active brush pigment without overwriting the first custom-colour swatch. Editing a palette swatch updates only that swatch; Gradients now blend from the first to the final swatch, preserving edited endpoints. Palette colours and the active brush colour are stored independently.
+
+## v0.1.73 — Reference uses normal layer transforms
+
+In **Layers**, add a reference guide and select its bottom-pinned thumbnail row just as you would a painting layer. Use the existing **Move**, **Rotate** and **Scale** controls (desktop **G**, **R**, **S**, or mobile layer-transform controls) to transform the guide. Cancel or apply using the normal tool workflow. Reference thumbnails, visibility and opacity are in the normal Layers list rather than a separate adjustment panel. The source image remains at its original resolution and is excluded from rendered PNG exports and public publication. References persist in editable project records; painting layers are not merged with or overwritten by the reference.
